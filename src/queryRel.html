@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>食物查询</title>
+    <!--suppress CssUnusedSymbol -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFF7E6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+        }
+
+        .header {
+            font-size: 36px;
+            font-weight: bold;
+            color: #FFA726;
+            margin-bottom: 20px;
+        }
+
+        .search-bar {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-bar input[type="text"] {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 18px;
+            border: 2px solid #FFA726;
+            border-radius: 25px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-bar input[type="text"]:focus {
+            border-color: #FFB74D;
+        }
+
+        .search-bar button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #FFA726;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-bar button:hover {
+            background-color: #FFB74D;
+        }
+
+        .result {
+            font-size: 20px;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .result.success {
+            background-color: #DFF6D8;
+            color: #4CAF50;
+        }
+
+        .result.error {
+            background-color: #FFEBEE;
+            color: #F44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">食物查询系统</div>
+        <div class="search-bar">
+            <input type="text" id="foodInput" placeholder="请输入食物名称...">
+            <button onclick="searchFood()">查询</button>
+        </div>
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        const foodData = {
+            "白粥": "升糖主食",
+"白米饭": "升糖主食",
+"白面条": "升糖主食",
+"炸薯条": "升糖主食",
+"油条": "升糖主食",
+"麻球": "升糖主食",
+"油饼": "升糖主食",
+"饼干": "升糖主食",
+"蛋糕": "升糖零食",
+"甜点": "升糖主食",
+"甜牛奶": "升糖奶类",
+"含糖酸奶": "升糖奶类",
+"乳饮料": "升糖奶类",
+"甜豆奶": "升糖奶类",
+"奶油": "升糖奶类",
+"黄油": "升糖奶类",
+"高糖奶酪": "升糖奶类",
+"香蕉": "升糖水果",
+"榴莲": "升糖水果",
+"荔枝": "升糖水果",
+"龙眼": "升糖水果",
+"柿子": "升糖水果",
+"冬枣": "升糖水果",
+"菠萝蜜": "升糖水果",
+"老椰子": "升糖水果",
+"释迦果": "升糖水果",
+"山竹": "升糖水果",
+"氢化植物油": "升糖油脂",
+"棕榈油": "升糖油脂",
+"人造黄油": "升糖油脂",
+"蔬菜起酥油": "升糖油脂",
+"猪油": "升糖油脂",
+"椰子油": "升糖油脂",
+"泡菜": "升糖蔬菜",
+"泡萝卜": "升糖蔬菜",
+"榨菜": "升糖蔬菜",
+"泡姜": "升糖蔬菜",
+"泡蒜苔": "升糖蔬菜",
+"泡酸菜": "升糖蔬菜",
+"泡豇豆": "升糖蔬菜",
+"糖蒜": "升糖蔬菜",
+"糖醋黄瓜": "升糖蔬菜",
+"糖拌西红柿": "升糖蔬菜",
+"炸肉": "升糖蛋白质",
+"牛肉串": "升糖蛋白质",
+"羊肉串": "升糖蛋白质",
+"香肠": "升糖蛋白质",
+"炸鸡": "升糖蛋白质",
+"肥肉": "升糖蛋白质",
+"熏肉": "升糖蛋白质",
+"炸豆腐": "升糖蛋白质",
+"炸鱼": "升糖蛋白质",
+"皮蛋": "升糖蛋白质",
+"含糖坚果": "升糖零食",
+"水果干": "升糖零食",
+"蛋卷": "升糖零食",
+"蜜饯": "升糖零食",
+"蛋挞": "升糖零食",
+"巧克力": "升糖零食",
+"冰淇淋": "升糖零食",
+"奶茶": "升糖饮料",
+"饮料": "升糖零食",
+"啤酒": "升糖饮料",
+"白酒": "升糖饮料",
+"调制椰汁": "升糖饮料",
+"果汁": "升糖饮料",
+"调制橙汁": "升糖饮料",
+"功能饮料": "升糖饮料",
+"维生素饮品": "升糖饮料",
+"碳酸饮料": "升糖饮料",
+"速溶咖啡": "升糖饮料",
+"荞麦": "控糖主食",
+"藜麦": "控糖主食",
+"红豆": "控糖主食",
+"绿豆": "控糖主食",
+"燕麦": "控糖主食",
+"山药": "控糖主食",
+"玉米": "控糖主食",
+"南瓜": "控糖主食",
+"芋头": "控糖主食",
+"红薯": "控糖主食",
+"低脂奶": "控糖奶类",
+"脱脂奶": "控糖奶类",
+"全脂奶": "控糖奶类",
+"无糖酸奶": "控糖零食",
+"苹果": "控糖水果",
+"猕猴桃": "控糖水果",
+"梨": "控糖水果",
+"草莓": "控糖水果",
+"圣女果": "控糖水果",
+"樱桃": "控糖水果",
+"桃子": "控糖水果",
+"蓝莓": "控糖水果",
+"柚子": "控糖水果",
+"橘子": "控糖水果",
+"原味坚果": "控糖零食",
+"牛油果": "控糖油脂",
+"三文鱼": "控糖油脂",
+"金枪鱼": "控糖油脂",
+"菜籽油": "控糖油脂",
+"芝麻油": "控糖油脂",
+"橄榄油": "控糖油脂",
+"亚麻籽油": "控糖油脂",
+"玉米油": "控糖油脂",
+"葵花籽油": "控糖油脂",
+"生菜": "控糖蔬菜",
+"空心菜": "控糖蔬菜",
+"苦瓜": "控糖蔬菜",
+"冬瓜": "控糖蔬菜",
+"油麦菜": "控糖蔬菜",
+"油菜": "控糖蔬菜",
+"娃娃菜": "控糖蔬菜",
+"绿豆芽": "控糖蔬菜",
+"海带": "控糖蔬菜",
+"黄瓜": "控糖零食",
+"猪肉": "控糖蛋白质",
+"牛肉": "控糖蛋白质",
+"鸡肉": "控糖蛋白质",
+"鸭肉": "控糖蛋白质",
+"羊肉": "控糖蛋白质",
+"鱼肉": "控糖蛋白质",
+"虾肉": "控糖蛋白质",
+"贝类": "控糖蛋白质",
+"豆腐": "控糖蛋白质",
+"蛋类": "控糖蛋白质",
+"煮鸡蛋": "控糖零食",
+"低盐豆干": "控糖零食",
+"鸡胸肉": "控糖零食",
+"卤牛肉": "控糖零食",
+"纯牛奶": "控糖零食",
+"无糖豆浆": "控糖零食",
+"番茄": "控糖零食",
+"白开水": "控糖饮料",
+"矿泉水": "控糖饮料",
+"苏打水": "控糖饮料",
+"红茶": "控糖饮料",
+"绿茶": "控糖饮料",
+"大麦茶": "控糖饮料",
+"菊花茶": "控糖饮料",
+"乌龙茶": "控糖饮料",
+"黑咖啡": "控糖饮料",
+"柠檬水": "控糖饮料"
+        };
+
+        function searchFood() {
+            const input = document.getElementById("foodInput").value.trim();
+            const resultDiv = document.getElementById("result");
+
+            if (input in foodData) {
+                resultDiv.textContent = `${input} 是 ${foodData[input]}`;
+                resultDiv.className = "result success";
+                resultDiv.style.display = "block";
+            } else {
+                resultDiv.textContent = `未找到与 "${input}" 相关的记录`;
+                resultDiv.className = "result error";
+                resultDiv.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>

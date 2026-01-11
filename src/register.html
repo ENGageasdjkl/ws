@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册页</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 70%;
+            display: flex;
+            background: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .left {
+            flex: 1;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+        }
+        .right {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .logo-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .logo-title img {
+            height: 60px;
+            margin-right: 10px;
+        }
+        .left img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+        .description {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+        .register-form {
+            max-width: 300px;
+            width: 100%;
+        }
+        .register-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .register-form button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #FF9500; /* 橙色背景 */
+            color: #fff; /* 白色文字 */
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .register-form button:hover {
+            background-color: #e58400; /* 深橙色悬停效果 */
+        }
+        .get-captcha {
+            margin: 10px 0; /*获取验证码按钮*/
+        }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #555;
+            margin: 10px 0;
+        }
+        .checkbox-container input {
+            width: 16px; /* 调整复选框宽度 */
+            height: 16px; /* 调整复选框高度 */
+            margin-right: 5px; /* 调整复选框与文字的间距 */
+        }
+        .checkbox-container a {
+            text-decoration: none;
+            color: #FF9500; /* 橙色链接 */
+        }
+        .checkbox-container a:hover {
+            text-decoration: underline;
+        }
+        .login-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .login-link a {
+            color: #FF9500; /* 橙色链接 */
+            text-decoration: none;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="left">
+        <div class="logo-title">
+            <img src="static/logo.png" alt="Logo">
+            <h1>知糖助手</h1>
+        </div>
+        <img src="static/login-pic.jpg" alt="插图">
+        <p class="description">“学习健康知识，合理饮食，科学就医，相信坚持努力，一定可以战胜困难，早日恢复健康生活！”</p>
+    </div>
+    <div class="right">
+        <form class="register-form">
+            <h2>用户注册</h2>
+            <input type="text" placeholder="用户名" required>
+            <input type="email" placeholder="邮箱" required>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" placeholder="验证码" style="flex: 1;" required>
+                <button class="get-captcha" type="button" style="flex: 0.5;">获取验证码</button>
+            </div>
+            <input type="password" placeholder="密码" required>
+            <div class="checkbox-container">
+                <input type="checkbox" id="agreement" required>
+                <label for="agreement">我已阅读并同意 <a href="user-agreement.html" target="_blank">《用户协议》</a></label>
+            </div>
+            <button type="submit">注册</button>
+            <div class="login-link">
+                <p>已有账号？<a href="login.html">立即登录</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

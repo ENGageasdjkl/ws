@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location Card</title>
+    <style>
+        /* 整体布局 */
+        .location-card {
+            display: flex;
+            width: 400px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            font-family: Arial, sans-serif;
+            margin: 10px;
+        }
+
+        /* 照片样式 */
+        .location-photo {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        /* 右侧内容布局 */
+        .location-details {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* 地点名称与标签 */
+        .location-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        /* 地点名称样式 */
+        .location-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-right: 8px;
+            color: #333;
+        }
+
+        /* 标签样式 */
+        .location-tag {
+            background-color: #007bff;
+            color: #fff;
+            font-size: 0.8em;
+            padding: 2px 6px;
+            border-radius: 12px;
+        }
+
+        /* 地址样式 */
+        .location-address {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 地点卡片 -->
+<div class="location-card">
+    <!-- 左侧照片 -->
+    <img src="place.jpeg" alt="Location Photo" class="location-photo">
+
+    <!-- 右侧详情 -->
+    <div class="location-details">
+        <div class="location-header">
+            <span class="location-name">地点名称</span>
+            <span class="location-tag">标签</span>
+        </div>
+        <div class="location-address">地址：XX街道，XX市</div>
+    </div>
+</div>
+
+</body>
+</html>

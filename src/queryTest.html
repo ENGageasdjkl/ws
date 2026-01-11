@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>食物查询</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #FFF7E6;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+      width: 100%;
+      max-width: 600px;
+      padding: 20px;
+      position: relative;
+    }
+
+    .header {
+      font-size: 48px; /* 加大标题字体 */
+      font-weight: bold;
+      color: #FFA726;
+      margin-bottom: 40px; /* 增大标题和输入框之间的间距 */
+    }
+
+    .search-bar {
+      position: relative;
+      margin-bottom: 40px; /* 增大输入框和查询结果之间的间距 */
+    }
+
+    .search-bar input[type="text"] {
+      width: 100%;
+      padding: 15px 20px;
+      font-size: 20px;
+      border: 2px solid #FFA726;
+      border-radius: 25px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .search-bar input[type="text"]:focus {
+      border-color: #FFB74D;
+    }
+
+    .search-bar button {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: #FFA726;
+      border: none;
+      color: white;
+      padding: 12px 25px;
+      font-size: 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .search-bar button:hover {
+      background-color: #FFB74D;
+    }
+
+    .result {
+      font-size: 22px;
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      display: none;
+    }
+
+    .result.success {
+      background-color: #DFF6D8;
+      color: #4CAF50;
+    }
+
+    .result.error {
+      background-color: #FFEBEE;
+      color: #F44336;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: #FFA726;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 20px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .back-button:hover {
+      background-color: #FFB74D;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <a href="index.html" class="back-button">返回首页</a>
+  <div class="header">食物查询系统</div>
+  <div class="search-bar">
+    <input type="text" id="foodInput" placeholder="请输入食物名称...">
+    <button onclick="searchFood()">查询</button>
+  </div>
+  <div id="result" class="result"></div>
+</div>
+
+<script>
+  const foodData = {
+  {food_data_js}
+  };
+
+  function searchFood() {
+    const input = document.getElementById("foodInput").value.trim();
+    const resultDiv = document.getElementById("result");
+
+    if (input in foodData) {
+      resultDiv.textContent = `${input} 是 ${foodData[input]}`;
+      resultDiv.className = "result success";
+      resultDiv.style.display = "block";
+    } else {
+      resultDiv.textContent = `未找到与 "${input}" 相关的记录`;
+      resultDiv.className = "result error";
+      resultDiv.style.display = "block";
+    }
+  }
+</script>
+</body>
+</html>

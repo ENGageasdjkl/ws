@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>智能血糖监测系统</title>
+    <style>
+        /* 全局样式重置 */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        /* 悬浮按钮样式 */
+        .floating-button {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background-color: #FFA726; /* 更浅的橙色 */
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s, transform 0.2s;
+            z-index: 1000; /* 确保在最前方 */
+        }
+
+        /* 悬浮按钮的交互效果 */
+        .floating-button:hover {
+            background-color: #FF9800; /* 悬停时稍深的橙色 */
+            transform: scale(1.1); /* 放大效果 */
+        }
+
+        .floating-button:active {
+            transform: scale(1); /* 点击时恢复 */
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(90deg, #ac9f76, #b28e6b);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+            padding: 15px 30px; /* 增加高度 */
+            color: white;
+            font-family: Arial, sans-serif;
+            border-radius: 5px; /* 增加边角圆滑效果 */
+            height: 60px; /* 固定高度，适当增大 */
+        }
+
+        /* Logo样式 */
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+
+        .logo-img {
+            width: 70px; /* Logo占位符宽度 */
+            height: 70px; /* Logo占位符高度 */
+            margin-right: 15px; /* 与文字的间距 */
+            /*background-color: #ccc; !* 占位符背景颜色 *!*/
+            /*border-radius: 50%; !* 圆形效果 *!*/
+        }
+
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            margin: 0 20px; /* 调整间距 */
+            font-size: 1.2em; /* 调整字体大小 */
+            transition: color 0.3s ease; /* 添加鼠标悬停的渐变效果 */
+        }
+
+        .nav-links a:hover {
+            color: #ffecb3; /* 鼠标悬停时颜色变浅 */
+            text-decoration: underline;
+        }
+
+        .nav-links a.current-page {
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+
+        /* 轮播图容器 */
+        .carousel {
+            position: relative;
+            width: 100%;
+            /*max-width: 1200px;*/
+            height: calc(100vh - 90px); /* 设置内容高度为窗口高度减去导航栏高度 rgb(237, 154, 94), */
+            margin: auto;
+            background: linear-gradient(to right, rgb(247, 228, 170), #fc9,rgb(216, 125, 75));
+            /*background: linear-gradient(to right, rgb(247, 228, 170),
+            rgb(248, 217, 163),
+            rgb(250, 207, 157),
+            rgb(250, 194, 145),
+            rgb(244, 177, 123),
+            rgb(238, 159, 100),
+            rgb(231, 146, 89),
+            rgb(223, 135, 81),
+            rgb(216, 125, 75));*/
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 轮播图内容 */
+        .carousel-content {
+            /*display: flex;*/
+            /*align-items: center;*/
+            width: 80%;
+            max-width: 1000px;
+            padding: 20px;
+        }
+
+        /* 左侧图片 */
+        .carousel-left {
+            width: 65%;
+        }
+
+        .carousel-left img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        /* 右侧文字内容 */
+        .carousel-right {
+            width: 35%;
+            padding: 0 20px;
+            color: #ffffff;
+        }
+
+        .carousel-right h1 {
+            font-family: 得意黑, sans-serif;
+            font-size: 4.8em;
+            margin-bottom: 45px;
+        }
+
+        .carousel-right p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .download-btn {
+            background-color: #32cd32;
+            color: #ffffff;
+            font-size: 2em;
+            padding: 10px 50px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .download-btn:hover {
+            background-color: #28a745;
+        }
+
+        /* 左右箭头 */
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            color: #ffffff;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .left-arrow {
+            left: 10px;
+        }
+
+        .right-arrow {
+            right: 10px;
+        }
+
+        /* 设置箭头图片的大小 */
+        .carousel-arrow img {
+            width: 40px; /* 设置箭头图片宽度，可以根据需要调整 */
+            height: auto;
+        }
+
+        .carousel-arrow img:hover {
+            opacity: 0.8; /* 悬停时稍微透明 */
+            transform: scale(1.1); /* 悬停时放大 */
+        }
+
+        /* 底部指示点 */
+        .carousel-indicators {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .indicator.active {
+            background-color: #ffffff;
+        }
+
+        /* 适应不同屏幕 */
+        @media (max-width: 768px) {
+            .carousel-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .carousel-left, .carousel-right {
+                width: 100%;
+            }
+
+            .carousel-right {
+                padding: 20px 0;
+            }
+        }
+
+        /* 隐藏所有轮播图，只显示当前的 */
+        .carousel-slide {
+            display: none;
+        }
+
+        .carousel-slide.active {
+            display: flex; /* 仅显示当前活动的轮播图 */
+            align-items: center;
+            gap: 80px; /* 使用 gap 属性来增加间距，30px 可根据需要调整 */
+        }
+
+        /*图片占位符*/
+        .image-placeholder {
+            width: 100%;
+            height: 300px; /* 设定高度，可以根据需要调整 */
+            background-color: #e0e0e0; /* 占位颜色 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        .image-placeholder::after {
+            content: "图片占位符";
+        }
+    </style>
+</head>
+<body>
+<!-- 悬浮按钮 -->
+<!--<div class="floating-button" onclick="goHome()">
+    返回“高血糖科普指南”首页
+</div>
+<script>
+    function goHome() {
+        window.location.href = 'index.html'; // 替换为你的首页路径
+    }
+</script>-->
+<div class="navbar">
+    <div class="logo">
+        <img src="static/logo.png" alt="Logo" class="logo-img">
+        知糖助手
+    </div>
+    <div class="nav-links">
+        <a href="index.html">首页</a>
+        <a href="#home" class="current-page">手机端</a>
+        <a href="#docs">文档</a>
+        <a href="#tutorials">视频教程</a>
+    </div>
+</div>
+
+<div class="carousel">
+    <div class="carousel-content">
+        <div class="carousel-slide">
+            <div class="carousel-left">
+                <!--<div class="image-placeholder"></div>-->
+                <img src="static/home-pic.png" alt="图片描述">
+            </div>
+            <div class="carousel-right">
+                <h1>每周报告</h1>
+                <p>每周汇报你的血糖值</p>
+                <button class="download-btn">立即下载</button>
+            </div>
+        </div>
+        <div class="carousel-slide">
+            <div class="carousel-left">
+                <!--<div class="image-placeholder"></div>-->
+                <img src="static/home-pic2.png" alt="图片描述">
+            </div>
+            <div class="carousel-right">
+                <h1>实时问答</h1>
+                <p>通过对话定制你的控糖计划</p>
+                <button class="download-btn" >立即下载</button>
+            </div>
+        </div>
+        <div class="carousel-slide">
+            <div class="carousel-left">
+                <!--<div class="image-placeholder"></div>-->
+                <img src="static/home-pic3.png" alt="图片描述">
+            </div>
+            <div class="carousel-right">
+                <h1>多端同步</h1>
+                <p>支持PC、移动端云同步</p>
+                <button class="download-btn">立即下载</button>
+            </div>
+        </div>
+        <div class="carousel-slide">
+            <div class="carousel-left">
+                <!--<div class="image-placeholder"></div>-->
+                <img src="static/home-pic4.png" alt="图片描述">
+            </div>
+            <div class="carousel-right">
+                <h1>智能建议</h1>
+                <p>根据当前指标提供合适的建议</p>
+                <button class="download-btn">立即下载</button>
+            </div>
+        </div>
+        <!-- 可以添加更多的 .carousel-slide 项目 -->
+    </div>
+
+    <div class="carousel-arrow left-arrow">
+        <img src="static/left-arrow.png" alt="左箭头">
+    </div>
+    <div class="carousel-arrow right-arrow">
+        <img src="static/right-arrow.png" alt="右箭头">
+    </div>
+
+
+    <div class="carousel-indicators">
+        <span class="indicator active" data-slide="0"></span>
+        <span class="indicator" data-slide="1"></span>
+        <span class="indicator" data-slide="2"></span>
+        <span class="indicator" data-slide="3"></span>
+        <!-- 如果有更多的轮播图，则添加相应的指示点 -->
+    </div>
+</div>
+<script>
+    // 获取所有轮播图、左右箭头和指示点
+    const slides = document.querySelectorAll('.carousel-slide');
+    const leftArrow = document.querySelector('.left-arrow');
+    const rightArrow = document.querySelector('.right-arrow');
+    const indicators = document.querySelectorAll('.indicator');
+
+    let currentIndex = 0; // 当前显示的轮播图索引
+
+    // 初始化函数，显示第一张轮播图
+    function showSlide(index) {
+        // 隐藏所有轮播图
+        slides.forEach((slide, i) => {
+            slide.classList.remove('active');
+            indicators[i].classList.remove('active');
+        });
+
+        // 显示当前索引的轮播图
+        slides[index].classList.add('active');
+        indicators[index].classList.add('active');
+    }
+
+    // 左箭头点击事件
+    leftArrow.addEventListener('click', () => {
+        currentIndex = (currentIndex > 0) ? currentIndex - 1 : slides.length - 1;
+        showSlide(currentIndex);
+    });
+
+    // 右箭头点击事件
+    rightArrow.addEventListener('click', () => {
+        currentIndex = (currentIndex < slides.length - 1) ? currentIndex + 1 : 0;
+        showSlide(currentIndex);
+    });
+
+    // 指示点点击事件
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+            currentIndex = index;
+            showSlide(currentIndex);
+        });
+    });
+
+    // 默认显示第一张轮播图
+    showSlide(currentIndex);
+
+</script>
+</body>
+</html>

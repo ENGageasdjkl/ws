@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美化显示</title>
+    <style>
+        /* 外层容器样式 */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f3f4f6; /* 淡灰色背景 */
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* 信息框样式 */
+        .info-box {
+            background-color: #ffffff; /* 主体背景色 */
+            border-radius: 15px; /* 圆角边框 */
+            border: 1px solid #e0e0e0; /* 外边框颜色 */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+            padding: 30px 20px 20px; /* 内边距 */
+            width: 350px; /* 固定宽度 */
+            color: #333; /* 文字颜色 */
+            position: relative;
+        }
+
+        /* 标题与内容的容器 */
+        .info-box .title-container {
+            position: relative;
+            margin-bottom: 15px;
+            padding-left: 10px;
+        }
+
+        /* 标题样式 */
+        .title-container h3 {
+            color: #ff8c42; /* 标题淡橙色 */
+            font-size: 1.5em; /* 标题大小 */
+            margin: 0;
+            display: inline-block;
+            background-color: #ffffff; /* 标题背景色 */
+            padding: 0 10px;
+            border-radius: 8px;
+            position: relative;
+            top: -10px; /* 提升标题位置 */
+            left: -10px;
+            z-index: 1;
+        }
+
+        /* 内边框样式 */
+        .inner-border {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #fafafa; /* 内部浅色背景 */
+            color: #555; /* 文字颜色 */
+            line-height: 1.6; /* 行高 */
+        }
+    </style>
+</head>
+<body>
+
+<div class="info-box">
+    <div class="title-container">
+        <h3>糖尿病原因</h3>
+    </div>
+    <div class="inner-border">
+        <p>糖尿病是由胰岛素分泌减少或胰岛素抵抗引起的代谢性疾病，与遗传、肥胖、不健康饮食等因素相关。1型糖尿病通常因胰岛素不足；2型糖尿病多见于成年人尤其肥胖人群。早期管理有助于降低并发症风险。</p>
+    </div>
+</div>
+
+</body>
+</html>

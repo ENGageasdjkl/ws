@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>糖尿病之“8吃8不吃”</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFF7E6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            color: #333;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: #F4B984; /* 柔和的橙色 */
+            color: #FFF;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            height: 100%;
+            overflow-y: auto;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar ul li {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .sidebar ul li a {
+            color: #FFF;
+            text-decoration: none;
+            font-size: 18px;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .sidebar ul li a:hover {
+            background-color: #E5A572;
+        }
+        .container {
+            margin-left: 220px; /* Adjust to the sidebar width */
+            padding: 20px;
+            width: calc(100% - 220px);
+        }
+        .header {
+            text-align: center;
+            font-size: 26px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .category {
+            display: none; /* Default hidden */
+        }
+        .category.active {
+            display: block;
+        }
+        /* 为search的active状态添加独立样式 */
+        #search.active {
+            display: flex; /* 设置为flex布局 */
+            flex-direction: column; /* 可选：设置方向 */
+            /*align-items: center; !* 可选：设置对齐方式 *!*/
+            justify-content: center; /* 可选：设置内容分布 */
+        }
+        .columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .column {
+            flex: 1;
+            min-width: 300px;
+            background-color: #FFF;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        .section-header {
+            text-align: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .section-header.green {
+            background-color: #BDE4A7; /* 柔和的绿色 */
+            color: #2C5D37;
+        }
+        .section-header.red {
+            background-color: #F6A5A5; /* 柔和的红色 */
+            color: #8B2F2F;
+        }
+        .food-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: space-around;
+        }
+        .food-item {
+            width: 32%;
+            text-align: center;
+        }
+        .food-item img {
+            width: 80%;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .food-item p {
+            font-size: 14px;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+        .container4search {
+            text-align: center;
+            /*width: 100%;*/
+            /*max-width: 600px;*/
+            padding: 20% 10%;
+        }
+        .search-header {
+            font-size: 36px;
+            font-weight: bold;
+            color: #FFA726;
+            margin-bottom: 20px;
+        }
+        .search-bar {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-bar input[type="text"] {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 18px;
+            border: 2px solid #FFA726;
+            border-radius: 25px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-bar input[type="text"]:focus {
+            border-color: #FFB74D;
+        }
+
+        .search-bar button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #FFA726;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-bar button:hover {
+            background-color: #FFB74D;
+        }
+
+        .result {
+            font-size: 20px;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        /*noinspection CssUnusedSymbol*/
+        .result.success {
+            background-color: #DFF6D8;
+            color: #4CAF50;
+        }
+
+        /*noinspection CssUnusedSymbol*/
+        .result.error {
+            background-color: #FFEBEE;
+            color: #F44336;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <ul>
+        <li><a href="#" onclick="switchCategory('search')">查询</a></li>
+        <hr>
+        <li><a href="#" onclick="switchCategory('grains')">主食</a></li>
+        <li><a href="#" onclick="switchCategory('milk')">奶类</a></li>
+        <li><a href="#" onclick="switchCategory('fruits')">水果</a></li>
+        <li><a href="#" onclick="switchCategory('fats')">油脂</a></li>
+        <li><a href="#" onclick="switchCategory('vegetables')">蔬菜</a></li>
+        <li><a href="#" onclick="switchCategory('proteins')">蛋白质</a></li>
+        <li><a href="#" onclick="switchCategory('snacks')">零食</a></li>
+        <li><a href="#" onclick="switchCategory('drinks')">饮料</a></li>
+    </ul>
+</div>
+
+<div class="container">
+    <div class="header">糖尿病之“8吃8不吃”</div>
+
+    <!--搜索框-->
+    <div id="search" class="container4search category">
+        <div class="search-header">食物查询系统</div>
+        <div class="search-bar">
+            <input type="text" id="foodInput" placeholder="请输入食物名称...">
+            <button onclick="searchFood()">查询</button>
+        </div>
+        <div id="result" class="result"></div>
+    </div>
+
+    <!-- 分类内容将通过JavaScript动态生成 -->
+    <div id="contentArea"></div>
+
+</div>
+
+<script>
+    // 数据结构，将食物名称和图片URL存储在数组中
+    const foodCategories = {
+        'grains': {
+            'title': '主食',
+            'items': {
+                '控糖 ✓': [
+                    { 'name': '荞麦', 'url': 'https://cdn.sputniknews.cn/img/07e5/08/14/1034315503_0:157:3083:1891_1920x0_80_0_0_98ab0e13c64b715eac8e0f0314e5b61a.jpg' },
+                    { 'name': '藜麦', 'url': 'http://5b0988e595225.cdn.sohucs.com/images/20180831/53ebdb8824974c02ad9263ac7f16cfe5.jpeg' },
+                    { 'name': '红豆', 'url': 'https://sns-img-qc.xhscdn.com/1000g0082c1st2goh206041m727462056qv643g8' },
+                    { 'name': '绿豆', 'url': 'https://gd-hbimg.huaban.com/340b8341c7dd528ff7b596f4239359f93dd5e62d1b2ae-UOGiSP_fw658webp' },
+                    { 'name': '山药', 'url': 'http://img.yzcdn.cn/upload_files/2015/06/19/Fghd5XxnuowHbc2PVTPu65aJX1Pl.gif?imageView2/2/w/580/h/580/q/75/format/gif' },
+                    { 'name': '玉米', 'url': 'https://rmrbcmsonline.peopleapp.com/upload/zw/bjh_image/1581759674_91bf28bf99f66673ba24a3654a8702ef.jpg' },
+                    { 'name': '南瓜', 'url': 'http://img.pconline.com.cn/images/photoblog/6/6/2/8/662890/20099/19/1253329964450.jpg' },
+                    { 'name': '芋头', 'url': 'https://wx1.sinaimg.cn/mw1024/005FyA38ly4h4ukta0hnvj30u50k3e81.jpg' },
+                    { 'name': '红薯', 'url': 'https://gss0.baidu.com/70cFfyinKgQFm2e88IuM_a/baike/pic/item/267f9e2f07082838c38eddf3b199a9014d08f152.jpg' }
+                ],
+                '升糖 ✕': [
+                    { 'name': '白粥', 'url': 'https://www.duoxiwa.com/resource/images/7d09e7e1a9d54965a620641117011034_15.jpg' },
+                    { 'name': '白米饭', 'url': 'https://bpic.51yuansu.com/pic3/cover/02/76/25/5a3618f921c56_610.jpg?x-oss-process=image/sharpen,100' },
+                    { 'name': '白面条', 'url': 'http://pic.iask.cn/fimg/377178125276.jpg' },
+                    { 'name': '炸薯条', 'url': 'https://cp1.douguo.com/upload/caiku/f/4/6/yuan_f45b4727a17e3e7f3847c53935313cf6.jpeg' },
+                    { 'name': '油条', 'url': 'https://cp1.douguo.com/upload/caiku/d/b/6/yuan_dbeacd0d92eef0435da6b5387864b136.jpg' },
+                    { 'name': '麻球', 'url': 'https://sns-img-qc.xhscdn.com/fc78552d-5792-3982-90ba-9ddd0e7166e4' },
+                    { 'name': '油饼', 'url': 'http://p1.ssl.qhimg.com/t01ed9b5b14eaaea46c.jpg' },
+                    { 'name': '饼干', 'url': 'https://vdposter.bdstatic.com/8b9ac5a53a5c5b47a6fd3d2e5a9a455c.jpeg' },
+                    { 'name': '蛋糕', 'url': 'http://img.cyjmw.com/2024/11/04/VXE93B2DK4JQ690990.jpg' }
+                ]
+            }
+        },
+        'milk': {
+            'title': '奶类',
+            'items': {
+                '控糖 ✓': [
+                    { 'name': '低脂奶', 'url': 'http://m.360buyimg.com/mobilecms/s2560x1709_jfs/t1/38610/7/7636/983399/5ced544dE48e1d45e/ec5be979c4fe2987.jpg!q70.jpg' },
+                    { 'name': '脱脂奶', 'url': 'http://p3-sdbk2-media.byteimg.com/tos-cn-i-xv4ileqgde/c669911ce2c84356ab3996a045119eaa~tplv-xv4ileqgde-resize-w:1440.awebp' },
+                    { 'name': '全脂奶', 'url': 'https://wx3.sinaimg.cn/large/007ZXQe6gy1gn72i1t05fj30b40c0aaf.jpg' },
+                    { 'name': '无糖酸奶', 'url': 'http://5b0988e595225.cdn.sohucs.com/images/20191127/b0f46be3fad24bd68c7290816760d5ac.jpeg' }
+                ],
+                '升糖 ✕': [
+                    { 'name': '甜牛奶', 'url': 'http://safe-img.xhscdn.com/bw1/2a52d562-8964-4ad9-bbe3-3c7a1e4859c7?imageView2/2/w/1080/format/jpg' },
+                    { 'name': '含糖酸奶', 'url': 'http://5b0988e595225.cdn.sohucs.com/images/20190405/b3669c4b485d46c7bc34c0bbbe6f6e96.jpeg' },
+                    { 'name': '乳饮料', 'url': 'https://m.360buyimg.com/mobilecms/s843x843_jfs/t1/169528/26/33341/148049/644128e2F4bf17db9/1c8d01572b621686.jpg!q70.jpg' },
+                    { 'name': '甜豆奶', 'url': 'http://p0.itc.cn/images01/20210708/df61f9d60064470189b51a46d73d6d9b.jpeg' },
+                    { 'name': '奶油', 'url': 'https://img12.360buyimg.com/seckillcms/jfs/t1/24200/17/14137/380699/5cb8e7c7E1c3d87b6/b6c1d15c7dcb0339.jpg' },
+                    { 'name': '黄油', 'url': 'https://img12.360buyimg.com/seckillcms/jfs/t1/24200/17/14137/380699/5cb8e7c7E1c3d87b6/b6c1d15c7dcb0339.jpg' },
+                    { 'name': '高糖奶酪', 'url': 'http://5b0988e595225.cdn.sohucs.com/images/20230117/318d7099b40d4d4cae1dcb7ca77932ba.jpeg' }
+                ]
+            }
+        },
+        'fruits': {
+            'title': '水果',
+            'items': {
+                '控糖 ✓': [
+                    { 'name': '苹果', 'url': 'https://wx2.sinaimg.cn/large/821a6ba2ly1hvjh97zqk5j22c0340qv5.jpg' },
+                    { 'name': '猕猴桃', 'url': 'https://img.zcool.cn/community/01fc3e5d5ccc09a8012187f4a7736c.jpg?x-oss-process=image/auto-orient,1/resize,m_lfit,w_1280,limit_1/sharpen,100' },
+                    { 'name': '梨', 'url': 'https://p0.itc.cn/images01/20211229/ed2b8eb1530b42c1b4a9f764995056d7.jpeg' },
+                    { 'name': '草莓', 'url': 'http://skin.z.43img.com/upload/20980/2024/11/09/2358478456.webp' },
+                    { 'name': '圣女果', 'url': 'https://img.zcool.cn/community/01b10558b69316a801219c778e50dc.JPG?x-oss-process=image/auto-orient,1/resize,m_lfit,w_1280,limit_1/sharpen,100/quality,q_100/marker,u_plus' },
+                    { 'name': '樱桃', 'url': 'http://pic1.arkoo.com/55C3E84F803E41D0B7173DB01B53712D/picture/o_1icfj6ghe1pdb25ul9msan1j37sj.jpg' },
+                    { 'name': '桃子', 'url': 'https://wx3.sinaimg.cn/large/008BGAC1gy1hvjwba6jd6j30ly0lyadu.jpg' },
+                    { 'name': '蓝莓', 'url': 'http://img.zcool.cn/community/01c6395940092ea8012193a386330f.jpg@3000w_1l_2o_100sh.jpg' },
+                    { 'name': '柚子', 'url': 'https://gd-hbimg.huaban.com/1be9104aa7f9c37f1b8a72e7dd30a099e7203d4ea2ece-YpD7y8_fw658webp' },
+                    { 'name': '橘子', 'url': 'https://img.zcool.cn/community/01f8025e019626a80120a8950bada7.jpg?imageMogr2/auto-orient/thumbnail/1280x%3e/sharpen/0.5/quality/100' }
+                ],
+                '升糖 ✕': [
+                    { 'name': '香蕉', 'url': 'https://wx4.sinaimg.cn/large/008beeeTly1hvbfez4nd4j30j60m6grj.jpg' },
+                    { 'name': '榴莲', 'url': 'https://wx1.sinaimg.cn/large/008v3ZQ6gy1hvhiyk5ud5j30zu1b9k29.jpg' },
+                    { 'name': '荔枝', 'url': 'https://wx4.sinaimg.cn/large/006ZeMH3gy1hvgfkfdkuqj30yi22ox0u.jpg' },
+                    { 'name': '龙眼', 'url': 'https://img.huabaike.com/tukuimgs/1251/20210922171811_642077.jpg' },
+                    { 'name': '柿子', 'url': 'http://photo.tuchong.com/19491429/f/935395731.jpg' },
+                    { 'name': '冬枣', 'url': 'https://img.zcool.cn/community/01c7d25e5b1d7ea80120a895e434de.jpg@3000w_1l_0o_100sh.jpg' },
+                    { 'name': '菠萝蜜', 'url': 'https://pic.38fan.com/allimg/170123/39_170123132250_2.jpg' },
+                    { 'name': '老椰子', 'url': 'https://image.suning.cn/uimg/ZR/share_order/163308268218906292.jpg' },
+                    { 'name': '释迦果', 'url': 'http://photo.tuchong.com/18351510/f/1078461833.jpg' },
+                    { 'name': '山竹', 'url': 'http://cd.zjrcjd.cn/uploads/allimg/20230518/1-23051R25523218.jpg' }
+                ]
+            }
+        },
+        'fats': {
+            'title': '油脂',
+            'items': {
+                '控糖 ✓': [
+                    { 'name': '原味坚果', 'url': 'https://wx1.sinaimg.cn/large/007aeuBJly4gte597fijlj30ly0lymyt.jpg' },
+                    { 'name': '牛油果', 'url': 'http://q6.itc.cn/q_70/images05/20241112/44a57568fe464bb0aae077d6d24be16a.png' },
+                    { 'name': '三文鱼', 'url': 'https://5b0988e595225.cdn.sohucs.com/images/20200201/88492eee7f8240c083707dc3464ca987.jpeg' },
+                    { 'name': '金枪鱼', 'url': 'https://pic.baike.soso.com/ugc/baikepic2/0/20230826215144-463449273_jpeg_940_769_65994.jpg/0_90' },
+                    { 'name': '菜籽油', 'url': 'https://nimg.ws.126.net/?url=http%3A%2F%2Fdingyue.ws.126.net%2F2024%2F1115%2F80b7ce3fj00smyt5k00ind000na00frm.jpg&thumbnail=660x2147483647&quality=80&type=jpg' },
+                    { 'name': '芝麻油', 'url': 'https://5b0988e595225.cdn.sohucs.com/images/20171117/6b2f7268c0174151bd607aa0d712c618.jpeg' },
+                    { 'name': '橄榄油', 'url': 'https://gd-hbimg.huaban.com/c52c755ab69c27b1f1982a3ab95277a81bf05a6d1059b-JaFBS2_fw658webp' },
+                    { 'name': '亚麻籽油', 'url': 'https://5b0988e595225.cdn.sohucs.com/images/20170905/e39442dc8e7f4f6c81c594c0ea37a78a.jpeg' },
+                    { 'name': '玉米油', 'url': 'http://imgs-ali.51miz.com/vcg/image/without_watermark/VCG41N1125854002.jpg?x-oss-process=image/sharpen,100' },
+                    { 'name': '葵花籽油', 'url': 'https://p9.toutiaoimg.com/origin/tos-cn-i-qvj2lq49k0/b3df57bb9d724fb9af43e9a8e3b7e4ff?from=pc' }
+                ],
+                '升糖 ✕': [
+                    { 'name': '氢化植物油', 'url': 'https://bj.bcebos.com/bjh-pixel/17115127320546114333_0_ainote_new.jpg?x-bce-process=image/auto-orient,o_1/watermark,image_NDU0ZjAyZDU5YjQ1LnBuZw==,bucket_searchbox,w_61,text_QOacquadpeeUn-a0u-WutuWxhQ==,type_RlpMYW5UaW5nSGVp,size_61,x_41,y_41,interval_4,color_FFFFFF,effect_softoutline,shc_000000,blr_2,align_1' },
+                    { 'name': '棕榈油', 'url': 'https://res.cngoldres.com/upload/2024/1115/37352faf1e2b8d418e0f35cd8948205.jpg' },
+                    { 'name': '人造黄油', 'url': 'http://n.sinaimg.cn/sinakd10104/209/w600h409/20210419/da0e-knvsnuh3748994.png' },
+                    { 'name': '蔬菜起酥油', 'url': 'https://cbu01.alicdn.com/img/ibank/2020/989/712/19227217989_454878258.jpg' },
+                    { 'name': '猪油', 'url': 'https://n.sinaimg.cn/sinakd2021318s/231/w1080h751/20210318/1ce3-kmkptxe6640670.jpg' },
+                    { 'name': '椰子油', 'url': 'https://file.fh21static.com/fhfile1/M00/8E/A3/ooYBAGcslhGAaoFHAACiTquZa5Q122.jpg' }
+                ]
+            }
+        },
+        'vegetables': {
+            'title': '蔬菜',
+            'items': {
+                '控糖 ✓': [
+                    { 'name': '生菜', 'url': 'https://5b0988e595225.cdn.sohucs.com/images/20180405/3026b5cb5ade41a1830d86987538f0c6.jpeg' },
+                    { 'name': '空心菜', 'url': 'https://img.huabaike.com/tukuimgs/744/20210125133903_110230.jpg' },
+                    { 'name': '苦瓜', 'url': 'http://image109.360doc.com/DownloadImg/2022/08/0201/249635873_49_20220802010957819.png' },
+                    { 'name': '冬瓜', 'url': 'http://szdyx.cn/uploadfile/webuploader/2019-06-12/156031896345088.jpg' },
+                    { 'name': '油麦菜', 'url': 'http://p3-sdbk2-media.byteimg.com/tos-cn-i-xv4ileqgde/3e0236440d47437680098055da54ef34~tplv-xv4ileqgde-resize-w:1440.awebp' },
+                    { 'name': '油菜', 'url': 'http://ci.xiaohongshu.com/5cd04a7c-dd3d-3405-aefb-76d1561aec1e?imageView2/2/w/1080/format/jpg' },
+                    { 'name': '娃娃菜', 'url': 'https://bkimg.cdn.bcebos.com/pic/8b82b9014a90f603eb70cdda3012b31bb151ed6f' },
+                    { 'name': '绿豆芽', 'url': 'https://p1-bk.byteimg.com/tos-cn-i-mlhdmxsy5m/80effc19128545768beb1cbf6de714ad~tplv-mlhdmxsy5m-q75:0:0.image' },
+                    { 'name': '海带', 'url': 'http://n.sinaimg.cn/sinacn/w1200h800/20171217/deeb-fypsqka4958253.jpg' },
+                    { 'name': '黄瓜', 'url': 'https://spider.ws.126.net/5241fa87ee6d8e759816181c8b654c25.jpeg' }
+                ],
+                '升糖 ✕': [
+                    { 'name': '泡菜', 'url': 'http://ytbxsp.cn/zb_users/upload/2021/05/202105091620545689913956.jpg' },
+                    { 'name': '泡萝卜', 'url': 'https://cp1.douguo.com/upload/caiku/c/8/4/yuan_c89af0bba617845a63701bb3820bce54.jpeg' },
+                    { 'name': '榨菜', 'url': 'http://img.zcool.cn/community/015e585b3ebd6aa80120b959b7aca1.jpg@3000w_1l_0o_100sh.jpg' },
+                    { 'name': '泡姜', 'url': 'https://i2.chuimg.com/27f95710f5f547f38016a9b3e8308843_2448w_3264h.jpg?imageView2/1/w/800/h/600/q/75/format/jpg' },
+                    { 'name': '泡蒜苔', 'url': 'https://via.placeholder.com/150' },
+                    { 'name': '泡酸菜', 'url': 'https://sns-img-qc.xhscdn.com/01023g01kl993sn3ipa01165ct506hbpp2' },
+                    { 'name': '泡豇豆', 'url': 'https://bkimg.cdn.bcebos.com/pic/359b033b5bb5c9ea6277e7e3da39b6003af3b32e' },
+                    { 'name': '糖蒜', 'url': 'http://www.hgjlm.com/file/upload/202004/30/113803411.jpg' },
+                    { 'name': '糖醋黄瓜', 'url': 'http://cp1.douguo.com/upload/dish/c/0/4/600_c0d418f05663eeb9211dd1fe2198d6f4.jpg' },
+                    { 'name': '糖拌西红柿', 'url': 'https://cp1.douguo.com/upload/caiku/0/5/8/yuan_059b670bd07b71a155179c83d1bf2838.JPG' }
+                ]
+            }
+        },
+        'proteins': {
+            'title': '蛋白质',
+            'items': {
+                '控糖 ✓': [
+                    { 'name': '猪肉', 'url': 'https://cdn.yangzhu360.com/2023/0110/a85edc674dcbf7cc7c8b4bf56f3a1c23effe09f3.jpg' },
+                    { 'name': '牛肉', 'url': 'http://img01.fuhai360.com/--47/47791/202103/202103201858104425.jpeg' },
+                    { 'name': '鸡肉', 'url': 'http://img.88tph.com/9a/3f/mj_EnQr7EemMSQARMiynhQ-0.jpg!/watermark/url/L3BhdGgvbG9nby5wbmc/align/center/repeat/true/fw/640/quality/70' },
+                    { 'name': '鸭肉', 'url': 'http://www.lifejilu.com/wp-content/uploads/2024/08/355d9b37cdb19dd2939b07bc2959436b.jpg' },
+                    { 'name': '羊肉', 'url': 'https://www.cdstm.cn/gallery/media/mkjx/bktmhdsj_3679/202012/W020201216472890175673.jpg' },
+                    { 'name': '鱼肉', 'url': 'https://bkimg.cdn.bcebos.com/pic/b3fb43166d224f4afae6167306f790529822d157' },
+                    { 'name': '虾肉', 'url': 'https://so1.360tres.com/t01d32f76356ee707f7.jpg' },
+                    { 'name': '贝类', 'url': 'http://bkimg.cdn.bcebos.com/pic/c995d143ad4bd113bbafa7c25aafa40f4afb05db' },
+                    { 'name': '豆腐', 'url': 'http://www.zzibs.com/zb_users/upload/2024/11/20241109103529173111972943286.jpg' },
+                    { 'name': '蛋类', 'url': 'http://diy.img.jaecdn.com/album/01/13847.jpg?wh=1024.766' }
+                ],
+                '升糖 ✕': [
+                    { 'name': '炸肉', 'url': 'https://sns-img-qc.xhscdn.com/c81a8c8e-d104-3283-9b92-88493da876d7' },
+                    { 'name': '牛肉串', 'url': 'http://img.mp.itc.cn/upload/20170727/9d07938079a64091a91cc7d4f7b175f5_th.jpg' },
+                    { 'name': '羊肉串', 'url': 'https://p9-bk.byteimg.com/tos-cn-i-mlhdmxsy5m/1dc322c98bc1447cb6881cd5d44146c0~tplv-mlhdmxsy5m-q75:0:0.image' },
+                    { 'name': '香肠', 'url': 'https://www.sjzyslg.com/file/upload/202411/12/1731362489427_16.jpg' },
+                    { 'name': '炸鸡', 'url': 'https://sns-img-qc.xhscdn.com/7ca4440f-2317-32ab-8287-016369cc1e7b' },
+                    { 'name': '肥肉', 'url': 'http://q7.itc.cn/q_70/images03/20240108/9a64387f04454e389d4e9e9c76b6ad4a.jpeg' },
+                    { 'name': '熏肉', 'url': 'https://img03.sogoucdn.com/v2/thumb/retype_exclude_gif/ext/auto/crop/xy/ai/w/922/h/519?appid=200698&url=https://pic.baike.soso.com/ugc/baikepic2/0/20230127230459-1295087801_jpeg_922_609_380066.jpg/0' },
+                    { 'name': '炸豆腐', 'url': 'https://i2.chuimg.com/d34cf9373f8e48849dfc588178c9ff2d_1440w_2160h.jpg?imageView2/2/w/600/interlace/1/q/75' },
+                    { 'name': '炸鱼', 'url': 'https://p1.itc.cn/images01/20210408/c4a3c2440567495dbf9f8f9a3c3c0af9.jpeg' },
+                    { 'name': '皮蛋', 'url': 'https://p0.itc.cn/images01/20220717/9be75e79ac944aceb1df2588f5c498bc.jpeg' }
+                ]
+            }
+        },
+        'snacks': {
+            'title': '零食',
+            'items': {
+                '控糖 ✓': [
+                    { 'name': '煮鸡蛋', 'url': 'https://i2.chuimg.com/e06e35edda1346d2b1f6c40390fed909_2233w_1867h.jpg?imageView2/2/w/660/interlace/1/q/90' },
+                    { 'name': '低盐豆干', 'url': 'http://p8.itc.cn/q_70/images03/20221215/11c2ca7ef3a54e73bfa48370d73bc747.png' },
+                    { 'name': '鸡胸肉', 'url': 'https://image.39.net/auth/Original/20180514/46023.jpg' },
+                    { 'name': '卤牛肉', 'url': 'https://cp1.douguo.com/upload/caiku/2/6/5/yuan_2676079256407e1d53a634266f4c0705.jpg' },
+                    { 'name': '原味坚果', 'url': 'https://wx1.sinaimg.cn/large/007aeuBJly4gte597fijlj30ly0lymyt.jpg' },
+                    { 'name': '无糖酸奶', 'url': 'http://5b0988e595225.cdn.sohucs.com/images/20191127/b0f46be3fad24bd68c7290816760d5ac.jpeg' },
+                    { 'name': '纯牛奶', 'url': 'https://wx3.sinaimg.cn/crop.0.127.1024.768/95f1cf44gy1gf91iw79djj20sg0sgjsh.jpg' },
+                    { 'name': '无糖豆浆', 'url': 'https://pic4.zhimg.com/50/v2-ea713308e966587eefbaa39110ba6457_hd.jpg?source=1940ef5c' },
+                    { 'name': '番茄', 'url': 'http://q1.itc.cn/images01/20240313/2b729c644c2048daab5f370699e5629d.jpeg' },
+                    { 'name': '黄瓜', 'url': 'https://spider.ws.126.net/5241fa87ee6d8e759816181c8b654c25.jpeg' }
+                ],
+                '升糖 ✕': [
+                    { 'name': '含糖坚果', 'url': 'http://q2.itc.cn/q_70/images01/20240725/c48fcb3163bb4855945e66e430bf36cb.jpeg' },
+                    { 'name': '水果干', 'url': 'https://sc.68design.net/photofiles/201705/EejWlcnb0C.jpg' },
+                    { 'name': '蛋卷', 'url': 'https://cp1.douguo.com/upload/caiku/0/4/8/yuan_0497f2e3dc70e196de17d9d3f49e3af8.jpeg' },
+                    { 'name': '蜜饯', 'url': 'http://www.huaimama.com/file/image/47502eeec89e1ab552d379642f5a2f4f.jpg' },
+                    { 'name': '蛋挞', 'url': 'https://cp1.douguo.com/upload/caiku/5/5/5/yuan_55fd512add315bf90bc951480451c695.jpeg' },
+                    { 'name': '巧克力', 'url': 'http://www.tingclass.net/uploads/2019/1029/20191029094052718.jpg' },
+                    { 'name': '冰淇淋', 'url': 'https://c-ssl.dtstatic.com/uploads/item/201406/28/20140628202304_GKmxB.thumb.1000_0.jpeg' },
+                    { 'name': '蛋糕', 'url': 'http://img.cyjmw.com/2024/11/04/VXE93B2DK4JQ690990.jpg' },
+                    { 'name': '奶茶', 'url': 'https://gd-hbimg.huaban.com/d8999e767bf4e3a68fc061aacd7b4739112c474946663-i4J3qj_fw658webp' },
+                    { 'name': '饮料', 'url': 'https://static.foodtalks.cn/image/post/d51ca9313bcb202d8ef2779fd19ce137f67e.png' }
+                ]
+            }
+        },
+        'drinks': {
+            'title': '饮料',
+            'items': {
+                '控糖 ✓': [
+                    { 'name': '白开水', 'url': 'http://p4.itc.cn/images01/20210417/55106397c8fb4df7b673697652cee7a5.jpeg' },
+                    { 'name': '矿泉水', 'url': 'https://img.doooor.com/img/forum/202311/06/115357knnzdnzyvmvd87bp.jpg' },
+                    { 'name': '苏打水', 'url': 'https://askanydifference.b-cdn.net/wp-content/uploads/2022/12/soda-water.jpg' },
+                    { 'name': '红茶', 'url': 'https://5b0988e595225.cdn.sohucs.com/q_70,c_zoom,w_640/images/20180118/36e62f6b73a34802ab10a0b24596abec.jpg' },
+                    { 'name': '绿茶', 'url': 'https://a.zdmimg.com/202303/10/640af8ff6b5da257.jpg_e680.jpg' },
+                    { 'name': '大麦茶', 'url': 'http://img3.yun300.cn/repository/image/e5a5e593-0ec8-4a75-9743-37daa47a8196.jpg_{i}xaf.jpg?tenantId=250084&viewType=1' },
+                    { 'name': '菊花茶', 'url': 'https://img.zcool.cn/community/0157b45a7e58eca8012045b3504435.JPG?x-oss-process=image/auto-orient,1/resize,m_lfit,w_1280,limit_1/sharpen,100/quality,q_100/marker,u_plus' },
+                    { 'name': '乌龙茶', 'url': 'https://www.qkyjy.cn//pic/3e6014df6054a0a9ea7c060ea4d6e9a6.jpg' },
+                    { 'name': '黑咖啡', 'url': 'http://image.uc.cn/s/wemedia/s/upload/2024/05b1e0229a89896ca4ef4c0e9d48ec68.jpg' },
+                    { 'name': '柠檬水', 'url': 'https://bcn.135editor.com/files/images/editor_styles/e713e4b13f71189541833fc2698de1d1.jpg' }
+                ],
+                '升糖 ✕': [
+                    { 'name': '啤酒', 'url': 'http://s.alicdn.com/@sc04/kf/H289cb1b180504c0cb2a7b70ac2a4643cV.jpg_720x720q50.jpg' },
+                    { 'name': '白酒', 'url': 'https://oss.sxmch.com/static/images/20230226/b7ffe776f6d9907f54ab739a48432762.jpg' },
+                    { 'name': '调制椰汁', 'url': 'https://safe-img.xhscdn.com/bw1/edbdb4f2-0d0b-4d94-9b32-ab7d776e184f?imageView2/2/w/1080/format/jpg' },
+                    { 'name': '奶茶', 'url': 'https://gd-hbimg.huaban.com/d8999e767bf4e3a68fc061aacd7b4739112c474946663-i4J3qj_fw658webp' },
+                    { 'name': '果汁', 'url': 'http://www.seebio.cn/UploadFiles/FCK/2018-08/2018082104B64PP664.jpg' },
+                    { 'name': '调制橙汁', 'url': 'https://www.nqxyy.com/d/file/202304/d53febe9d905fa14cbfa70b89e4036b7.jpg' },
+                    { 'name': '功能饮料', 'url': 'https://i01.c.aliimg.com/img/ibank/2013/866/505/773505668_586461165.jpg' },
+                    { 'name': '维生素饮品', 'url': 'http://s.alicdn.com/@sc04/kf/U221e7e965b13499fb6adb6511ac04175M.jpg_720x720q50.jpg' },
+                    { 'name': '碳酸饮料', 'url': 'http://5b0988e595225.cdn.sohucs.com/images/20180208/19c6768658b04de1a9a55b7ab3444fa5.png' },
+                    { 'name': '速溶咖啡', 'url': 'http://www.ebuyso.com/pics/O1CN01Zd0ZKY1tCDgraGj68_!!2200992355865.jpg' }
+                ]
+            }
+        }
+    };
+
+    // 将查询数据转换为数组形式
+    const foodDataArray = [
+        { 'name': '白粥', 'category': '升糖主食' },
+        { 'name': '白米饭', 'category': '升糖主食' },
+        { 'name': '白面条', 'category': '升糖主食' },
+        { 'name': '炸薯条', 'category': '升糖主食' },
+        { 'name': '油条', 'category': '升糖主食' },
+        { 'name': '麻球', 'category': '升糖主食' },
+        { 'name': '油饼', 'category': '升糖主食' },
+        { 'name': '饼干', 'category': '升糖主食' },
+        { 'name': '蛋糕', 'category': '升糖主食' },
+        { 'name': '甜点', 'category': '升糖主食' },
+        // 升糖奶类
+        { 'name': '甜牛奶', 'category': '升糖奶类' },
+        { 'name': '含糖酸奶', 'category': '升糖奶类' },
+        { 'name': '乳饮料', 'category': '升糖奶类' },
+        { 'name': '甜豆奶', 'category': '升糖奶类' },
+        { 'name': '奶油', 'category': '升糖奶类' },
+        { 'name': '黄油', 'category': '升糖奶类' },
+        { 'name': '高糖奶酪', 'category': '升糖奶类' },
+        // 升糖水果
+        { 'name': '香蕉', 'category': '升糖水果' },
+        { 'name': '榴莲', 'category': '升糖水果' },
+        { 'name': '荔枝', 'category': '升糖水果' },
+        { 'name': '龙眼', 'category': '升糖水果' },
+        { 'name': '柿子', 'category': '升糖水果' },
+        { 'name': '冬枣', 'category': '升糖水果' },
+        { 'name': '菠萝蜜', 'category': '升糖水果' },
+        { 'name': '老椰子', 'category': '升糖水果' },
+        { 'name': '释迦果', 'category': '升糖水果' },
+        { 'name': '山竹', 'category': '升糖水果' },
+        // 升糖油脂
+        { 'name': '氢化植物油', 'category': '升糖油脂' },
+        { 'name': '棕榈油', 'category': '升糖油脂' },
+        { 'name': '人造黄油', 'category': '升糖油脂' },
+        { 'name': '蔬菜起酥油', 'category': '升糖油脂' },
+        { 'name': '猪油', 'category': '升糖油脂' },
+        { 'name': '椰子油', 'category': '升糖油脂' },
+        // 升糖蔬菜
+        { 'name': '泡菜', 'category': '升糖蔬菜' },
+        { 'name': '泡萝卜', 'category': '升糖蔬菜' },
+        { 'name': '榨菜', 'category': '升糖蔬菜' },
+        { 'name': '泡姜', 'category': '升糖蔬菜' },
+        { 'name': '泡蒜苔', 'category': '升糖蔬菜' },
+        { 'name': '泡酸菜', 'category': '升糖蔬菜' },
+        { 'name': '泡豇豆', 'category': '升糖蔬菜' },
+        { 'name': '糖蒜', 'category': '升糖蔬菜' },
+        { 'name': '糖醋黄瓜', 'category': '升糖蔬菜' },
+        { 'name': '糖拌西红柿', 'category': '升糖蔬菜' },
+        // 升糖蛋白质
+        { 'name': '炸肉', 'category': '升糖蛋白质' },
+        { 'name': '牛肉串', 'category': '升糖蛋白质' },
+        { 'name': '羊肉串', 'category': '升糖蛋白质' },
+        { 'name': '香肠', 'category': '升糖蛋白质' },
+        { 'name': '炸鸡', 'category': '升糖蛋白质' },
+        { 'name': '肥肉', 'category': '升糖蛋白质' },
+        { 'name': '熏肉', 'category': '升糖蛋白质' },
+        { 'name': '炸豆腐', 'category': '升糖蛋白质' },
+        { 'name': '炸鱼', 'category': '升糖蛋白质' },
+        { 'name': '皮蛋', 'category': '升糖蛋白质' },
+        // 升糖零食
+        { 'name': '含糖坚果', 'category': '升糖零食' },
+        { 'name': '水果干', 'category': '升糖零食' },
+        { 'name': '蛋卷', 'category': '升糖零食' },
+        { 'name': '蜜饯', 'category': '升糖零食' },
+        { 'name': '蛋挞', 'category': '升糖零食' },
+        { 'name': '巧克力', 'category': '升糖零食' },
+        { 'name': '冰淇淋', 'category': '升糖零食' },
+        { 'name': '奶茶', 'category': '升糖零食' },
+        { 'name': '饮料', 'category': '升糖零食' },
+        { 'name': '蛋糕', 'category': '升糖零食' },
+        // 升糖饮料
+        { 'name': '啤酒', 'category': '升糖饮料' },
+        { 'name': '白酒', 'category': '升糖饮料' },
+        { 'name': '调制椰汁', 'category': '升糖饮料' },
+        { 'name': '果汁', 'category': '升糖饮料' },
+        { 'name': '调制橙汁', 'category': '升糖饮料' },
+        { 'name': '功能饮料', 'category': '升糖饮料' },
+        { 'name': '维生素饮品', 'category': '升糖饮料' },
+        { 'name': '碳酸饮料', 'category': '升糖饮料' },
+        { 'name': '速溶咖啡', 'category': '升糖饮料' },
+        // 控糖主食
+        { 'name': '荞麦', 'category': '控糖主食' },
+        { 'name': '藜麦', 'category': '控糖主食' },
+        { 'name': '红豆', 'category': '控糖主食' },
+        { 'name': '绿豆', 'category': '控糖主食' },
+        { 'name': '燕麦', 'category': '控糖主食' },
+        { 'name': '山药', 'category': '控糖主食' },
+        { 'name': '玉米', 'category': '控糖主食' },
+        { 'name': '南瓜', 'category': '控糖主食' },
+        { 'name': '芋头', 'category': '控糖主食' },
+        { 'name': '红薯', 'category': '控糖主食' },
+        // 控糖奶类
+        { 'name': '低脂奶', 'category': '控糖奶类' },
+        { 'name': '脱脂奶', 'category': '控糖奶类' },
+        { 'name': '全脂奶', 'category': '控糖奶类' },
+        { 'name': '无糖酸奶', 'category': '控糖奶类' },
+        // 控糖水果
+        { 'name': '苹果', 'category': '控糖水果' },
+        { 'name': '猕猴桃', 'category': '控糖水果' },
+        { 'name': '梨', 'category': '控糖水果' },
+        { 'name': '草莓', 'category': '控糖水果' },
+        { 'name': '圣女果', 'category': '控糖水果' },
+        { 'name': '樱桃', 'category': '控糖水果' },
+        { 'name': '桃子', 'category': '控糖水果' },
+        { 'name': '蓝莓', 'category': '控糖水果' },
+        { 'name': '柚子', 'category': '控糖水果' },
+        { 'name': '橘子', 'category': '控糖水果' },
+        // 控糖油脂
+        { 'name': '原味坚果', 'category': '控糖油脂' },
+        { 'name': '牛油果', 'category': '控糖油脂' },
+        { 'name': '三文鱼', 'category': '控糖油脂' },
+        { 'name': '金枪鱼', 'category': '控糖油脂' },
+        { 'name': '菜籽油', 'category': '控糖油脂' },
+        { 'name': '芝麻油', 'category': '控糖油脂' },
+        { 'name': '橄榄油', 'category': '控糖油脂' },
+        { 'name': '亚麻籽油', 'category': '控糖油脂' },
+        { 'name': '玉米油', 'category': '控糖油脂' },
+        { 'name': '葵花籽油', 'category': '控糖油脂' },
+        // 控糖蔬菜
+        { 'name': '生菜', 'category': '控糖蔬菜' },
+        { 'name': '空心菜', 'category': '控糖蔬菜' },
+        { 'name': '苦瓜', 'category': '控糖蔬菜' },
+        { 'name': '冬瓜', 'category': '控糖蔬菜' },
+        { 'name': '油麦菜', 'category': '控糖蔬菜' },
+        { 'name': '油菜', 'category': '控糖蔬菜' },
+        { 'name': '娃娃菜', 'category': '控糖蔬菜' },
+        { 'name': '绿豆芽', 'category': '控糖蔬菜' },
+        { 'name': '海带', 'category': '控糖蔬菜' },
+        { 'name': '黄瓜', 'category': '控糖蔬菜' },
+        // 控糖蛋白质
+        { 'name': '猪肉', 'category': '控糖蛋白质' },
+        { 'name': '牛肉', 'category': '控糖蛋白质' },
+        { 'name': '鸡肉', 'category': '控糖蛋白质' },
+        { 'name': '鸭肉', 'category': '控糖蛋白质' },
+        { 'name': '羊肉', 'category': '控糖蛋白质' },
+        { 'name': '鱼肉', 'category': '控糖蛋白质' },
+        { 'name': '虾肉', 'category': '控糖蛋白质' },
+        { 'name': '贝类', 'category': '控糖蛋白质' },
+        { 'name': '豆腐', 'category': '控糖蛋白质' },
+        { 'name': '蛋类', 'category': '控糖蛋白质' },
+        // 控糖零食
+        { 'name': '煮鸡蛋', 'category': '控糖零食' },
+        { 'name': '低盐豆干', 'category': '控糖零食' },
+        { 'name': '鸡胸肉', 'category': '控糖零食' },
+        { 'name': '卤牛肉', 'category': '控糖零食' },
+        { 'name': '纯牛奶', 'category': '控糖零食' },
+        { 'name': '无糖豆浆', 'category': '控糖零食' },
+        { 'name': '番茄', 'category': '控糖零食' },
+        { 'name': '黄瓜', 'category': '控糖零食' },
+        { 'name': '无糖酸奶', 'category': '控糖零食' },
+        { 'name': '原味坚果', 'category': '控糖零食' },
+        // 控糖饮料
+        { 'name': '白开水', 'category': '控糖饮料' },
+        { 'name': '矿泉水', 'category': '控糖饮料' },
+        { 'name': '苏打水', 'category': '控糖饮料' },
+        { 'name': '红茶', 'category': '控糖饮料' },
+        { 'name': '绿茶', 'category': '控糖饮料' },
+        { 'name': '大麦茶', 'category': '控糖饮料' },
+        { 'name': '菊花茶', 'category': '控糖饮料' },
+        { 'name': '乌龙茶', 'category': '控糖饮料' },
+        { 'name': '黑咖啡', 'category': '控糖饮料' },
+        { 'name': '柠檬水', 'category': '控糖饮料' }
+    ];
+    // 将数组转换为对象，方便查询
+    const foodData = {};
+    foodDataArray.forEach(item => {
+        foodData[item.name] = item.category;
+    });
+
+    // 动态生成分类内容
+    function generateCategoryContent(categoryId) {
+        const categoryData = foodCategories[categoryId];
+        if (!categoryData) return '';
+
+        let content = `<div id="${categoryId}" class="category">`;
+        content += `<div class="columns">`;
+
+        for (const [sectionTitle, items] of Object.entries(categoryData.items)) {
+            const sectionClass = sectionTitle.includes('✓') ? 'green' : 'red';
+
+            content += `
+                <div class="column">
+                    <div class="section-header ${sectionClass}">${categoryData.title} - ${sectionTitle}</div>
+                    <div class="food-grid">
+            `;
+
+            items.forEach(item => {
+                content += `
+                    <div class="food-item">
+                        <img src="${item.url}" alt="${item.name}">
+                        <p>${item.name}</p>
+                    </div>
+                `;
+            });
+
+            content += `
+                    </div>
+                </div>
+            `;
+        }
+
+        content += `</div></div>`;
+        return content;
+    }
+
+    // 生成所有分类的内容并添加到页面
+    function generateAllCategories() {
+        const contentArea = document.getElementById('contentArea');
+        let allContent = '';
+
+        for (const categoryId of Object.keys(foodCategories)) {
+            allContent += generateCategoryContent(categoryId);
+        }
+
+        contentArea.innerHTML = allContent;
+    }
+
+    // 切换分类显示
+    function switchCategory(category) {
+        // 清除所有分类的active状态
+        document.querySelectorAll('.category').forEach(el => {
+            el.classList.remove('active');
+        });
+
+        // 为指定的分类添加active状态
+        const targetElement = document.getElementById(category);
+        if (targetElement) {
+            targetElement.classList.add('active');
+        }
+
+        // 设置header显示与隐藏逻辑
+        const headerElement = document.querySelector('.header');
+        if (category === 'search') {
+            headerElement.style.display = 'none'; // 隐藏header
+        } else {
+            headerElement.style.display = 'block'; // 显示header
+        }
+    }
+
+    // 页面加载完成后生成内容
+    window.onload = function() {
+        generateAllCategories();
+        switchCategory('grains'); // 默认显示'主食'分类
+    };
+
+    // 搜索功能
+    function searchFood() {
+        const input = document.getElementById("foodInput").value.trim();
+        const resultDiv = document.getElementById("result");
+
+        if (input in foodData) {
+            resultDiv.textContent = `${input} 是 ${foodData[input]}`;
+            resultDiv.className = "result success";
+            resultDiv.style.display = "block";
+        } else {
+            resultDiv.textContent = `未找到与 "${input}" 相关的记录`;
+            resultDiv.className = "result error";
+            resultDiv.style.display = "block";
+        }
+    }
+</script>
+
+</body>
+</html>

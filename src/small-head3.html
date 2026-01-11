@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网站顶部导航栏</title>
+    <style>
+        /* 全局样式 */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* 顶部导航栏样式 */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #eee;
+            padding: 10px 20px;
+            color: #333;
+        }
+
+        /* Logo和网站名称容器 */
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            width: 45px;
+            height: 45px;
+            margin-right: 10px;
+        }
+
+        .site-name {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* 用户操作区域（搜索框和按钮） */
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        /* 搜索框 */
+        .search-box {
+            padding: 8px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            margin-right: 10px; /* 搜索框和按钮之间的间距 */
+        }
+
+        /* 搜索按钮 */
+        .search-btn {
+            padding: 8px 12px;
+            font-size: 16px;
+            background-color: #f0ad4e; /* 橙色按钮 */
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .search-btn:hover {
+            background-color: #ec971f; /* 悬浮时按钮颜色变化 */
+        }
+
+        /* 用户操作按钮样式 */
+        .user-actions button {
+            margin-left: 15px;
+            padding: 8px 12px;
+            font-size: 16px;
+            background-color: #f0ad4e; /* 橙色按钮 */
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .user-actions button:hover {
+            background-color: #ec971f; /* 悬浮时按钮颜色变化 */
+        }
+
+        /* 模拟用户已登录的样式 */
+        .user-logged-in {
+            display: flex;
+            align-items: center;
+            margin-left: 15px;
+            position: relative; /* 为了放置用户设置和退出按钮 */
+        }
+
+        .user-logged-in img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .user-logged-in span {
+            font-size: 16px;
+            color: #333;
+            font-weight: bold;
+            white-space: nowrap; /* 防止换行 */
+            overflow: hidden;
+            text-overflow: ellipsis; /* 超出部分显示省略号 */
+            max-width: 100px; /* 限制最大宽度 */
+            cursor: pointer; /* 鼠标悬停时指针样式 */
+        }
+
+        /* 下拉菜单样式 */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 50px;
+            /*left: -10px;*/
+            right: 10px;
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            min-width: 120px;
+            z-index: 100;
+        }
+
+        .dropdown-menu button {
+            margin: 0; /*左边没有间隙*/
+            width: 100%;
+            padding: 8px 12px;
+            font-size: 14px;
+            text-align: left;
+            background-color: white;
+            border: none;
+            border-radius: 4px;
+            color: #f0ad4e; /* 橙色按钮 */
+            cursor: pointer;
+        }
+
+        .dropdown-menu button:hover {
+            background-color: #fec;
+            color: #ec971f; /* 悬浮时按钮颜色变化 */
+        }
+
+        /* 退出登录按钮样式 */
+        .logout-btn {
+            color: #e74c3c !important; /* 红色 */
+        }
+
+        .logout-btn:hover {
+            background-color: #fcc !important;
+            color: #c0392b !important; /* 悬浮时按钮颜色变化 */
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="logo-container">
+        <img src="static/logo.png" alt="Logo" class="logo">
+        <span class="site-name">网站名称</span>
+    </div>
+    <div class="user-actions">
+        <input type="text" class="search-box" placeholder="搜索...">
+        <button class="search-btn">搜索</button>
+        <button class="messages-btn">消息</button>
+        <button class="publish-btn">发布</button>
+
+        <!-- 用户已登录的场景 -->
+        <div class="user-logged-in">
+            <img src="static/avatar_march7th.jpg" alt="用户头像"> <!-- 替换成用户头像图片 -->
+            <span>用户名ydtcstyctwudy</span> <!-- 替换成用户的昵称 -->
+            <div class="dropdown-menu">
+                <button class="settings-btn">用户设置</button>
+                <button class="logout-btn">退出登录</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<script>
+    // 获取元素
+    const userSpan = document.querySelector('.user-logged-in span');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+    const userLoggedIn = document.querySelector('.user-logged-in');
+
+    // 点击用户名时显示下拉菜单
+    userSpan.addEventListener('click', (event) => {
+        event.stopPropagation();  // 阻止事件冒泡，防止点击其他地方时菜单被立即隐藏
+        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // 点击页面其他地方时隐藏下拉菜单
+    document.addEventListener('click', () => {
+        dropdownMenu.style.display = 'none';
+    });
+
+    // 阻止点击用户名时隐藏菜单
+    userLoggedIn.addEventListener('click', (event) => {
+        event.stopPropagation();
+    });
+</script>
+</body>
+</html>

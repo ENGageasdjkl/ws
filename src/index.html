@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高血糖科普指南</title>
+    <!--<style>
+        /* 基础样式 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* 主容器 */
+        .container {
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* 顶部栏样式 */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            color: #333;
+        }
+
+        /* LOGO 和标题部分样式 */
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+        }
+
+        .title {
+            display: flex;
+            flex-direction: column;
+            margin-right: 20px;
+        }
+
+        .cn-name {
+            font-size: 60px;
+            font-family: '楷体';
+        }
+
+        .en-name {
+            font-size: 30px;
+            font-family: 'Times New Roman';
+            color: #555;
+        }
+
+        .motto {
+            font-size: 90px;
+            font-family: '楷体';
+            color: #7597ff;
+            align-self: flex-start;
+        }
+
+        /* 导航栏 */
+        /* 导航栏样式 */
+        .navbar-wrapper {
+            background-color: #0056b3;
+            padding: 0 15px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 15px 0;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 20px;
+            padding: 0 15px;
+            position: relative;
+        }
+
+        .navbar a + a::before {
+            content: "";
+            position: absolute;
+            left: -10px; /* 调整到两个链接的中间 */
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 80%;
+            background-color: white;
+        }
+        /* 轮播图样式 */
+        .carousel {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .carousel-images {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        /* 轮播控制按钮 */
+        .carousel-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 30px;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 5px 15px;
+            cursor: pointer;
+        }
+
+        .carousel-control.left {
+            left: 10px;
+        }
+
+        .carousel-control.right {
+            right: 10px;
+        }
+
+        /* 主体内容样式 */
+        .content {
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        /* 页脚样式 */
+        .footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        /* 悬浮导航栏样式 */
+        /* 悬浮导航栏样式 */
+        .sidebar {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            background-color: #0066CC;
+            border-radius: 8px 0 0 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: right 0.3s;
+        }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px; /* 保持正方形的宽度 */
+            height: 50px; /* 保持正方形的高度 */
+            position: relative;
+            background-color: #0066CC; /* 保持与侧边栏一致的蓝色背景 */
+            font-size: 24px; /* 保持图标大小一致 */
+        }
+
+        .sidebar a + a::before {
+            content: "";
+            position: absolute;
+            top: -1px; /* 将分隔线置于两块之间 */
+            left: 0;
+            width: 100%;
+            height: 2px; /* 分隔线高度 */
+            background-color: white;
+        }
+
+        .sidebar a img {
+            width: 24px; /* 图标的宽度 */
+            height: 24px; /* 图标的高度 */
+        }
+
+        /* 修复可能的字体大小、颜色等问题 */
+        .sidebar a span {
+            font-size: inherit; /* 继承父级字体大小 */
+            color: inherit; /* 继承父级颜色 */
+        }
+
+        /* Tooltip for phone with a consistent 30px gap */
+        .tooltip {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: -200px;
+            transform: translateY(-50%);
+            background-color: #0066CC;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            white-space: nowrap;
+            margin-right: 30px; /* 30px gap */
+        }
+
+        .sidebar a:hover .tooltip {
+            display: block;
+        }
+
+        /* 微信二维码 */
+        .tooltip-wechat {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: -120px;
+            transform: translateY(-50%);
+            width: 80px;
+            height: 80px;
+            background-image: url('static/weixin.png'); /* 微信二维码图片路径 */
+            background-size: cover;
+            background-position: center;
+        }
+
+        .sidebar a[data-tooltip="微信"]:hover .tooltip-wechat {
+            display: block;
+        }
+
+        /* 搜索框弹出 */
+        .search-box-container {
+            position: fixed;
+            top: 50%;
+            right: 60px;
+            transform: translateY(-50%);
+            display: none;
+            align-items: center;
+            background-color: #0066CC;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-box-container input {
+            width: 200px;
+            padding: 5px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            outline: none;
+            margin-right: 10px;
+        }
+
+        .search-box-container img {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        /* 收起按钮样式 */
+        .toggle-btn {
+            display: none;
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            background-color: #0066CC;
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px 0 0 8px;
+            cursor: pointer;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .toggle-btn img {
+            width: 30px;
+            height: 30px;
+        }
+    </style>-->
+    <style>
+        /*以下为本文件专属的CSS*/
+        /* 信息区块样式 */
+        .info-sections {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px auto !important;
+        }
+
+        .section {
+            flex: 1;
+            min-width: 45%; /* Each section takes up roughly half the row */
+            background-color: #FFFFFF; /* 白色背景 */
+            padding: 20px;
+            border: 1px solid #E0E0E0; /* 浅灰色边框 */
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .section h2 {
+            font-size: 18px;
+            color: #D87D4B; /* 主色 */
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .more-link {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 14px;
+            color: #D87D4B; /* 主色 */
+            text-decoration: none;
+        }
+
+        .more-link:hover {
+            color: #F1A54D; /* 悬停/高亮色 */
+            text-decoration: none; /* 去掉下划线 */
+        }
+
+        .section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .section ul li {
+            font-size: 14px;
+            color: #3E2C1C; /* 深棕色 */
+            margin-bottom: 10px;
+            line-height: 1.5;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .section ul li .date {
+            color: #C58B4B; /* 浅金橙色 */
+            font-size: 12px;
+        }
+
+        .section ul li:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
+    <!--这是通用CSS-->
+    <link rel="stylesheet" href="static/style.css">
+    <script>
+        // 轮播图脚本
+        let currentIndex = 0;
+        function showSlide(index) {
+            const slides = document.querySelector('.carousel-images');
+            const totalSlides = slides.children.length;
+            if (index >= totalSlides) {
+                currentIndex = 0;
+            } else if (index < 0) {
+                currentIndex = totalSlides - 1;
+            } else {
+                currentIndex = index;
+            }
+            slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
+
+        function nextSlide() {
+            showSlide(currentIndex + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentIndex - 1);
+        }
+
+        setInterval(nextSlide, 3000); // 自动轮播每3秒切换一次
+
+        // Show/hide search box on hover
+        function toggleSearchBox(show) {
+            const searchBoxContainer = document.getElementById("search-box-container");
+            searchBoxContainer.style.display = show ? "flex" : "none";
+        }
+
+        // Toggle sidebar visibility
+        function toggleSidebar() {
+            const sidebar = document.querySelector(".sidebar");
+            const toggleBtn = document.querySelector(".toggle-btn");
+            if (sidebar.style.display === "none") {
+                sidebar.style.display = "flex";
+                toggleBtn.style.display = "none";
+            } else {
+                sidebar.style.display = "none";
+                toggleBtn.style.display = "block";
+            }
+        }
+    </script>
+</head>
+<body>
+
+<!-- 主容器 -->
+<div class="container">
+
+    <!-- 顶部栏 -->
+    <div class="top-bar">
+        <div class="logo">
+            <img src="static/logo.png" alt="LOGO"> <!-- 替换为实际的LOGO图片路径 -->
+            <div class="title">
+                <div class="cn-name">高血糖科普指南</div>
+                <div class="en-name">Hyperglycemia Knowledge Guide</div>
+            </div>
+        </div>
+        <div class="motto">珍爱生命</div>
+    </div>
+
+</div>
+
+<!-- 导航栏（横向铺满屏幕） -->
+<div class="navbar-wrapper">
+    <div class="navbar container">
+        <a href="index.html">首页</a>
+        <a href="consultation.html">医疗帮助</a>
+        <!--<a href="complications.html">并发症</a>-->
+        <!--<a href="prevention.html">预防</a>
+        <a href="cases.html">康复案例</a>-->
+        <a href="LoseSugarOrNot4.html">饮食建议</a>
+        <a href="community.html">交流社区</a>
+        <a href="products.html">推荐产品</a>
+        <!--<a href="contact.html">联系我们</a>-->
+    </div>
+</div>
+
+<!-- 主容器 -->
+<div class="container">
+
+    <!-- 轮播图 -->
+    <div class="carousel">
+        <div class="carousel-images">
+            <img src="static/hospital1.png" alt="Slide 1"> <!-- 替换为实际图片路径 -->
+            <img src="static/hospital2.png" alt="Slide 2">
+            <img src="static/hospital3.png" alt="Slide 3">
+        </div>
+        <span class="carousel-control left" onclick="prevSlide()">&#10094;</span>
+        <span class="carousel-control right" onclick="nextSlide()">&#10095;</span>
+    </div>
+
+    <!-- 主体内容 -->
+    <div class="content">
+        <h1>欢迎来到高血糖科普指南</h1>
+        <p>我们致力于提供专业的高血糖知识，帮助您更好地管理健康。</p>
+    </div>
+
+    <!-- 信息区块 -->
+    <div class="container info-sections">
+        <!-- 最新动态 -->
+        <div class="section latest-news">
+            <h2>最新动态</h2>
+            <a href="#" class="more-link">更多>></a>
+            <ul>
+                <li><span>壁报 | 2024cds: 电子壁报提交11月8日截止，请...</span><span class="date">2024-11-05</span></li>
+                <li><span>注册优惠今日24时截止 | 中华医学会糖尿病学会二十六...</span><span class="date">2024-11-04</span></li>
+                <li><span>征文投稿今晚24:00截止 | 中华医学会糖尿病学会二十...</span><span class="date">2024-08-31</span></li>
+            </ul>
+        </div>
+
+        <!-- 专家讲座 -->
+        <div class="section expert-lectures">
+            <h2>专家讲座</h2>
+            <a href="#" class="more-link">更多>></a>
+            <ul>
+                <li><span>[科普] 半岁宝宝患上糖尿病？！医生都惊呆了！</span><span class="date">2023-05-17</span></li>
+                <li><span>CDS2019 | 郭立新教授：运动是良医</span><span class="date">2019-10-15</span></li>
+                <li><span>[病例] 妊娠后期胰岛素抗性合并妊娠性甲状腺功能...</span><span class="date">2019-07-06</span></li>
+            </ul>
+        </div>
+
+        <!-- 学术活动 -->
+        <div class="section academic-activities">
+            <h2>学术活动</h2>
+            <a href="#" class="more-link">更多>></a>
+            <ul>
+                <li><span>[会议通知] 中华医学会糖尿病学会第二十六次学术会议</span><span class="date">2024-07-05</span></li>
+                <li><span>中华医学会糖尿病学分会第十九次学术会议</span><span class="date">2024-07-05</span></li>
+                <li><span>中华医学会第十三届中青年糖尿病医师学术研讨...</span><span class="date">2021-07-09</span></li>
+            </ul>
+        </div>
+
+        <!-- 专业指南 -->
+        <div class="section professional-guidelines">
+            <h2>专业指南</h2>
+            <a href="#" class="more-link">更多>></a>
+            <ul>
+                <li><span>中国成人2型糖尿病患者血糖控制目标达标策略专家共识...</span><span class="date">2021-01-03</span></li>
+                <li><span>中国糖尿病高脂防治指南（2021年版）</span><span class="date">2021-01-03</span></li>
+                <li><span>中国糖尿病监测应用指南（2021年版）</span><span class="date">2021-01-03</span></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <p>&copy; 2024 高血糖科普指南. All rights reserved.</p>
+</footer>
+
+<!-- 悬浮导航栏 -->
+<div class="sidebar">
+    <a href="javascript:void(0);" data-tooltip="微信">
+        <img src="static/svg/wechat.svg" alt="微信">
+        <span class="tooltip-wechat"></span>
+    </a>
+
+    <a href=" " data-tooltip="手机">
+        <img src="static/svg/phone.svg" alt="手机">
+        <span class="tooltip">在线体验手机版</span>
+    </a >
+
+    <!--<a href="tel:13191698965" data-tooltip="电话">
+        <img src="static/svg/telephone.svg" alt="电话">
+        <span class="tooltip">13191698965</span>
+    </a>-->
+    <a href="javascript:void(0);" onmouseover="toggleSearchBox(true)" onmouseout="toggleSearchBox(false)" data-tooltip="搜索">
+        <img src="static/svg/search.svg" alt="搜索">
+    </a>
+    <a href="#top" data-tooltip="回到顶部">
+        <img src="static/svg/up.svg" alt="回到顶部">
+    </a>
+    <a href="javascript:void(0);" onclick="toggleSidebar()" data-tooltip="收起">
+        <img src="static/svg/shouqi.svg" alt="收起">
+    </a>
+</div>
+
+<!-- 展开按钮 -->
+<div class="toggle-btn" onclick="toggleSidebar()">
+    <img src="static/svg/zhankai.svg" alt="展开"> <!-- 展开图标路径 -->
+</div>
+
+<!-- 搜索框 -->
+<div id="search-box-container" class="search-box-container" onmouseover="toggleSearchBox(true)" onmouseout="toggleSearchBox(false)">
+    <input type="text" placeholder="请输入搜索内容">
+    <img src="static/svg/sousuo2.svg" alt="执行搜索"> <!-- 执行搜索图标 -->
+</div>
+
+</body>
+</html>

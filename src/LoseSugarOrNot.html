@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>糖尿病之“8吃8不吃”</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFE5CC;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            color: #333;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: #333;
+            color: #FFF;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            height: 100%;
+            overflow-y: auto;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar ul li {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .sidebar ul li a {
+            color: #FFF;
+            text-decoration: none;
+            font-size: 16px;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .sidebar ul li a:hover {
+            background-color: #575757;
+        }
+        .container {
+            margin-left: 220px; /* Adjust to the sidebar width */
+            padding: 20px;
+            width: calc(100% - 220px);
+        }
+        .header {
+            text-align: center;
+            font-size: 26px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .category {
+            display: none; /* Default hidden */
+        }
+        .category.active {
+            display: block;
+        }
+        .columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .column {
+            flex: 1;
+            min-width: 280px;
+            background-color: #FFF;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .section-header.green {
+            background-color: #98D091;
+            color: #333;
+        }
+        .section-header.red {
+            background-color: #E3A6A1;
+            color: #333;
+        }
+        .food-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: space-around;
+        }
+        .food-item {
+            width: 45%;
+            text-align: center;
+        }
+        .food-item img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .food-item p {
+            font-size: 14px;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <ul>
+        <li><a href="#" onclick="switchCategory('grains')">主食</a></li>
+        <li><a href="#" onclick="switchCategory('fruits')">蔬菜水果</a></li>
+        <li><a href="#" onclick="switchCategory('meat')">肉类</a></li>
+    </ul>
+</div>
+
+<div class="container">
+    <div class="header">糖尿病之“8吃8不吃”</div>
+
+    <!-- 主食 -->
+    <div id="grains" class="category">
+        <div class="columns">
+            <div class="column">
+                <div class="section-header green">主食 - 控糖 ✓</div>
+                <div class="food-grid">
+                    <div class="food-item">
+                        <img src="placeholder.jpg" alt="荞麦">
+                        <p>荞麦</p>
+                    </div>
+                    <div class="food-item">
+                        <img src="placeholder.jpg" alt="藜麦">
+                        <p>藜麦</p>
+                    </div>
+                    <div class="food-item">
+                        <img src="placeholder.jpg" alt="红豆">
+                        <p>红豆</p>
+                    </div>
+                    <div class="food-item">
+                        <img src="placeholder.jpg" alt="绿豆">
+                        <p>绿豆</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="section-header red">主食 - 升糖 ✕</div>
+                <div class="food-grid">
+                    <div class="food-item">
+                        <img src="placeholder.jpg" alt="白米饭">
+                        <p>白米饭</p>
+                    </div>
+                    <div class="food-item">
+                        <img src="placeholder.jpg" alt="白面条">
+                        <p>白面条</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 蔬菜水果 -->
+    <div id="fruits" class="category">
+        <div class="columns">
+            <div class="column">
+                <div class="section-header green">蔬菜水果 - 控糖 ✓</div>
+                <div class="food-grid">
+                    <div class="food-item">
+                        <img src="placeholder.jpg" alt="黄瓜">
+                        <p>黄瓜</p>
+                    </div>
+                    <div class="food-item">
+                        <img src="placeholder.jpg" alt="西红柿">
+                        <p>西红柿</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="section-header red">蔬菜水果 - 升糖 ✕</div>
+                <div class="food-grid">
+                    <div class="food-item">
+                        <img src="placeholder.jpg" alt="香蕉">
+                        <p>香蕉</p>
+                    </div>
+                    <div class="food-item">
+                        <img src="placeholder.jpg" alt="葡萄">
+                        <p>葡萄</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 肉类 -->
+    <div id="meat" class="category">
+        <div class="columns">
+            <div class="column">
+                <div class="section-header green">肉类 - 控糖 ✓</div>
+                <div class="food-grid">
+                    <div class="food-item">
+                        <img src="placeholder.jpg" alt="鸡肉">
+                        <p>鸡肉</p>
+                    </div>
+                    <div class="food-item">
+                        <img src="placeholder.jpg" alt="鱼肉">
+                        <p>鱼肉</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="section-header red">肉类 - 升糖 ✕</div>
+                <div class="food-grid">
+                    <div class="food-item">
+                        <img src="placeholder.jpg" alt="肥肉">
+                        <p>肥肉</p>
+                    </div>
+                    <div class="food-item">
+                        <img src="placeholder.jpg" alt="加工肉类">
+                        <p>加工肉类</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function switchCategory(category) {
+        document.querySelectorAll('.category').forEach(el => {
+            el.classList.remove('active');
+        });
+        document.getElementById(category).classList.add('active');
+    }
+</script>
+
+</body>
+</html>

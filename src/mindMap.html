@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<!-- saved from url=(0077)http://localhost:63342/%E8%AF%8A%E7%96%97%E7%B3%BB%E7%BB%9F/tangniaobing.html -->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="./疾病_files/bootstrap.min.css" rel="stylesheet">
+    <script src="疾病_files/vue.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,  minimum-scale=1, maximum-scale=1,user-scalable=no">
+    <title>疾病</title>
+    <meta name="viewport" content="width=1250">
+    <!--<script src="./疾病_files/jquery-1.10.2.min.js.下载"></script>
+    <script src="./疾病_files/echarts.min.js.下载"></script>-->
+    <script src="疾病_files/echarts.min(1).js"></script>
+    <!--<style>
+        /* 基础样式 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* 主容器 */
+        .container {
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* 顶部栏样式 */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            color: #333;
+        }
+
+        /* LOGO 和标题部分样式 */
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+        }
+
+        .title {
+            display: flex;
+            flex-direction: column;
+            margin-right: 20px;
+        }
+
+        .cn-name {
+            font-size: 60px;
+            font-family: '楷体', cursive;
+        }
+
+        .en-name {
+            font-size: 30px;
+            font-family: 'Times New Roman', serif;
+            color: #555;
+        }
+
+        .motto {
+            font-size: 90px;
+            font-family: '楷体', cursive;
+            color: rgb(255, 204, 153);
+            align-self: flex-start;
+        }
+
+        /* 导航栏 */
+        /* 导航栏样式 */
+        .navbar-wrapper {
+            background-color: rgb(234, 127, 67);
+            padding: 0 15px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1380px;
+            margin: 0 auto;
+            padding: 15px 0;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 20px;
+            padding: 0 15px;
+            position: relative;
+        }
+
+        .navbar a + a::before {
+            content: "";
+            position: absolute;
+            left: -10px; /* 调整到两个链接的中间 */
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 80%;
+            background-color: white;
+        }
+
+        /* 轮播图样式 */
+        .carousel {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .carousel-images {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        /* 轮播控制按钮 */
+        .carousel-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 30px;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 5px 15px;
+            cursor: pointer;
+        }
+
+        .carousel-control.left {
+            left: 10px;
+        }
+
+        .carousel-control.right {
+            right: 10px;
+        }
+
+        /* 主体内容样式 */
+        .content {
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        /* 页脚样式 */
+        .footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        /* 悬浮导航栏样式 */
+        /* 悬浮导航栏样式 */
+        .sidebar {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            background-color: #0066CC;
+            border-radius: 8px 0 0 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: right 0.3s;
+        }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px; /* 保持正方形的宽度 */
+            height: 50px; /* 保持正方形的高度 */
+            position: relative;
+            background-color: rgb(234, 127, 67);; /* 保持与侧边栏一致的蓝色背景 */
+            font-size: 24px; /* 保持图标大小一致 */
+        }
+
+        .sidebar a + a::before {
+            content: "";
+            position: absolute;
+            top: -1px; /* 将分隔线置于两块之间 */
+            left: 0;
+            width: 100%;
+            height: 2px; /* 分隔线高度 */
+            background-color: white;
+        }
+
+        .sidebar a img {
+            width: 24px; /* 图标的宽度 */
+            height: 24px; /* 图标的高度 */
+        }
+
+        /* 修复可能的字体大小、颜色等问题 */
+        .sidebar a span {
+            font-size: inherit; /* 继承父级字体大小 */
+            color: inherit; /* 继承父级颜色 */
+        }
+
+        /* Tooltip for phone with a consistent 30px gap */
+        .tooltip {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: -200px;
+            transform: translateY(-50%);
+            background-color: rgb(234, 127, 67);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            white-space: nowrap;
+            margin-right: 30px; /* 30px gap */
+        }
+
+        .sidebar a:hover .tooltip {
+            display: block;
+        }
+
+        /* 微信二维码 */
+        .tooltip-wechat {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: -120px;
+            transform: translateY(-50%);
+            width: 80px;
+            height: 80px;
+            background-image: url('static/weixin.png'); /* 微信二维码图片路径 */
+            background-size: cover;
+            background-position: center;
+        }
+
+        .sidebar a[data-tooltip="微信"]:hover .tooltip-wechat {
+            display: block;
+        }
+
+        /* 搜索框弹出 */
+        .search-box-container {
+            position: fixed;
+            top: 50%;
+            right: 60px;
+            transform: translateY(-50%);
+            display: none;
+            align-items: center;
+            background-color: rgb(234, 127, 67);
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-box-container input {
+            width: 200px;
+            padding: 5px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            outline: none;
+            margin-right: 10px;
+        }
+
+        .search-box-container img {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        /* 收起按钮样式 */
+        .toggle-btn {
+            display: none;
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            background-color: rgb(234, 127, 67);
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px 0 0 8px;
+            cursor: pointer;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .toggle-btn img {
+            width: 30px;
+            height: 30px;
+        }
+    </style>-->
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="static/echarts-tooltip.css">
+    <script>
+        // 轮播图脚本
+        let currentIndex = 0;
+
+        function showSlide(index) {
+            const slides = document.querySelector('.carousel-images');
+            const totalSlides = slides.children.length;
+            if (index >= totalSlides) {
+                currentIndex = 0;
+            } else if (index < 0) {
+                currentIndex = totalSlides - 1;
+            } else {
+                currentIndex = index;
+            }
+            slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
+
+        function nextSlide() {
+            showSlide(currentIndex + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentIndex - 1);
+        }
+
+        setInterval(nextSlide, 3000); // 自动轮播每3秒切换一次
+
+        // Show/hide search box on hover
+        function toggleSearchBox(show) {
+            const searchBoxContainer = document.getElementById("search-box-container");
+            searchBoxContainer.style.display = show ? "flex" : "none";
+        }
+
+        // Toggle sidebar visibility
+        function toggleSidebar() {
+            const sidebar = document.querySelector(".sidebar");
+            const toggleBtn = document.querySelector(".toggle-btn");
+            if (sidebar.style.display === "none") {
+                sidebar.style.display = "flex";
+                toggleBtn.style.display = "none";
+            } else {
+                sidebar.style.display = "none";
+                toggleBtn.style.display = "block";
+            }
+        }
+    </script>
+    <link rel="stylesheet" type="text/css" href="./疾病_files/navigation.css">
+    <!--
+        <style type="text/css">
+            html, body, #main { height: 100%; width: 100%; margin: 0; padding: 0 }
+            .nav{margin-left: auto; margin-right: auto; width:50px  }
+        </style>
+    -->
+
+
+</head>
+<body>
+
+<!-- 主容器 -->
+<div class="container">
+
+    <!-- 顶部栏 -->
+    <div class="top-bar">
+        <div class="logo">
+            <img src="static/logo.png" alt="LOGO"> <!-- 替换为实际的LOGO图片路径 -->
+            <div class="title">
+                <div class="cn-name">高血糖科普指南</div>
+                <div class="en-name">Hyperglycemia Knowledge Guide</div>
+            </div>
+        </div>
+        <div class="motto">珍爱生命</div>
+    </div>
+
+</div>
+
+<!-- 导航栏（横向铺满屏幕） -->
+<div class="navbar-wrapper">
+    <div class="navbar container">
+        <a href="index.html">首页</a>
+        <a href="consultation.html">去看病</a>
+        <!--<a href="complications.html">并发症</a>-->
+        <!--<a href="prevention.html">预防</a>
+        <a href="cases.html">康复案例</a>-->
+        <a href="LoseSugarOrNot4.html">饮食建议</a>
+        <a href="community.html">交流社区</a>
+        <a href="products.html">推荐产品</a>
+        <!--<a href="contact.html">联系我们</a>-->
+        <a href="https://map.baidu.com/dir/%E8%B5%B7%E7%82%B9/%E7%BB%88%E7%82%B9/">医院导航</a>
+    </div>
+</div>
+
+<!-- 主容器 -->
+<div class="container">
+    <div id="custom-tooltip"></div>
+
+    <!--  border-radius:圆角  -->
+    <div id="main"
+         style="margin: 13px auto; width: 1380px; height: calc(-230px + 120vh); overflow: hidden; background-color: rgb(255, 255, 251); border: 1px solid rgb(19, 12, 14); border-radius: 10px; -webkit-tap-highlight-color: transparent; user-select: none; position: relative;"
+         _echarts_instance_="ec_1730292958848">
+        <div style="position: relative; overflow: hidden; width: 1379px; height: 848px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;">
+            <canvas data-zr-dom-id="zr_0" width="2275" height="1399"
+                    style="position: absolute; left: 0px; top: 0px; width: 1379px; height: 848px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+        </div>
+        <div style="position: absolute; display: none; border-style: solid; white-space: nowrap; z-index: 9999999; transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1), top 0.4s cubic-bezier(0.23, 1, 0.32, 1); background-color: rgba(50, 50, 50, 0.7); border-width: 0px; border-color: rgb(51, 51, 51); border-radius: 4px; color: rgb(255, 255, 255); font: 10px / 15px &quot;Microsoft YaHei&quot;; padding: 5px; left: 5px; top: 8px; pointer-events: none;"></div>
+    </div>
+
+
+    <script type="text/javascript">
+        var myChart = echarts.init(document.getElementById('main'));
+        /*图例标签（可配置颜色）*/
+        var categories = [
+            {name: "疾病简介", itemStyle: {color: '#F6E1D3'}},
+            {name: "疾病治疗", itemStyle: {color: '#D1C5B2'}},
+            {name: "疾病诊断", itemStyle: {color: '#E2D4E2'}},
+            {name: "生活方式", itemStyle: {color: '#B7D8D5'}},
+            {name: "疾病预防", itemStyle: {color: '#F4C7C6'}},
+            {name: "疾病症状", itemStyle: {color: '#D6E0F0'}},
+            {name: "患病原因", itemStyle: {color: '#F1D3B3'}},
+            {name: "关联疾病", itemStyle: {color: '#F9E8B0'}},
+            {name: "医院医生推荐", itemStyle: {color: '#E9C7D8'}}
+        ];
+
+        option = {
+            //配置内容提示框
+            tooltip: {
+                trigger: 'item',
+                formatter: function (x) {
+                    // 获取自定义tooltip的div
+                    var tooltipDiv = document.getElementById('custom-tooltip');
+
+                    // 设置tooltip的HTML内容
+                    tooltipDiv.innerHTML = `
+                    <div class="info-box">
+                        <div class="title-container">
+                            <h3>${x.data.category}</h3>
+                        </div>
+                        <div class="inner-border">
+                            <p>${x.data.des}</p>
+                        </div>
+                    </div>
+                `;
+
+                    // 显示tooltip
+                    tooltipDiv.style.display = 'block';
+
+                    // 返回空字符串，以禁用ECharts默认tooltip
+                    return '';
+                },
+                position: [5, 8], // 可以调整位置
+            },
+
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: {
+                        show: true
+                    },
+                    restore: {
+                        show: true
+                    },
+                    saveAsImage: {
+                        show: true
+                    }
+                },
+            },
+
+            legend: [{
+                show: true,
+                data: categories.map(function (a) {
+                    return a.name;
+                }),
+                selected: {
+                    疾病简介: true,
+                    疾病治疗: true,
+                    疾病诊断: true,
+                    生活方式: true,
+                    疾病预防: true,
+                    疾病症状: true,
+                    患病原因: true,
+                    关联疾病: true,
+                    医院医生推荐: true,
+
+                }
+            }],
+
+            series: [
+                {
+                    type: 'graph',
+                    layout: 'force',
+                    //图标大小
+                    symbolSize: 55,
+                    //图形可以拖拽，缩放
+                    roam: true,
+                    //设置箭头
+                    edgeSymbol: ['circle', 'arrow'],
+                    //箭头的大小
+                    edgeSymbolSize: [4, 10],
+
+                    //                  edgeLabel: {
+                    //                    normal: {
+                    //                      textStyle: {
+                    //                        fontSize: 0
+                    //                  }
+                    //            }
+                    //      },
+
+                    force: {
+                        repulsion: 1000,
+                        gravity: 0.60,
+                        edgeLength: [1, 100]
+                    },
+                    //每个节点的拖拉
+                    draggable: true,
+                    //显示与之相邻的所有节点
+                    focusNodeAdjacency: true,
+
+                    itemStyle: {
+                        normal: {
+                            //          color: '#4b435b',
+                            //边框颜色
+                            //   borderColor : 'rgba(255,251,0,0.5)',
+                            borderWidth: 2,
+                            opacity: 0.99
+                        }
+                    },
+                    lineStyle: {
+                        normal: {
+                            width: 2
+                        }
+                    },
+
+                    edgeLabel: {
+                        normal: {
+                            //边上关系注解，“疾病部位”，“所属科室”
+                            show: true,
+                            //显示边上关系
+                            formatter: function (x) {
+                                return x.data.name;
+                            }
+                        }
+                    },
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'inside',
+                            textStyle: {
+                                //文字颜色
+                                color: '#130c0e',
+                                fontSize: 13
+                            }
+                        }
+                    },
+                    data: [
+
+                        {
+                            "id": "13012", "name": "内分泌科",
+                            itemStyle: {
+                                normal: {
+                                    color: '#66A9C9'
+                                }
+                            }
+                        }
+                        , {
+                            "id": "58", "name": "糖尿病",
+                            itemStyle: {
+                                normal: {
+                                    color: '#abc88b'
+                                }
+                            }
+                        }
+                        , {
+                            category: '疾病简介', itemStyle:
+                                {
+                                    normal:
+                                        {
+                                            color: '#F6E1D3'
+                                        }
+                                }, "id": "10058", "name": "疾病简介",
+                            des: "糖尿病是一种因体内糖的调节和利用问题导致血糖异常升高的疾病，常见症状包括多饮、多尿、多食、体重减少。多数患者早期无明显症状，常在检查时发现。糖尿病可引发多种并发症，影响眼睛、肾脏、神经等。治疗方法包括合理饮食、运动、口服降糖药、胰岛素等，但大多数糖尿病无法治愈，需要终身管理。部分患者通过生活方式改变可逆转，但需保持警惕。糖尿病在我国普遍存在，且逐年增多。"
+                        }
+                        , {
+                            category: '疾病治疗', itemStyle:
+                                {
+                                    normal:
+                                        {
+                                            color: '#D1C5B2'
+                                        }
+                                }, "id": "20058", "name": "疾病治疗",
+                            des: "糖尿病是一种慢性疾病，虽然部分患者无明显症状，但未治疗可能引发严重并发症，影响生活质量。治疗糖尿病需要综合措施，包括饮食控制、运动锻炼、药物治疗、血糖监测及自我学习。患者应根据医生建议，合理选择口服药物或胰岛素。口服药物种类繁多，如二甲双胍、格列美脲等，不同药物的服用时间和方式各有不同。胰岛素治疗并不代表糖尿病晚期，而是根据病情需要进行的调整。\n" +
+                                "\n<br><br>" +
+                                "运动有助于改善心肺功能、增强肌肉力量，控制血糖。糖尿病患者应避免盲目节食，合理安排饮食以维持稳定血糖。控制血糖是关键，必要时应使用胰岛素，且需根据医生建议调整剂量。为避免低血糖，患者应按时进餐并避免自行调整药物。若出现空腹血糖偏高，需及时就医，医生会根据具体情况调整治疗方案。"
+                        }
+                        , {
+                            category: '疾病诊断', "id": "30058", "name": "疾病诊断", itemStyle:
+                                {
+                                    normal:
+                                        {
+                                            color: '#E2D4E2'
+                                        }
+                                },
+                            des: "诊断糖尿病不能仅凭尿糖阳性，因其他因素如大量进食高糖食物或肾病也可导致尿糖阳性。糖尿病的确诊需通过血糖和糖化血红蛋白检测。诊断标准包括：随机血糖≥11.1 mmol/L、空腹血糖≥7.0 mmol/L、OGTT 2小时血糖≥11.1 mmol/L、糖化血红蛋白＞6.5%。无症状的患者需复查以确诊。OGTT是口服葡萄糖耐量试验，用于诊断糖尿病。糖尿病前期（糖调节受损）血糖异常但未达糖尿病标准，通过改善生活方式可防止病情进展。常见的血糖检测方法包括静脉血糖、指尖血糖、糖化血红蛋白及动态血糖监测。糖化血红蛋白反映近2-3个月的平均血糖水平，常用于评估治疗效果。糖尿病患者还需定期检查胰岛素功能，确保疾病得到有效管理。"
+                        }
+                        , {
+                            "id": "40058",
+                            "name": "生活方式",
+                            "category": "生活方式",
+                            "itemStyle": {normal: {color: '#B7D8D5'}},
+                            "des": "糖尿病患者的饮食不只是避免甜食，因为许多食物（如蛋白质和脂肪）也会转化为葡萄糖。饮食重点应选择营养价值高、能缓慢升高血糖的食物，并合理分配餐次和总热量。虽然没有“降糖食品”，但少量使用代糖（如木糖醇）是可以的。主食可选择杂粮饭和粗粮，避免高升糖指数的食物如面条和粥。水果中含糖量较高，糖尿病患者可适量食用低升糖水果，如苹果、柚子等。茶和黑咖啡并未证实能降血糖，患者需避免误信。运动前应咨询医生，避免空腹运动，并在运动时准备应急食物以防低血糖。日常需监测血糖，记录数据，并定期复查，至少每3个月一次。糖尿病患者需了解疾病知识，以便更好地控制血糖和生活质量。男性患者若有勃起功能障碍，应控制血糖、戒烟、减肥，并在医生指导下用药。糖尿病患者可以在血糖控制好的情况下怀孕，但孕期要严格控制血糖，并在医生指导下使用胰岛素。"
+                        }
+                        , {
+                            "id": "50058",
+                            "name": "疾病预防",
+                            "category": "疾病预防",
+                            "itemStyle": {normal: {color: '#F4C7C6'}},
+                            "des": "预防糖尿病如何预防？\</Br>糖尿病的发病与遗传和生活方式密切相关。\</Br>对于遗传造成的不利因素，通过自身努力很难消除。但我们可以通过尽量改善生活方式，来降低糖尿病的发病风险：\</Br>控制饮食：避免暴饮暴食、大鱼大肉；主食不要只吃精米白面，用杂粮、杂豆、薯类、南瓜等替代部分主食；烹饪时注意少放盐、少用含盐高的调料；少吃动物油，用植物油代替动物油，少吃油炸食品。\</Br>适量运动：避免久坐的生活方式。每天进行 30 分钟左右的运动，以有氧运动和力量运动相结合，强度适中不过量，对于预防糖尿病也有帮助。\</Br>控制体重：通过控制饮食、适量运动，维持苗条的身材，避免肥胖。\</Br>戒烟，尽量不喝酒。\</Br>定期体检，监测血糖，发现糖调节受损时及时干预，避免发展为糖尿病。\</Br>"
+                        }
+                        , {
+                            "id": "60058",
+                            "name": "疾病症状",
+                            "category": "疾病症状",
+                            "itemStyle": {normal: {color: '#D6E0F0'}},
+                            "des": "糖尿病的典型症状包括“三多一少”：多尿、多饮、多食和体重下降。高血糖导致尿糖增多，引起多尿和口渴，身体缺水感使饮水增多。因营养利用障碍，身体能量不足，导致多食和体重下降。其他常见症状有疲乏和视力模糊。疲乏源于无法有效利用食物中的能量；视力模糊由血糖波动引起晶状体屈光度变化，长期可能导致视网膜病变。糖尿病并发症分为急性和慢性。急性并发症包括酮症酸中毒和高血糖高渗状态。慢性并发症包括糖尿病视网膜病变、糖尿病肾病、动脉粥样硬化、糖尿病神经病变等。糖尿病患者易感染，特别是皮肤黏膜感染和糖尿病大疱病，严重者可引发糖尿病足，甚至导致截肢。"
+                        }
+                        , {
+                            "id": "70058",
+                            "name": "患病原因",
+                            "category": "患病原因",
+                            "itemStyle": {normal: {color: '#F1D3B3'}},
+                            "des": "糖尿病的形成与胰岛素的分泌不足或胰岛素作用减弱（胰岛素抵抗）有关。正常情况下，进食后，血糖升高刺激胰岛素分泌，胰岛素帮助降低血糖并维持正常水平。当胰岛素不足或其作用受阻时，血糖升高，导致糖尿病。1 型糖尿病通常由胰岛素分泌不足引起，而2型糖尿病则既涉及胰岛素分泌不足，也涉及胰岛素抵抗。糖尿病的发生与生活习惯密切相关，酗酒、肥胖、暴饮暴食等不良习惯会加重血糖调节的负担。尽管如此，不是所有爱吃的人都会得糖尿病，但不良饮食习惯确实增加患病风险。2型糖尿病多见于40岁以上人群，尤其是肥胖、久坐不动、有家族史或患有高血压、高血脂等疾病的人。未成年人中，超重或肥胖的孩子，尤其是有家族糖尿病史或胰岛素抵抗相关问题的人群，也容易患病。糖尿病有一定的遗传倾向，但并非必然发生。"
+                        }
+                        , {
+                            category: '关联疾病', "id": "80058", "name": "血糖", itemStyle:
+                                {
+                                    normal:
+                                        {
+                                            color: '#F9E8B0'
+                                        }
+                                }
+                        }
+                        , {
+                            category: '关联疾病', "id": "90058", "name": "末梢神经炎", itemStyle:
+                                {
+                                    normal:
+                                        {
+                                            color: '#F9E8B0'
+                                        }
+                                }
+                        }
+                        , {
+                            category: '关联疾病', "id": "100058", "name": "特纳综合征", itemStyle:
+                                {
+                                    normal:
+                                        {
+                                            color: '#F9E8B0'
+                                        }
+                                }
+                        }
+                        , {
+                            category: '医院医生推荐',
+                            "id": "110058",
+                            "name": "北京大学第一医院 内分泌内科杨建梅主任医师",
+                            itemStyle:
+                                {
+                                    normal:
+                                        {
+                                            color: '#E9C7D8'
+                                        }
+                                }
+                        }
+                        , {
+                            category: '医院医生推荐',
+                            "id": "120058",
+                            "name": "中国中医科学院西苑医院 内分泌科夏城东主任医师",
+                            itemStyle:
+                                {
+                                    normal:
+                                        {
+                                            color: '#E9C7D8'
+                                        }
+                                }
+                        }
+                        ,
+
+
+                    ],
+
+
+                    links: [
+
+                        {
+                            source: "58", target: "10058", name: '简介'
+                        },
+                        {
+                            source: "58", target: "20058", name: '治疗方式'
+                        },
+                        {
+                            source: "58", target: "30058", name: '诊断'
+                        }, {
+                            source: "58", target: "40058", name: '生活方式'
+                        }, {
+                            source: "58", target: "50058", name: '疾病预防'
+                        }, {
+                            source: "58", target: "60058", name: '疾病症状'
+                        }, {
+                            source: "58", target: "70058", name: '患病原因'
+                        }, {
+                            source: "58", target: "80058", name: '关联疾病'
+                        }, {
+                            source: "58", target: "90058", name: '关联疾病'
+                        }, {
+                            source: "58", target: "100058", name: '关联疾病'
+                        }, {
+                            source: "58", target: "110058", name: '医院医生'
+                        }, {
+                            source: "58", target: "120058", name: '医院医生'
+                        },
+                        {
+                            source: "13012", target: "58", name: '所属科室'
+                        },
+
+
+                    ],
+                    categories: categories,
+                }
+            ]
+        };
+        myChart.setOption(option);
+        // 监听mousemove事件来动态显示和定位自定义tooltip
+        myChart.on('mousemove', function (event) {
+            var tooltipDiv = document.getElementById('custom-tooltip');
+            var point = event.offsetX; // 获取鼠标相对位置
+            var tooltipWidth = tooltipDiv.offsetWidth; // 获取tooltip宽度
+            var tooltipHeight = tooltipDiv.offsetHeight; // 获取tooltip高度
+
+            // 设置tooltip的相对位置
+            tooltipDiv.style.left = point - tooltipWidth / 2 + 'px'; // 在x轴上居中
+            tooltipDiv.style.top = event.offsetY - tooltipHeight - 10 + 'px'; // 在y轴上方
+
+            // 显示tooltip
+            tooltipDiv.style.display = 'block';
+        });
+
+        // 监听mouseout事件来隐藏自定义tooltip
+        myChart.on('mouseout', function () {
+            document.getElementById('custom-tooltip').style.display = 'none';
+        });
+    </script>
+
+
+    <!--已删除多余的插件-->
+</div>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <p>&copy; 2024 高血糖科普指南. All rights reserved.</p>
+</footer>
+
+<!-- 悬浮导航栏 -->
+<div class="sidebar">
+    <a href="javascript:void(0);" data-tooltip="微信">
+        <img src="static/svg/wechat.svg" alt="微信">
+        <span class="tooltip-wechat"></span>
+    </a>
+
+    <a href=" " data-tooltip="手机">
+        <img src="static/svg/phone.svg" alt="手机">
+        <span class="tooltip">在线体验手机版</span>
+    </a>
+
+    <!--<a href="tel:13191698965" data-tooltip="电话">
+        <img src="static/svg/telephone.svg" alt="电话">
+        <span class="tooltip">13191698965</span>
+    </a>-->
+    <a href="javascript:void(0);" onmouseover="toggleSearchBox(true)" onmouseout="toggleSearchBox(false)"
+       data-tooltip="搜索">
+        <img src="static/svg/search.svg" alt="搜索">
+    </a>
+    <a href="#top" data-tooltip="回到顶部">
+        <img src="static/svg/up.svg" alt="回到顶部">
+    </a>
+    <a href="javascript:void(0);" onclick="toggleSidebar()" data-tooltip="收起">
+        <img src="static/svg/shouqi.svg" alt="收起">
+    </a>
+</div>
+
+<!-- 展开按钮 -->
+<div class="toggle-btn" onclick="toggleSidebar()">
+    <img src="static/svg/zhankai.svg" alt="展开"> <!-- 展开图标路径 -->
+</div>
+
+<!-- 搜索框 -->
+<div id="search-box-container" class="search-box-container" onmouseover="toggleSearchBox(true)"
+     onmouseout="toggleSearchBox(false)">
+    <input type="text" placeholder="请输入搜索内容">
+    <img src="static/svg/sousuo2.svg" alt="执行搜索"> <!-- 执行搜索图标 -->
+</div>
+
+</body>
+</html>

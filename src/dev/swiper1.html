@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>轮播图</title>
+    <style>
+        /* 轮播图容器 */
+        .carousel {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            background: linear-gradient(to right, #0a75b9, #4db8ff);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 轮播图内容 */
+        .carousel-content {
+            display: flex;
+            align-items: center;
+            width: 80%;
+            max-width: 1000px;
+            padding: 20px;
+        }
+
+        /* 左侧图片 */
+        .carousel-left {
+            width: 50%;
+        }
+
+        .carousel-left img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        /* 右侧文字内容 */
+        .carousel-right {
+            width: 50%;
+            padding: 0 20px;
+            color: #ffffff;
+        }
+
+        .carousel-right h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .carousel-right p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .download-btn {
+            background-color: #32cd32;
+            color: #ffffff;
+            font-size: 1em;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .download-btn:hover {
+            background-color: #28a745;
+        }
+
+        /* 左右箭头 */
+        .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            color: #ffffff;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .left-arrow {
+            left: 10px;
+        }
+
+        .right-arrow {
+            right: 10px;
+        }
+
+        /* 底部指示点 */
+        .carousel-indicators {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .indicator.active {
+            background-color: #ffffff;
+        }
+
+        /* 适应不同屏幕 */
+        @media (max-width: 768px) {
+            .carousel-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .carousel-left, .carousel-right {
+                width: 100%;
+            }
+
+            .carousel-right {
+                padding: 20px 0;
+            }
+        }
+
+    </style>
+</head>
+<body>
+<div class="carousel">
+    <div class="carousel-content">
+        <div class="carousel-left">
+            <img src="place.jpeg" alt="图片描述">
+        </div>
+        <div class="carousel-right">
+            <h1>标题文本</h1>
+            <p>介绍文本<br>介绍文本</p>
+            <button class="download-btn">立即下载</button>
+        </div>
+    </div>
+    <div class="carousel-arrow left-arrow">←</div>
+    <div class="carousel-arrow right-arrow">→</div>
+    <div class="carousel-indicators">
+        <span class="indicator active"></span>
+        <span class="indicator"></span>
+        <span class="indicator"></span>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>糖尿病交流社区</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #0078D7;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .post {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .post-header {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .post-content {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .comment-section {
+            margin-top: 30px;
+        }
+
+        .comment-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #0078D7;
+        }
+
+        .comment {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 15px;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comment img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .comment-body {
+            flex: 1;
+        }
+
+        .comment-content {
+            width: 80%;
+        }
+
+        .comment-header {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .comment-text {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #555;
+            overflow-wrap: anywhere;
+            white-space: normal;
+        }
+
+        .comment-actions {
+            display: flex;
+            gap: 15px;
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .comment-actions button {
+            background: none;
+            border: none;
+            color: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .comment-actions button svg {
+            width: 16px;
+            height: 16px;
+            fill: #888;
+        }
+
+        .comment-actions button.active svg {
+            fill: #0078D7;
+        }
+
+        .replies {
+            margin-top: 10px;
+        }
+
+        .reply-box {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .reply-box textarea {
+            width: 100%;
+            height: 60px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .reply-box button {
+            background-color: #0078D7;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .reply-box button:hover {
+            background-color: #005BB5;
+        }
+
+    </style>
+</head>
+<body>
+<header>糖尿病交流社区</header>
+<main>
+    <div class="post">
+        <div class="post-header">用户A 的分享</div>
+        <div class="post-content">最近血糖控制不错，调整了饮食，请问有没有好的运动建议？</div>
+    </div>
+
+    <div class="comment-section">
+        <div class="comment-header">评论区</div>
+
+        <!-- 机器人回复，排在评论区的前面 -->
+        <div class="comment">
+            <img src="https://via.placeholder.com/40" alt="机器人头像">
+            <div class="comment-body">
+                <div class="comment-content">
+                    <div class="comment-header">机器人</div>
+                    <div class="comment-text">您可以尝试每天步行30分钟，增加体力活动。</div>
+                </div>
+                <div class="comment-actions">
+                    <button onclick="toggleLike(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                        点赞 (<span class="like-count">0</span>)
+                    </button>
+                    <button onclick="toggleReplies(this)">展开评论</button>
+                    <button onclick="toggleReplyBox(this)">回复</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 用户B的回复 -->
+        <div class="comment">
+            <img src="https://via.placeholder.com/40" alt="用户头像">
+            <div class="comment-body">
+                <div class="comment-content">
+                    <div class="comment-header">用户B</div>
+                    <div class="comment-text">我建议可以尝试瑜伽，非常有帮助。</div>
+                </div>
+                <div class="comment-actions">
+                    <button onclick="toggleLike(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                        点赞 (<span class="like-count">0</span>)
+                    </button>
+                    <button onclick="toggleReplies(this)">展开评论</button>
+                    <button onclick="toggleReplyBox(this)">回复</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 用户C的回复 -->
+        <div class="comment">
+            <img src="https://via.placeholder.com/40" alt="用户头像">
+            <div class="comment-body">
+                <div class="comment-content">
+                    <div class="comment-header">用户C</div>
+                    <div class="comment-text">步行和瑜伽结合会有更好的效果。</div>
+                </div>
+                <div class="comment-actions">
+                    <button onclick="toggleLike(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                        点赞 (<span class="like-count">0</span>)
+                    </button>
+                    <button onclick="toggleReplies(this)">展开评论</button>
+                    <button onclick="toggleReplyBox(this)">回复</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 回复输入框 -->
+        <div class="reply-box">
+            <textarea placeholder="请输入您的回复"></textarea>
+            <button onclick="submitReply()">提交回复</button>
+        </div>
+
+    </div>
+</main>
+
+<script>
+    function toggleLike(button) {
+        const likeCount = button.querySelector('.like-count');
+        let count = parseInt(likeCount.innerText);
+        if (button.classList.contains('active')) {
+            count--;
+            button.classList.remove('active');
+        } else {
+            count++;
+            button.classList.add('active');
+        }
+        likeCount.innerText = count;
+    }
+
+    function toggleReplies(button) {
+        const replies = button.closest('.comment').querySelector('.replies');
+        if (replies) {
+            replies.style.display = (replies.style.display === 'none') ? 'block' : 'none';
+        }
+    }
+
+    function toggleReplyBox(button) {
+        const replyBox = button.closest('.comment').querySelector('.reply-box');
+        replyBox.style.display = (replyBox.style.display === 'none') ? 'block' : 'none';
+    }
+
+    function submitReply() {
+        const textArea = document.querySelector('.reply-box textarea');
+        const replyBox = textArea.closest('.reply-box');
+        const commentBody = document.querySelector('.comment-section');
+        const reply = document.createElement('div');
+        reply.className = 'comment';
+        reply.innerHTML = `
+            <img src="https://via.placeholder.com/40" alt="回复头像">
+            <div class="comment-body">
+                <div class="comment-content">
+                    <div class="comment-header">您</div>
+                    <div class="comment-text">${textArea.value.trim()}</div>
+                </div>
+            </div>
+        `;
+        commentBody.appendChild(reply);
+        textArea.value = '';
+        replyBox.style.display = 'none';
+    }
+</script>
+</body>
+</html>

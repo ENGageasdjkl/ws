@@ -1,0 +1,1312 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>糖尿病之“8吃8不吃”</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFF7E6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            color: #333;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: #F4B984; /* 柔和的橙色 */
+            color: #FFF;
+            padding: 20px 0;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            height: 100%;
+            overflow-y: auto;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar ul li {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .sidebar ul li a {
+            color: #FFF;
+            text-decoration: none;
+            font-size: 18px;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .sidebar ul li a:hover {
+            background-color: #E5A572;
+        }
+        .back-button {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            /*background-color: #f4f4f4; !* 背景颜色，可根据需要调整 *!*/
+            border-bottom: 1px solid #ddd; /* 下边框分隔线 */
+        }
+
+        .back-button a {
+            text-decoration: none;
+            color: #fff; /* 字体颜色 */
+            font-size: 14px; /* 字体大小 */
+            display: flex;
+            align-items: center;
+        }
+
+        .back-button svg.icon {
+            width: 16px; /* SVG 图标宽度 */
+            height: 16px; /* SVG 图标高度 */
+            fill: #fff;
+            margin-right: 5px; /* 图标和文字之间的间距 */
+        }
+
+        .back-button a:hover svg.icon {
+            fill: #fd8; /* 鼠标悬停时的颜色 */
+        }
+
+        .container {
+            margin-left: 220px; /* Adjust to the sidebar width */
+            padding: 20px;
+            width: calc(100% - 220px);
+        }
+        .header {
+            text-align: center;
+            font-size: 26px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .category {
+            display: none; /* Default hidden */
+        }
+        .category.active {
+            display: block;
+        }
+        /* 为search的active状态添加独立样式 */
+        #search.active {
+            display: flex; /* 设置为flex布局 */
+            flex-direction: column; /* 可选：设置方向 */
+            /*align-items: center; !* 可选：设置对齐方式 *!*/
+            justify-content: center; /* 可选：设置内容分布 */
+        }
+        .columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .column {
+            flex: 1;
+            min-width: 300px;
+            background-color: #FFF;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        .section-header {
+            text-align: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .section-header.green {
+            background-color: #BDE4A7; /* 柔和的绿色 */
+            color: #2C5D37;
+        }
+        .section-header.red {
+            background-color: #F6A5A5; /* 柔和的红色 */
+            color: #8B2F2F;
+        }
+        .food-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: space-around;
+        }
+        .food-item {
+            width: 32%;
+            text-align: center;
+        }
+        .food-item img {
+            width: 80%;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .food-item p {
+            font-size: 14px;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+        .container4search {
+            text-align: center;
+            /*width: 100%;*/
+            /*max-width: 600px;*/
+            padding: 20% 10%;
+        }
+        .search-header {
+            font-size: 36px;
+            font-weight: bold;
+            color: #FFA726;
+            margin-bottom: 20px;
+        }
+        .search-bar {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-bar input[type="text"] {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 18px;
+            border: 2px solid #FFA726;
+            border-radius: 25px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-bar input[type="text"]:focus {
+            border-color: #FFB74D;
+        }
+
+        .search-bar button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #FFA726;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-bar button:hover {
+            background-color: #FFB74D;
+        }
+
+        .result {
+            font-size: 20px;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        /*noinspection CssUnusedSymbol*/
+        .result.success {
+            background-color: #DFF6D8;
+            color: #4CAF50;
+        }
+
+        /*noinspection CssUnusedSymbol*/
+        .result.error {
+            background-color: #FFEBEE;
+            color: #F44336;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="back-button">
+        <a href="#" onclick="goBack()">
+            <svg t="1731739950519" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                 p-id="4263" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200">
+                <path d="M522.098 825.237L100.015 512.978l425.313-311.415-1.134 219.033-63.999-0.34 0.476-92.029-252.686 185.017 250.767 185.52 0.483-93.125 63.999 0.332z"
+                      fill="" p-id="4264"></path>
+                <path d="M927.996 895.639l-78.278-94.295c-1.197-1.439-121.436-145.06-219.643-174.439-69.697-20.852-114.845-15.182-135.555-9.947-6.043 1.528-9.195 2.856-9.249 2.879 0.278-0.119 0.416-0.188 0.416-0.188l-26.283-55.152c1.749-0.809 8.34-3.67 19.736-6.551 26.979-6.82 84.795-14.502 168.914 10.664 55.892 16.72 114.489 60.758 160.868 102.699-23.124-61.906-58.291-131.924-106.667-165.366-50.304-34.774-108.331-48.518-148.151-53.924-44.252-6.006-76.694-3.377-77.017-3.35l-5.46-60.687c6.071-0.535 150.03-12.189 266.165 68.095 50.1 34.633 93.374 99.532 128.62 192.895 25.459 67.437 37.108 124.773 37.591 127.181l23.993 119.486z"
+                      fill="" p-id="4265"></path>
+                <path d="M458.909 320.962l64-0.333 0.667 128.214-64 0.333zM459.204 564.498h63.874v52.169h-63.874z"
+                      fill="" p-id="4266"></path>
+            </svg>
+            返回
+        </a>
+    </div>
+    <ul>
+        <li><a href="#" onclick="switchCategory('search')">查询</a></li>
+        <hr>
+        <li><a href="#" onclick="switchCategory('grains')">主食</a></li>
+        <li><a href="#" onclick="switchCategory('milk')">奶类</a></li>
+        <li><a href="#" onclick="switchCategory('fruits')">水果</a></li>
+        <li><a href="#" onclick="switchCategory('fats')">油脂</a></li>
+        <li><a href="#" onclick="switchCategory('vegetables')">蔬菜</a></li>
+        <li><a href="#" onclick="switchCategory('proteins')">蛋白质</a></li>
+        <li><a href="#" onclick="switchCategory('snacks')">零食</a></li>
+        <li><a href="#" onclick="switchCategory('drinks')">饮料</a></li>
+    </ul>
+</div>
+
+<div class="container">
+    <div class="header">糖尿病之“8吃8不吃”</div>
+
+    <!--搜索框-->
+    <div id="search" class="container4search category">
+        <div class="search-header">食物查询系统</div>
+        <div class="search-bar">
+            <input type="text" id="foodInput" placeholder="请输入食物名称...">
+            <button onclick="searchFood()">查询</button>
+        </div>
+        <div id="result" class="result"></div>
+    </div>
+
+    <!-- 主食 -->
+    <div id="grains" class="category active">
+        <div class="columns">
+            <div class="column">
+                <div class="section-header green">主食 - 控糖 ✓</div>
+                <div class="food-grid">
+                    
+            <div class="food-item">
+                <img src="https://cdn.sputniknews.cn/img/07e5/08/14/1034315503_0:157:3083:1891_1920x0_80_0_0_98ab0e13c64b715eac8e0f0314e5b61a.jpg" alt="荞麦">
+                <p>荞麦</p>
+            </div>
+
+            <div class="food-item">
+                <img src="http://5b0988e595225.cdn.sohucs.com/images/20180831/53ebdb8824974c02ad9263ac7f16cfe5.jpeg" alt="藜麦">
+                <p>藜麦</p>
+            </div>
+
+            <div class="food-item">
+                <img src="https://sns-img-qc.xhscdn.com/1000g0082c1st2goh206041m727462056qv643g8" alt="红豆">
+                <p>红豆</p>
+            </div>
+
+            <div class="food-item">
+                <img src="https://gd-hbimg.huaban.com/340b8341c7dd528ff7b596f4239359f93dd5e62d1b2ae-UOGiSP_fw658webp" alt="绿豆">
+                <p>绿豆</p>
+            </div>
+
+            <div class="food-item">
+                <img src="http://img.yzcdn.cn/upload_files/2015/06/19/Fghd5XxnuowHbc2PVTPu65aJX1Pl.gif?imageView2/2/w/580/h/580/q/75/format/gif" alt="山药">
+                <p>山药</p>
+            </div>
+
+            <div class="food-item">
+                <img src="https://rmrbcmsonline.peopleapp.com/upload/zw/bjh_image/1581759674_91bf28bf99f66673ba24a3654a8702ef.jpg" alt="玉米">
+                <p>玉米</p>
+            </div>
+
+            <div class="food-item">
+                <img src="http://img.pconline.com.cn/images/photoblog/6/6/2/8/662890/20099/19/1253329964450.jpg" alt="南瓜">
+                <p>南瓜</p>
+            </div>
+
+            <div class="food-item">
+                <img src="https://wx1.sinaimg.cn/mw1024/005FyA38ly4h4ukta0hnvj30u50k3e81.jpg" alt="芋头">
+                <p>芋头</p>
+            </div>
+
+            <div class="food-item">
+                <img src="https://gss0.baidu.com/70cFfyinKgQFm2e88IuM_a/baike/pic/item/267f9e2f07082838c38eddf3b199a9014d08f152.jpg" alt="红薯">
+                <p>红薯</p>
+            </div>
+
+                </div>
+            </div>
+            <div class="column">
+                <div class="section-header red">主食 - 升糖 ✕</div>
+                <div class="food-grid">
+
+            <div class="food-item">
+                <img src="https://www.duoxiwa.com/resource/images/7d09e7e1a9d54965a620641117011034_15.jpg" alt="白粥">
+                <p>白粥</p>
+            </div>
+
+            <div class="food-item">
+                <img src="https://bpic.51yuansu.com/pic3/cover/02/76/25/5a3618f921c56_610.jpg?x-oss-process=image/sharpen,100" alt="白米饭">
+                <p>白米饭</p>
+            </div>
+
+            <div class="food-item">
+                <img src="http://pic.iask.cn/fimg/377178125276.jpg" alt="白面条">
+                <p>白面条</p>
+            </div>
+
+            <div class="food-item">
+                <img src="https://cp1.douguo.com/upload/caiku/f/4/6/yuan_f45b4727a17e3e7f3847c53935313cf6.jpeg" alt="炸薯条">
+                <p>炸薯条</p>
+            </div>
+
+            <div class="food-item">
+                <img src="https://cp1.douguo.com/upload/caiku/d/b/6/yuan_dbeacd0d92eef0435da6b5387864b136.jpg" alt="油条">
+                <p>油条</p>
+            </div>
+
+            <div class="food-item">
+                <img src="https://sns-img-qc.xhscdn.com/fc78552d-5792-3982-90ba-9ddd0e7166e4" alt="麻球">
+                <p>麻球</p>
+            </div>
+
+            <div class="food-item">
+                <img src="http://p1.ssl.qhimg.com/t01ed9b5b14eaaea46c.jpg" alt="油饼">
+                <p>油饼</p>
+            </div>
+
+            <div class="food-item">
+                <img src="https://vdposter.bdstatic.com/8b9ac5a53a5c5b47a6fd3d2e5a9a455c.jpeg" alt="饼干">
+                <p>饼干</p>
+            </div>
+
+            <div class="food-item">
+                <img src="http://img.cyjmw.com/2024/11/04/VXE93B2DK4JQ690990.jpg" alt="蛋糕">
+                <p>蛋糕</p>
+            </div>
+
+            <!--<div class="food-item">
+                <img src="http://safe-img.xhscdn.com/bw1/5ec4a96f-21d3-4671-80a5-c30576630b7b?imageView2/2/w/1080/format/jpg" alt="甜点">
+                <p>甜点</p>
+            </div>-->
+            
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="milk" class="category">
+        <div class="columns">
+            <!-- 控糖奶类 -->
+            <div class="column">
+                <div class="section-header green">奶类 - 控糖 ✓</div>
+                <div class="food-grid">
+                    <div class="food-item">
+                        <img src="http://m.360buyimg.com/mobilecms/s2560x1709_jfs/t1/38610/7/7636/983399/5ced544dE48e1d45e/ec5be979c4fe2987.jpg!q70.jpg" alt="低脂奶">
+                        <p>低脂奶</p>
+                    </div>
+                    <div class="food-item">
+                        <img src="http://p3-sdbk2-media.byteimg.com/tos-cn-i-xv4ileqgde/c669911ce2c84356ab3996a045119eaa~tplv-xv4ileqgde-resize-w:1440.awebp" alt="脱脂奶">
+                        <p>脱脂奶</p>
+                    </div>
+                    <div class="food-item">
+                        <img src="https://via.placeholder.com/150" alt="全脂奶">
+                        <p>全脂奶</p>
+                    </div>
+                    <div class="food-item">
+                        <img src="https://via.placeholder.com/150" alt="无糖酸奶">
+                        <p>无糖酸奶</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 升糖奶类 -->
+            <div class="column">
+                <div class="section-header red">奶类 - 升糖 ✕</div>
+                <div class="food-grid">
+                    <div class="food-item">
+                        <img src="http://safe-img.xhscdn.com/bw1/2a52d562-8964-4ad9-bbe3-3c7a1e4859c7?imageView2/2/w/1080/format/jpg" alt="甜牛奶">
+                        <p>甜牛奶</p>
+                    </div>
+                    <div class="food-item">
+                        <img src="https://via.placeholder.com/150" alt="含糖酸奶">
+                        <p>含糖酸奶</p>
+                    </div>
+                    <div class="food-item">
+                        <img src="https://via.placeholder.com/150" alt="乳饮料">
+                        <p>乳饮料</p>
+                    </div>
+                    <div class="food-item">
+                        <img src="https://via.placeholder.com/150" alt="甜豆奶">
+                        <p>甜豆奶</p>
+                    </div>
+                    <div class="food-item">
+                        <img src="https://via.placeholder.com/150" alt="奶油">
+                        <p>奶油</p>
+                    </div>
+                    <div class="food-item">
+                        <img src="https://via.placeholder.com/150" alt="黄油">
+                        <p>黄油</p>
+                    </div>
+                    <div class="food-item">
+                        <img src="https://via.placeholder.com/150" alt="高糖奶酪">
+                        <p>高糖奶酪</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="fruits" class="category">
+        <div class="columns">
+            <div class="column">
+                <div class="section-header green">水果 - 控糖 ✓</div>
+                <div class="food-grid">
+
+                    <div class="food-item">
+                        <img src="https://wx2.sinaimg.cn/large/821a6ba2ly1hvjh97zqk5j22c0340qv5.jpg" alt="苹果">
+                        <p>苹果</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://img.zcool.cn/community/01fc3e5d5ccc09a8012187f4a7736c.jpg?x-oss-process=image/auto-orient,1/resize,m_lfit,w_1280,limit_1/sharpen,100" alt="猕猴桃">
+                        <p>猕猴桃</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://p0.itc.cn/images01/20211229/ed2b8eb1530b42c1b4a9f764995056d7.jpeg" alt="梨">
+                        <p>梨</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://skin.z.43img.com/upload/20980/2024/11/09/2358478456.webp" alt="草莓">
+                        <p>草莓</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://img.zcool.cn/community/01b10558b69316a801219c778e50dc.JPG?x-oss-process=image/auto-orient,1/resize,m_lfit,w_1280,limit_1/sharpen,100/quality,q_100/marker,u_plus" alt="圣女果">
+                        <p>圣女果</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://pic1.arkoo.com/55C3E84F803E41D0B7173DB01B53712D/picture/o_1icfj6ghe1pdb25ul9msan1j37sj.jpg" alt="樱桃">
+                        <p>樱桃</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://wx3.sinaimg.cn/large/008BGAC1gy1hvgwby3zmhj30r20r2tb2.jpg" alt="桃子">
+                        <p>桃子</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://img.zcool.cn/community/01c6395940092ea8012193a386330f.jpg@3000w_1l_2o_100sh.jpg" alt="蓝莓">
+                        <p>蓝莓</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://gd-hbimg.huaban.com/1be9104aa7f9c37f1b8a72e7dd30a099e7203d4ea2ece-YpD7y8_fw658webp" alt="柚子">
+                        <p>柚子</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://img.zcool.cn/community/01f8025e019626a80120a8950bada7.jpg?imageMogr2/auto-orient/thumbnail/1280x%3e/sharpen/0.5/quality/100" alt="橘子">
+                        <p>橘子</p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="column">
+                <div class="section-header red">水果 - 升糖 ✕</div>
+                <div class="food-grid">
+
+                    <div class="food-item">
+                        <img src="https://wx4.sinaimg.cn/large/008beeeTly1hvbfez4nd4j30j60m6grj.jpg" alt="香蕉">
+                        <p>香蕉</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://wx1.sinaimg.cn/large/008v3ZQ6gy1hvhiyk5ud5j30zu1b9k29.jpg" alt="榴莲">
+                        <p>榴莲</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://wx4.sinaimg.cn/large/006ZeMH3gy1hvgfkfdkuqj30yi22ox0u.jpg" alt="荔枝">
+                        <p>荔枝</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://img.huabaike.com/tukuimgs/1251/20210922171811_642077.jpg" alt="龙眼">
+                        <p>龙眼</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://photo.tuchong.com/19491429/f/935395731.jpg" alt="柿子">
+                        <p>柿子</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://img.zcool.cn/community/01c7d25e5b1d7ea80120a895e434de.jpg@3000w_1l_0o_100sh.jpg" alt="冬枣">
+                        <p>冬枣</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://pic.38fan.com/allimg/170123/39_170123132250_2.jpg" alt="菠萝蜜">
+                        <p>菠萝蜜</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://image.suning.cn/uimg/ZR/share_order/163308268218906292.jpg" alt="老椰子">
+                        <p>老椰子</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://photo.tuchong.com/18351510/f/1078461833.jpg" alt="释迦果">
+                        <p>释迦果</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://cd.zjrcjd.cn/uploads/allimg/20230518/1-23051R25523218.jpg" alt="山竹">
+                        <p>山竹</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="fats" class="category">
+        <div class="columns">
+            <div class="column">
+                <div class="section-header green">油脂 - 控糖 ✓</div>
+                <div class="food-grid">
+
+                    <div class="food-item">
+                        <img src="https://via.placeholder.com/150" alt="原味坚果">
+                        <p>原味坚果</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://q6.itc.cn/q_70/images05/20241112/44a57568fe464bb0aae077d6d24be16a.png" alt="牛油果">
+                        <p>牛油果</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://5b0988e595225.cdn.sohucs.com/images/20200201/88492eee7f8240c083707dc3464ca987.jpeg" alt="三文鱼">
+                        <p>三文鱼</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://pic.baike.soso.com/ugc/baikepic2/0/20230826215144-463449273_jpeg_940_769_65994.jpg/0_90" alt="金枪鱼">
+                        <p>金枪鱼</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://nimg.ws.126.net/?url=http%3A%2F%2Fdingyue.ws.126.net%2F2024%2F1115%2F80b7ce3fj00smyt5k00ind000na00frm.jpg&thumbnail=660x2147483647&quality=80&type=jpg" alt="菜籽油">
+                        <p>菜籽油</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://5b0988e595225.cdn.sohucs.com/images/20171117/6b2f7268c0174151bd607aa0d712c618.jpeg" alt="芝麻油">
+                        <p>芝麻油</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://gd-hbimg.huaban.com/c52c755ab69c27b1f1982a3ab95277a81bf05a6d1059b-JaFBS2_fw658webp" alt="橄榄油">
+                        <p>橄榄油</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://5b0988e595225.cdn.sohucs.com/images/20170905/e39442dc8e7f4f6c81c594c0ea37a78a.jpeg" alt="亚麻籽油">
+                        <p>亚麻籽油</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://imgs-ali.51miz.com/vcg/image/without_watermark/VCG41N1125854002.jpg?x-oss-process=image/sharpen,100" alt="玉米油">
+                        <p>玉米油</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://p9.toutiaoimg.com/origin/tos-cn-i-qvj2lq49k0/b3df57bb9d724fb9af43e9a8e3b7e4ff?from=pc" alt="葵花籽油">
+                        <p>葵花籽油</p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="column">
+                <div class="section-header red">油脂 - 升糖 ✕</div>
+                <div class="food-grid">
+
+                    <div class="food-item">
+                        <img src="https://bj.bcebos.com/bjh-pixel/17115127320546114333_0_ainote_new.jpg?x-bce-process=image/auto-orient,o_1/watermark,image_NDU0ZjAyZDU5YjQ1LnBuZw==,bucket_searchbox,w_61,text_QOacquadpeeUn-a0u-WutuWxhQ==,type_RlpMYW5UaW5nSGVp,size_61,x_41,y_41,interval_4,color_FFFFFF,effect_softoutline,shc_000000,blr_2,align_1" alt="氢化植物油">
+                        <p>氢化植物油</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://res.cngoldres.com/upload/2024/1115/37352faf1e2b8d418e0f35cd8948205.jpg" alt="棕榈油">
+                        <p>棕榈油</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://n.sinaimg.cn/sinakd10104/209/w600h409/20210419/da0e-knvsnuh3748994.png" alt="人造黄油">
+                        <p>人造黄油</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://cbu01.alicdn.com/img/ibank/2020/989/712/19227217989_454878258.jpg" alt="蔬菜起酥油">
+                        <p>蔬菜起酥油</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://n.sinaimg.cn/sinakd2021318s/231/w1080h751/20210318/1ce3-kmkptxe6640670.jpg" alt="猪油">
+                        <p>猪油</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://file.fh21static.com/fhfile1/M00/8E/A3/ooYBAGcslhGAaoFHAACiTquZa5Q122.jpg" alt="椰子油">
+                        <p>椰子油</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="vegetables" class="category">
+        <div class="columns">
+            <div class="column">
+                <div class="section-header green">蔬菜 - 控糖 ✓</div>
+                <div class="food-grid">
+
+                    <div class="food-item">
+                        <img src="https://5b0988e595225.cdn.sohucs.com/images/20180405/3026b5cb5ade41a1830d86987538f0c6.jpeg" alt="生菜">
+                        <p>生菜</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://img.huabaike.com/tukuimgs/744/20210125133903_110230.jpg" alt="空心菜">
+                        <p>空心菜</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://image109.360doc.com/DownloadImg/2022/08/0201/249635873_49_20220802010957819.png" alt="苦瓜">
+                        <p>苦瓜</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://szdyx.cn/uploadfile/webuploader/2019-06-12/156031896345088.jpg" alt="冬瓜">
+                        <p>冬瓜</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://p3-sdbk2-media.byteimg.com/tos-cn-i-xv4ileqgde/3e0236440d47437680098055da54ef34~tplv-xv4ileqgde-resize-w:1440.awebp" alt="油麦菜">
+                        <p>油麦菜</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://ci.xiaohongshu.com/5cd04a7c-dd3d-3405-aefb-76d1561aec1e?imageView2/2/w/1080/format/jpg" alt="油菜">
+                        <p>油菜</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://bkimg.cdn.bcebos.com/pic/8b82b9014a90f603eb70cdda3012b31bb151ed6f" alt="娃娃菜">
+                        <p>娃娃菜</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://p1-bk.byteimg.com/tos-cn-i-mlhdmxsy5m/80effc19128545768beb1cbf6de714ad~tplv-mlhdmxsy5m-q75:0:0.image" alt="绿豆芽">
+                        <p>绿豆芽</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://n.sinaimg.cn/sinacn/w1200h800/20171217/deeb-fypsqka4958253.jpg" alt="海带">
+                        <p>海带</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://spider.ws.126.net/5241fa87ee6d8e759816181c8b654c25.jpeg" alt="黄瓜">
+                        <p>黄瓜</p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="column">
+                <div class="section-header red">蔬菜 - 升糖 ✕</div>
+                <div class="food-grid">
+
+                    <div class="food-item">
+                        <img src="http://ytbxsp.cn/zb_users/upload/2021/05/202105091620545689913956.jpg" alt="泡菜">
+                        <p>泡菜</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://cp1.douguo.com/upload/caiku/c/8/4/yuan_c89af0bba617845a63701bb3820bce54.jpeg" alt="泡萝卜">
+                        <p>泡萝卜</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://img.zcool.cn/community/015e585b3ebd6aa80120b959b7aca1.jpg@3000w_1l_0o_100sh.jpg" alt="榨菜">
+                        <p>榨菜</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://i2.chuimg.com/27f95710f5f547f38016a9b3e8308843_2448w_3264h.jpg?imageView2/1/w/800/h/600/q/75/format/jpg" alt="泡姜">
+                        <p>泡姜</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://via.placeholder.com/150" alt="泡蒜苔">
+                        <p>泡蒜苔</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://sns-img-qc.xhscdn.com/01023g01kl993sn3ipa01165ct506hbpp2" alt="泡酸菜">
+                        <p>泡酸菜</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://bkimg.cdn.bcebos.com/pic/359b033b5bb5c9ea6277e7e3da39b6003af3b32e" alt="泡豇豆">
+                        <p>泡豇豆</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://www.hgjlm.com/file/upload/202004/30/113803411.jpg" alt="糖蒜">
+                        <p>糖蒜</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://cp1.douguo.com/upload/dish/c/0/4/600_c0d418f05663eeb9211dd1fe2198d6f4.jpg" alt="糖醋黄瓜">
+                        <p>糖醋黄瓜</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://cp1.douguo.com/upload/caiku/0/5/8/yuan_059b670bd07b71a155179c83d1bf2838.JPG" alt="糖拌西红柿">
+                        <p>糖拌西红柿</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="proteins" class="category">
+        <div class="columns">
+            <div class="column">
+                <div class="section-header green">蛋白质 - 控糖 ✓</div>
+                <div class="food-grid">
+
+                    <div class="food-item">
+                        <img src="https://cdn.yangzhu360.com/2023/0110/a85edc674dcbf7cc7c8b4bf56f3a1c23effe09f3.jpg" alt="猪肉">
+                        <p>猪肉</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://img01.fuhai360.com/--47/47791/202103/202103201858104425.jpeg" alt="牛肉">
+                        <p>牛肉</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://img.88tph.com/9a/3f/mj_EnQr7EemMSQARMiynhQ-0.jpg!/watermark/url/L3BhdGgvbG9nby5wbmc/align/center/repeat/true/fw/640/quality/70" alt="鸡肉">
+                        <p>鸡肉</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://www.lifejilu.com/wp-content/uploads/2024/08/355d9b37cdb19dd2939b07bc2959436b.jpg" alt="鸭肉">
+                        <p>鸭肉</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://www.cdstm.cn/gallery/media/mkjx/bktmhdsj_3679/202012/W020201216472890175673.jpg" alt="羊肉">
+                        <p>羊肉</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://bkimg.cdn.bcebos.com/pic/b3fb43166d224f4afae6167306f790529822d157" alt="鱼肉">
+                        <p>鱼肉</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://so1.360tres.com/t01d32f76356ee707f7.jpg" alt="虾肉">
+                        <p>虾肉</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://bkimg.cdn.bcebos.com/pic/c995d143ad4bd113bbafa7c25aafa40f4afb05db" alt="贝类">
+                        <p>贝类</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://www.zzibs.com/zb_users/upload/2024/11/20241109103529173111972943286.jpg" alt="豆腐">
+                        <p>豆腐</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://diy.img.jaecdn.com/album/01/13847.jpg?wh=1024.766" alt="蛋类">
+                        <p>蛋类</p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="column">
+                <div class="section-header red">蛋白质 - 升糖 ✕</div>
+                <div class="food-grid">
+
+                    <div class="food-item">
+                        <img src="https://sns-img-qc.xhscdn.com/c81a8c8e-d104-3283-9b92-88493da876d7" alt="炸肉">
+                        <p>炸肉</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://img.mp.itc.cn/upload/20170727/9d07938079a64091a91cc7d4f7b175f5_th.jpg" alt="牛肉串">
+                        <p>牛肉串</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://p9-bk.byteimg.com/tos-cn-i-mlhdmxsy5m/1dc322c98bc1447cb6881cd5d44146c0~tplv-mlhdmxsy5m-q75:0:0.image" alt="羊肉串">
+                        <p>羊肉串</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://www.sjzyslg.com/file/upload/202411/12/1731362489427_16.jpg" alt="香肠">
+                        <p>香肠</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://sns-img-qc.xhscdn.com/7ca4440f-2317-32ab-8287-016369cc1e7b" alt="炸鸡">
+                        <p>炸鸡</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://q7.itc.cn/q_70/images03/20240108/9a64387f04454e389d4e9e9c76b6ad4a.jpeg" alt="肥肉">
+                        <p>肥肉</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://img03.sogoucdn.com/v2/thumb/retype_exclude_gif/ext/auto/crop/xy/ai/w/922/h/519?appid=200698&url=https://pic.baike.soso.com/ugc/baikepic2/0/20230127230459-1295087801_jpeg_922_609_380066.jpg/0" alt="熏肉">
+                        <p>熏肉</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://i2.chuimg.com/d34cf9373f8e48849dfc588178c9ff2d_1440w_2160h.jpg?imageView2/2/w/600/interlace/1/q/75" alt="炸豆腐">
+                        <p>炸豆腐</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://p1.itc.cn/images01/20210408/c4a3c2440567495dbf9f8f9a3c3c0af9.jpeg" alt="炸鱼">
+                        <p>炸鱼</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://p0.itc.cn/images01/20220717/9be75e79ac944aceb1df2588f5c498bc.jpeg" alt="皮蛋">
+                        <p>皮蛋</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="snacks" class="category">
+        <div class="columns">
+            <div class="column">
+                <div class="section-header green">零食 - 控糖 ✓</div>
+                <div class="food-grid">
+
+                    <div class="food-item">
+                        <img src="https://i2.chuimg.com/e06e35edda1346d2b1f6c40390fed909_2233w_1867h.jpg?imageView2/2/w/660/interlace/1/q/90" alt="煮鸡蛋">
+                        <p>煮鸡蛋</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://p8.itc.cn/q_70/images03/20221215/11c2ca7ef3a54e73bfa48370d73bc747.png" alt="低盐豆干">
+                        <p>低盐豆干</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://image.39.net/auth/Original/20180514/46023.jpg" alt="鸡胸肉">
+                        <p>鸡胸肉</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://cp1.douguo.com/upload/caiku/2/6/5/yuan_2676079256407e1d53a634266f4c0705.jpg" alt="卤牛肉">
+                        <p>卤牛肉</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://wx1.sinaimg.cn/large/007aeuBJly4gte597fijlj30ly0lymyt.jpg" alt="原味坚果">
+                        <p>原味坚果</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://5b0988e595225.cdn.sohucs.com/images/20191127/b0f46be3fad24bd68c7290816760d5ac.jpeg" alt="无糖酸奶">
+                        <p>无糖酸奶</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://wx3.sinaimg.cn/crop.0.127.1024.768/95f1cf44gy1gf91iw79djj20sg0sgjsh.jpg" alt="纯牛奶">
+                        <p>纯牛奶</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://pic4.zhimg.com/50/v2-ea713308e966587eefbaa39110ba6457_hd.jpg?source=1940ef5c" alt="无糖豆浆">
+                        <p>无糖豆浆</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://q1.itc.cn/images01/20240313/2b729c644c2048daab5f370699e5629d.jpeg" alt="番茄">
+                        <p>番茄</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://spider.ws.126.net/5241fa87ee6d8e759816181c8b654c25.jpeg" alt="黄瓜">
+                        <p>黄瓜</p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="column">
+                <div class="section-header red">零食 - 升糖 ✕</div>
+                <div class="food-grid">
+
+                    <div class="food-item">
+                        <img src="http://q2.itc.cn/q_70/images01/20240725/c48fcb3163bb4855945e66e430bf36cb.jpeg" alt="含糖坚果">
+                        <p>含糖坚果</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://sc.68design.net/photofiles/201705/EejWlcnb0C.jpg" alt="水果干">
+                        <p>水果干</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://cp1.douguo.com/upload/caiku/0/4/8/yuan_0497f2e3dc70e196de17d9d3f49e3af8.jpeg" alt="蛋卷">
+                        <p>蛋卷</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://www.huaimama.com/file/image/47502eeec89e1ab552d379642f5a2f4f.jpg" alt="蜜饯">
+                        <p>蜜饯</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://cp1.douguo.com/upload/caiku/5/5/5/yuan_55fd512add315bf90bc951480451c695.jpeg" alt="蛋挞">
+                        <p>蛋挞</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://www.tingclass.net/uploads/2019/1029/20191029094052718.jpg" alt="巧克力">
+                        <p>巧克力</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://c-ssl.dtstatic.com/uploads/item/201406/28/20140628202304_GKmxB.thumb.1000_0.jpeg" alt="冰淇淋">
+                        <p>冰淇淋</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://img.cyjmw.com/2024/11/04/VXE93B2DK4JQ690990.jpg" alt="蛋糕">
+                        <p>蛋糕</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://gd-hbimg.huaban.com/d8999e767bf4e3a68fc061aacd7b4739112c474946663-i4J3qj_fw658webp" alt="奶茶">
+                        <p>奶茶</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://static.foodtalks.cn/image/post/d51ca9313bcb202d8ef2779fd19ce137f67e.png" alt="饮料">
+                        <p>饮料</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="drinks" class="category">
+        <div class="columns">
+            <div class="column">
+                <div class="section-header green">饮料 - 控糖 ✓</div>
+                <div class="food-grid">
+
+                    <div class="food-item">
+                        <img src="http://p4.itc.cn/images01/20210417/55106397c8fb4df7b673697652cee7a5.jpeg" alt="白开水">
+                        <p>白开水</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://img.doooor.com/img/forum/202311/06/115357knnzdnzyvmvd87bp.jpg" alt="矿泉水">
+                        <p>矿泉水</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://askanydifference.b-cdn.net/wp-content/uploads/2022/12/soda-water.jpg" alt="苏打水">
+                        <p>苏打水</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://5b0988e595225.cdn.sohucs.com/q_70,c_zoom,w_640/images/20180118/36e62f6b73a34802ab10a0b24596abec.jpg" alt="红茶">
+                        <p>红茶</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://a.zdmimg.com/202303/10/640af8ff6b5da257.jpg_e680.jpg" alt="绿茶">
+                        <p>绿茶</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://img3.yun300.cn/repository/image/e5a5e593-0ec8-4a75-9743-37daa47a8196.jpg_{i}xaf.jpg?tenantId=250084&viewType=1" alt="大麦茶">
+                        <p>大麦茶</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://img.zcool.cn/community/0157b45a7e58eca8012045b3504435.JPG?x-oss-process=image/auto-orient,1/resize,m_lfit,w_1280,limit_1/sharpen,100/quality,q_100/marker,u_plus" alt="菊花茶">
+                        <p>菊花茶</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://www.qkyjy.cn//pic/3e6014df6054a0a9ea7c060ea4d6e9a6.jpg" alt="乌龙茶">
+                        <p>乌龙茶</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://image.uc.cn/s/wemedia/s/upload/2024/05b1e0229a89896ca4ef4c0e9d48ec68.jpg" alt="黑咖啡">
+                        <p>黑咖啡</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://bcn.135editor.com/files/images/editor_styles/e713e4b13f71189541833fc2698de1d1.jpg" alt="柠檬水">
+                        <p>柠檬水</p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="column">
+                <div class="section-header red">饮料 - 升糖 ✕</div>
+                <div class="food-grid">
+
+                    <div class="food-item">
+                        <img src="http://s.alicdn.com/@sc04/kf/H289cb1b180504c0cb2a7b70ac2a4643cV.jpg_720x720q50.jpg" alt="啤酒">
+                        <p>啤酒</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://oss.sxmch.com/static/images/20230226/b7ffe776f6d9907f54ab739a48432762.jpg" alt="白酒">
+                        <p>白酒</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://safe-img.xhscdn.com/bw1/edbdb4f2-0d0b-4d94-9b32-ab7d776e184f?imageView2/2/w/1080/format/jpg" alt="调制椰汁">
+                        <p>调制椰汁</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://gd-hbimg.huaban.com/d8999e767bf4e3a68fc061aacd7b4739112c474946663-i4J3qj_fw658webp" alt="奶茶">
+                        <p>奶茶</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://www.seebio.cn/UploadFiles/FCK/2018-08/2018082104B64PP664.jpg" alt="果汁">
+                        <p>果汁</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://www.nqxyy.com/d/file/202304/d53febe9d905fa14cbfa70b89e4036b7.jpg" alt="调制橙汁">
+                        <p>调制橙汁</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="https://i01.c.aliimg.com/img/ibank/2013/866/505/773505668_586461165.jpg" alt="功能饮料">
+                        <p>功能饮料</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://s.alicdn.com/@sc04/kf/U221e7e965b13499fb6adb6511ac04175M.jpg_720x720q50.jpg" alt="维生素饮品">
+                        <p>维生素饮品</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://5b0988e595225.cdn.sohucs.com/images/20180208/19c6768658b04de1a9a55b7ab3444fa5.png" alt="碳酸饮料">
+                        <p>碳酸饮料</p>
+                    </div>
+
+                    <div class="food-item">
+                        <img src="http://www.ebuyso.com/pics/O1CN01Zd0ZKY1tCDgraGj68_!!2200992355865.jpg" alt="速溶咖啡">
+                        <p>速溶咖啡</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function switchCategory(category) {
+        // 清除所有分类的active状态
+        document.querySelectorAll('.category').forEach(el => {
+            el.classList.remove('active');
+        });
+
+        // 为指定的分类添加active状态
+        const targetElement = document.getElementById(category);
+        if (targetElement) {
+            targetElement.classList.add('active');
+        }
+
+        // 设置header显示与隐藏逻辑
+        const headerElement = document.querySelector('.header');
+        if (category === 'search') {
+            headerElement.style.display = 'none'; // 隐藏header
+        } else {
+            headerElement.style.display = 'block'; // 显示header
+        }
+    }
+
+    function goBack() {
+        // 返回按钮的逻辑，可根据需要调整
+        console.log("返回按钮点击");
+        // 示例：跳转到上一页
+        window.history.back();
+    }
+
+</script>
+
+<!--输入食物名称查询分类-->
+<script>
+    const foodData = {
+        "白粥": "升糖主食",
+        "白米饭": "升糖主食",
+        "白面条": "升糖主食",
+        "炸薯条": "升糖主食",
+        "油条": "升糖主食",
+        "麻球": "升糖主食",
+        "油饼": "升糖主食",
+        "饼干": "升糖主食",
+        "蛋糕": "升糖零食",
+        "甜点": "升糖主食",
+        "甜牛奶": "升糖奶类",
+        "含糖酸奶": "升糖奶类",
+        "乳饮料": "升糖奶类",
+        "甜豆奶": "升糖奶类",
+        "奶油": "升糖奶类",
+        "黄油": "升糖奶类",
+        "高糖奶酪": "升糖奶类",
+        "香蕉": "升糖水果",
+        "榴莲": "升糖水果",
+        "荔枝": "升糖水果",
+        "龙眼": "升糖水果",
+        "柿子": "升糖水果",
+        "冬枣": "升糖水果",
+        "菠萝蜜": "升糖水果",
+        "老椰子": "升糖水果",
+        "释迦果": "升糖水果",
+        "山竹": "升糖水果",
+        "氢化植物油": "升糖油脂",
+        "棕榈油": "升糖油脂",
+        "人造黄油": "升糖油脂",
+        "蔬菜起酥油": "升糖油脂",
+        "猪油": "升糖油脂",
+        "椰子油": "升糖油脂",
+        "泡菜": "升糖蔬菜",
+        "泡萝卜": "升糖蔬菜",
+        "榨菜": "升糖蔬菜",
+        "泡姜": "升糖蔬菜",
+        "泡蒜苔": "升糖蔬菜",
+        "泡酸菜": "升糖蔬菜",
+        "泡豇豆": "升糖蔬菜",
+        "糖蒜": "升糖蔬菜",
+        "糖醋黄瓜": "升糖蔬菜",
+        "糖拌西红柿": "升糖蔬菜",
+        "炸肉": "升糖蛋白质",
+        "牛肉串": "升糖蛋白质",
+        "羊肉串": "升糖蛋白质",
+        "香肠": "升糖蛋白质",
+        "炸鸡": "升糖蛋白质",
+        "肥肉": "升糖蛋白质",
+        "熏肉": "升糖蛋白质",
+        "炸豆腐": "升糖蛋白质",
+        "炸鱼": "升糖蛋白质",
+        "皮蛋": "升糖蛋白质",
+        "含糖坚果": "升糖零食",
+        "水果干": "升糖零食",
+        "蛋卷": "升糖零食",
+        "蜜饯": "升糖零食",
+        "蛋挞": "升糖零食",
+        "巧克力": "升糖零食",
+        "冰淇淋": "升糖零食",
+        "奶茶": "升糖饮料",
+        "饮料": "升糖零食",
+        "啤酒": "升糖饮料",
+        "白酒": "升糖饮料",
+        "调制椰汁": "升糖饮料",
+        "果汁": "升糖饮料",
+        "调制橙汁": "升糖饮料",
+        "功能饮料": "升糖饮料",
+        "维生素饮品": "升糖饮料",
+        "碳酸饮料": "升糖饮料",
+        "速溶咖啡": "升糖饮料",
+        "荞麦": "控糖主食",
+        "藜麦": "控糖主食",
+        "红豆": "控糖主食",
+        "绿豆": "控糖主食",
+        "燕麦": "控糖主食",
+        "山药": "控糖主食",
+        "玉米": "控糖主食",
+        "南瓜": "控糖主食",
+        "芋头": "控糖主食",
+        "红薯": "控糖主食",
+        "低脂奶": "控糖奶类",
+        "脱脂奶": "控糖奶类",
+        "全脂奶": "控糖奶类",
+        "无糖酸奶": "控糖零食",
+        "苹果": "控糖水果",
+        "猕猴桃": "控糖水果",
+        "梨": "控糖水果",
+        "草莓": "控糖水果",
+        "圣女果": "控糖水果",
+        "樱桃": "控糖水果",
+        "桃子": "控糖水果",
+        "蓝莓": "控糖水果",
+        "柚子": "控糖水果",
+        "橘子": "控糖水果",
+        "原味坚果": "控糖零食",
+        "牛油果": "控糖油脂",
+        "三文鱼": "控糖油脂",
+        "金枪鱼": "控糖油脂",
+        "菜籽油": "控糖油脂",
+        "芝麻油": "控糖油脂",
+        "橄榄油": "控糖油脂",
+        "亚麻籽油": "控糖油脂",
+        "玉米油": "控糖油脂",
+        "葵花籽油": "控糖油脂",
+        "生菜": "控糖蔬菜",
+        "空心菜": "控糖蔬菜",
+        "苦瓜": "控糖蔬菜",
+        "冬瓜": "控糖蔬菜",
+        "油麦菜": "控糖蔬菜",
+        "油菜": "控糖蔬菜",
+        "娃娃菜": "控糖蔬菜",
+        "绿豆芽": "控糖蔬菜",
+        "海带": "控糖蔬菜",
+        "黄瓜": "控糖零食",
+        "猪肉": "控糖蛋白质",
+        "牛肉": "控糖蛋白质",
+        "鸡肉": "控糖蛋白质",
+        "鸭肉": "控糖蛋白质",
+        "羊肉": "控糖蛋白质",
+        "鱼肉": "控糖蛋白质",
+        "虾肉": "控糖蛋白质",
+        "贝类": "控糖蛋白质",
+        "豆腐": "控糖蛋白质",
+        "蛋类": "控糖蛋白质",
+        "煮鸡蛋": "控糖零食",
+        "低盐豆干": "控糖零食",
+        "鸡胸肉": "控糖零食",
+        "卤牛肉": "控糖零食",
+        "纯牛奶": "控糖零食",
+        "无糖豆浆": "控糖零食",
+        "番茄": "控糖零食",
+        "白开水": "控糖饮料",
+        "矿泉水": "控糖饮料",
+        "苏打水": "控糖饮料",
+        "红茶": "控糖饮料",
+        "绿茶": "控糖饮料",
+        "大麦茶": "控糖饮料",
+        "菊花茶": "控糖饮料",
+        "乌龙茶": "控糖饮料",
+        "黑咖啡": "控糖饮料",
+        "柠檬水": "控糖饮料"
+    };
+
+    function searchFood() {
+        const input = document.getElementById("foodInput").value.trim();
+        const resultDiv = document.getElementById("result");
+
+        if (input in foodData) {
+            resultDiv.textContent = `${input} 是 ${foodData[input]}`;
+            resultDiv.className = "result success";
+            resultDiv.style.display = "block";
+        } else {
+            resultDiv.textContent = `未找到与 "${input}" 相关的记录`;
+            resultDiv.className = "result error";
+            resultDiv.style.display = "block";
+        }
+    }
+</script>
+
+</body>
+</html>

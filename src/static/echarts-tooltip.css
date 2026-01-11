@@ -1,0 +1,58 @@
+/* 信息框样式 */
+.info-box {
+    background-color: #ffffff; /* 主体背景色 */
+    border-radius: 15px; /* 圆角边框 */
+    border: 1px solid #e0e0e0; /* 外边框颜色 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+    padding: 30px 20px 20px; /* 内边距 */
+    width: 350px; /* 固定宽度 */
+    color: #333; /* 文字颜色 */
+    position: relative;
+}
+
+/* 标题与内容的容器 */
+.info-box .title-container {
+    position: relative;
+    margin-bottom: 15px;
+    padding-left: 10px;
+}
+
+/* 标题样式 */
+.title-container h3 {
+    color: #ff8c42; /* 标题淡橙色 */
+    font-size: 1.5em; /* 标题大小 */
+    margin: 0;
+    display: inline-block;
+    background-color: #ffffff; /* 标题背景色 */
+    padding: 0 10px;
+    border-radius: 8px;
+    position: relative;
+    top: -10px; /* 提升标题位置 */
+    left: -10px;
+    z-index: 1;
+}
+
+/* 内边框样式 */
+.inner-border {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #fafafa; /* 内部浅色背景 */
+    color: #555; /* 文字颜色 */
+    line-height: 1.6; /* 行高 */
+}
+
+#custom-tooltip {
+    position: absolute;
+    display: none;
+    /*background-color: #F1A54D;*/
+    color: white;
+    padding: 35px 20px;
+    border-radius: 5px;
+    pointer-events: none;
+    max-width: 250px;
+    white-space: normal;
+    word-wrap: break-word;
+    font-size: 16px;
+    z-index: 10;
+}

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网站顶部导航栏</title>
+    <style>
+        /* 全局样式 */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* 顶部导航栏样式 */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            padding: 10px 20px;
+            color: white;
+        }
+
+        /* Logo和网站名称容器 */
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .site-name {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* 搜索框样式 */
+        .search-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-container input {
+            padding: 8px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .search-container button {
+            padding: 8px 12px;
+            font-size: 16px;
+            background-color: #5cb85c;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .search-container button:hover {
+            background-color: #4cae4c;
+        }
+
+        /* 用户操作按钮样式 */
+        .user-actions button {
+            margin-left: 15px;
+            padding: 8px 12px;
+            font-size: 16px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .user-actions button:hover {
+            background-color: #0056b3;
+        }
+
+        .user-actions .login-btn {
+            background-color: #f0ad4e;
+        }
+
+        .user-actions .login-btn:hover {
+            background-color: #ec971f;
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <div class="logo-container">
+        <img src="logo.png" alt="Logo" class="logo">
+        <span class="site-name">网站名称</span>
+    </div>
+    <div class="search-container">
+        <input type="text" placeholder="搜索...">
+        <button>搜索</button>
+    </div>
+    <div class="user-actions">
+        <button class="login-btn">登录</button>
+        <button class="messages-btn">消息</button>
+        <button class="publish-btn">发布</button>
+    </div>
+</header>
+</body>
+</html>

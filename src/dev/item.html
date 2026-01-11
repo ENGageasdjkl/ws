@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>物品展示</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 800px;
+            margin-top: 20px;
+        }
+
+        .card {
+            display: flex;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background-color: #fff;
+        }
+
+        .card img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card-content h3 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .card-content p {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <img src="item1.jpg" alt="物品1">
+        <div class="card-content">
+            <h3>物品名称1</h3>
+            <p>这是物品1的简介。可以描述物品的功能、特点等。</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="item2.jpg" alt="物品2">
+        <div class="card-content">
+            <h3>物品名称2</h3>
+            <p>这是物品2的简介。可以描述物品的功能、特点等。</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="item3.jpg" alt="物品3">
+        <div class="card-content">
+            <h3>物品名称3</h3>
+            <p>这是物品3的简介。可以描述物品的功能、特点等。</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <img src="item4.jpg" alt="物品4">
+        <div class="card-content">
+            <h3>物品名称4</h3>
+            <p>这是物品4的简介。可以描述物品的功能、特点等。</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

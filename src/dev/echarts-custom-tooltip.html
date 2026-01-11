@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECharts Custom Tooltip with Fixed Position</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.0.2/dist/echarts.min.js"></script>
+    <style>
+        #chart {
+            width: 600px;
+            height: 400px;
+            margin: 0 auto;
+        }
+        #custom-tooltip {
+            position: absolute;
+            display: none;
+            background-color: #F1A54D;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            pointer-events: none;
+            max-width: 250px;
+            white-space: normal;
+            word-wrap: break-word;
+            font-size: 16px;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+<div id="chart"></div>
+<div id="custom-tooltip"></div>
+
+<script>
+    var chart = echarts.init(document.getElementById('chart'));
+
+    var option = {
+        tooltip: {
+            trigger: 'item',
+            formatter: function (x) {
+                // 设置自定义的div内容
+                var tooltipDiv = document.getElementById('custom-tooltip');
+                tooltipDiv.innerHTML = `<div style="max-width:250px; white-space:normal; word-wrap:break-word;">${x.data.des}</div>`;
+
+                // 保持div在图表上方的相对位置不变
+                tooltipDiv.style.display = 'block';
+                return ''; // 让ECharts默认的tooltip不显示
+            },
+            position: [5, 8], // 设置tooltip的相对位置
+        },
+        xAxis: {
+            type: 'category',
+            data: ['A', 'B', 'C', 'D', 'E']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            data: [
+                { value: 10, des: 'Description A' },
+                { value: 20, des: 'Description B' },
+                { value: 30, des: 'Description C' },
+                { value: 40, des: 'Description D' },
+                { value: 50, des: 'Description E' }
+            ],
+            type: 'bar'
+        }]
+    };
+
+    chart.setOption(option);
+
+    // 监听图表的mousemove事件来动态显示和定位自定义tooltip
+    chart.on('mousemove', function (event) {
+        var tooltipDiv = document.getElementById('custom-tooltip');
+        var point = event.offsetX; // 获取鼠标相对位置
+        var tooltipWidth = tooltipDiv.offsetWidth; // 获取tooltip宽度
+        var tooltipHeight = tooltipDiv.offsetHeight; // 获取tooltip高度
+
+        // 获取鼠标的坐标，计算自定义tooltip的位置
+        tooltipDiv.style.left = point - tooltipWidth / 2 + 'px'; // 在x轴上居中
+        tooltipDiv.style.top = event.offsetY - tooltipHeight - 10 + 'px'; // 在y轴上方
+
+        // 显示tooltip
+        tooltipDiv.style.display = 'block';
+    });
+
+    // 监听鼠标离开图表时隐藏自定义tooltip
+    chart.on('mouseout', function () {
+        document.getElementById('custom-tooltip').style.display = 'none';
+    });
+</script>
+
+</body>
+</html>

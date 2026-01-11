@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>控糖餐1600大卡食谱</title>
+    <style>
+        /* 基本样式 */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F1F1F1; /* 新的背景色 */
+            color: #333333; /* 更深的字体色 */
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 100%;
+            margin: 0;
+            padding: 20px;
+            background-color: #fff;
+            box-sizing: border-box;
+        }
+
+        /* 头部 */
+        .header {
+            background-color: #6C4F3D; /* 深棕色 */
+            color: white;
+            text-align: center;
+            padding: 25px;
+            font-size: 28px;
+            font-weight: bold;
+            border-radius: 0 0 15px 15px;
+        }
+
+        /* 每餐信息 */
+        .meal-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin: 25px 0;
+            padding: 15px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* 餐点时间 */
+        .meal-time {
+            background-color: #e3d3b0; /* 轻柔的米黄色 */
+            padding: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #6C4F3D; /* 深棕色 */
+            width: 25%;
+            text-align: left;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        .meal-time span {
+            font-size: 16px;
+            color: #F4A300; /* 橙黄色 */
+        }
+
+        /* 餐点项 */
+        .meal-items {
+            display: flex;
+            justify-content: space-between;
+            width: 72%;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .meal-item {
+            text-align: center;
+            width: 23%;
+        }
+
+        .meal-item img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+
+        .meal-item p {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #333333;
+        }
+
+        /* 按钮和悬停效果 */
+        .meal-item:hover p {
+            color: #F4A300; /* 橙黄色 */
+        }
+
+        .meal-item:hover img {
+            opacity: 0.9;
+        }
+
+        /* 适应不同屏幕 */
+        @media (max-width: 768px) {
+            .header {
+                font-size: 24px;
+            }
+
+            .meal-row {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .meal-time {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+
+            .meal-items {
+                width: 100%;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .meal-item {
+                width: 45%;
+            }
+
+            .meal-item img {
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        控糖餐1600大卡食谱 - 周一
+    </div>
+
+    <div class="meal-row">
+        <div class="meal-time">
+            早餐<br><span>7:30 - 9:00</span>
+        </div>
+        <div class="meal-items">
+            <div class="meal-item">
+                <img src="placeholder.jpg" alt="全麦菜包">
+                <p>全麦菜包<br>75g</p>
+            </div>
+            <div class="meal-item">
+                <img src="placeholder.jpg" alt="蔬菜">
+                <p>蔬菜<br>100g</p>
+            </div>
+            <div class="meal-item">
+                <img src="placeholder.jpg" alt="鸡蛋">
+                <p>鸡蛋<br>50g / 1个</p>
+            </div>
+            <div class="meal-item">
+                <img src="placeholder.jpg" alt="无糖豆浆">
+                <p>无糖豆浆<br>300ml</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="meal-row">
+        <div class="meal-time">
+            午餐<br><span>11:30 - 13:30</span>
+        </div>
+        <div class="meal-items">
+            <div class="meal-item">
+                <img src="placeholder.jpg" alt="杂粮饭">
+                <p>杂粮饭<br>100g</p>
+            </div>
+            <div class="meal-item">
+                <img src="placeholder.jpg" alt="煎鱼">
+                <p>煎鱼<br>100g</p>
+            </div>
+            <div class="meal-item">
+                <img src="placeholder.jpg" alt="香菇芥菜">
+                <p>香菇芥菜<br>150g</p>
+            </div>
+            <div class="meal-item">
+                <img src="placeholder.jpg" alt="花菜">
+                <p>花菜<br>100g</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="meal-row">
+        <div class="meal-time">
+            晚餐<br><span>17:30 - 19:30</span>
+        </div>
+        <div class="meal-items">
+            <div class="meal-item">
+                <img src="placeholder.jpg" alt="杂粮饭">
+                <p>杂粮饭<br>100g</p>
+            </div>
+            <div class="meal-item">
+                <img src="placeholder.jpg" alt="清蒸排骨">
+                <p>清蒸排骨<br>100g</p>
+            </div>
+            <div class="meal-item">
+                <img src="placeholder.jpg" alt="蒜蓉四季豆">
+                <p>蒜蓉四季豆<br>100g</p>
+            </div>
+            <div class="meal-item">
+                <img src="placeholder.jpg" alt="小白菜">
+                <p>小白菜<br>150g</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

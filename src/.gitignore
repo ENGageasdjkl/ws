@@ -1,0 +1,8 @@
+/.idea/
+*.iml
+
+/.vscode/
+!/.vscode/extensions.json
+
+# echarts backup
+/bak_origin/

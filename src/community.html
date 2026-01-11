@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>糖尿病交流社区</title>
+    <link rel="stylesheet" href="static/style.css">
+    <style>
+        /* 全局样式 */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden; /* 防止横向滚动条出现 */
+        }
+
+        /* 顶部导航栏样式 */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #eee;
+            padding: 10px 20px;
+            color: #333;
+            z-index: 300; /* 保证导航栏位于最上层 */
+            position: fixed;  /* 设置为固定定位 */
+            top: 0;           /* 固定在页面顶部 */
+            left: 0;          /* 固定在页面左边 */
+            width: calc(100% - 40px);      /* 宽度为100% */
+        }
+
+        /* Logo和网站名称容器 */
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            width: 45px;
+            height: 45px;
+            margin-right: 10px;
+        }
+
+        .site-name {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* 菜单按钮 */
+        .menu-btn {
+            padding: 10px;
+            font-size: 20px;
+            background-color: #f0ad4e;
+            border: none;
+            border-radius: 10%;
+            color: white;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+
+        .menu-btn:hover {
+            background-color: #ec971f;
+        }
+
+        /* 用户操作区域（搜索框和按钮） */
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        /* 搜索框 */
+        .search-box {
+            padding: 8px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            margin-right: 10px; /* 搜索框和按钮之间的间距 */
+        }
+
+        /* 搜索按钮 */
+        .search-btn {
+            padding: 8px 12px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .search-btn:hover {
+            color: #ec971f; /* 悬浮时按钮颜色变化 */
+        }
+
+        /* 用户操作按钮样式 */
+        .user-actions button {
+            margin-left: 15px;
+            padding: 8px 12px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .user-actions button:hover {
+            color: #ec971f; /* 悬浮时按钮颜色变化 */
+        }
+
+        /* 模拟用户已登录的样式 */
+        .user-logged-in {
+            display: flex;
+            align-items: center;
+            margin-left: 15px;
+            position: relative; /* 为了放置用户设置和退出按钮 */
+        }
+
+        .user-logged-in img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .user-logged-in span {
+            font-size: 16px;
+            color: #333;
+            font-weight: bold;
+            white-space: nowrap; /* 防止换行 */
+            overflow: hidden;
+            text-overflow: ellipsis; /* 超出部分显示省略号 */
+            max-width: 100px; /* 限制最大宽度 */
+            cursor: pointer; /* 鼠标悬停时指针样式 */
+        }
+
+        /* 下拉菜单样式 */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 50px;
+            /*left: -10px;*/
+            right: 10px;
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            min-width: 120px;
+            z-index: 100;
+        }
+
+        .dropdown-menu button {
+            margin: 0; /*左边没有间隙*/
+            width: 100%;
+            padding: 8px 12px;
+            font-size: 14px;
+            text-align: left;
+            background-color: white;
+            border: none;
+            border-radius: 4px;
+            color: #f0ad4e; /* 橙色按钮 */
+            cursor: pointer;
+        }
+
+        .dropdown-menu button:hover {
+            background-color: #fec;
+            color: #ec971f; /* 悬浮时按钮颜色变化 */
+        }
+
+        /* 退出登录按钮样式 */
+        .logout-btn {
+            color: #e74c3c !important; /* 红色 */
+        }
+
+        .logout-btn:hover {
+            background-color: #fcc !important;
+            color: #c0392b !important; /* 悬浮时按钮颜色变化 */
+        }
+
+        /* 抽屉菜单 */
+        .drawer {
+            position: fixed;
+            top: 60px;  /* 调整为header的高度 */
+            left: -180px; /* 初始位置在屏幕外 */
+            width: 180px;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            color: white;
+            transition: left 0.3s;
+            z-index: 200; /* 设置为小于header的z-index，保证header不会被遮挡 */
+            padding-top: 60px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .drawer a {
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 24px;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        .drawer a:hover {
+            background-color: rgb(255, 216, 168);
+        }
+
+        /* 遮罩层 */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 60px;  /* 遮罩层从header下方开始 */
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+    </style>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        /*header {
+            background-color: #f5a623;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }*/
+
+        main {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .post {
+            margin-bottom: 20px;
+            padding: 15px;
+        }
+
+        .post-header {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .post-content {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .comment {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 15px;
+            padding: 10px 0;
+        }
+
+        .comment img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .comment-body {
+            flex: 1;
+        }
+
+        .comment-header {
+            font-size: 14px;
+            font-weight: bold;
+            color: #f5a623;
+        }
+
+        .comment-text {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #555;
+            overflow-wrap: anywhere;
+            white-space: normal;
+        }
+
+        .comment-actions {
+            display: flex;
+            gap: 15px;
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .comment-actions button {
+            background: none;
+            border: none;
+            color: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .comment-actions button svg {
+            width: 16px;
+            height: 16px;
+            fill: #888;
+        }
+
+        .comment-actions button.active svg {
+            fill: #f5a623;
+        }
+
+        .replies {
+            margin-top: 10px;
+        }
+
+        .replies .comment {
+            margin-left: 0;
+            padding-left: 0;
+        }
+
+        .reply-box {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .reply-box textarea {
+            width: 100%;
+            height: 60px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .reply-box button {
+            background-color: #f5a623;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .reply-box button:hover {
+            background-color: #e6951e;
+        }
+    </style>
+</head>
+<body>
+<!--<header>糖尿病交流社区</header>-->
+<!-- 主容器 -->
+<header>
+
+    <!--&lt;!&ndash; 顶部栏 &ndash;&gt;
+    <div class="top-bar">
+        <div class="logo">
+            <img src="static/logo.png" alt="LOGO"> &lt;!&ndash; 替换为实际的LOGO图片路径 &ndash;&gt;
+            <div class="title">
+                <div class="cn-name">高血糖科普指南</div>
+                <div class="en-name">Hyperglycemia Knowledge Guide</div>
+            </div>
+        </div>
+        <div class="motto">珍爱生命</div>
+    </div>-->
+
+    <div class="logo-container">
+        <button class="menu-btn">&#9776;</button> <!-- 菜单按钮 -->
+        <img src="static/logo.png" alt="Logo" class="logo">
+        <span class="site-name">知糖助手</span>
+    </div>
+    <div class="user-actions">
+        <input type="text" class="search-box" placeholder="搜索医生、医院、药品...">
+        <button class="search-btn">
+            <svg height="25" viewBox="0 0 512 512" width="25" xmlns="http://www.w3.org/2000/svg"><title/>
+                <path d="M456.69,421.39,362.6,327.3a173.81,173.81,0,0,0,34.84-104.58C397.44,126.38,319.06,48,222.72,48S48,126.38,48,222.72s78.38,174.72,174.72,174.72A173.81,173.81,0,0,0,327.3,362.6l94.09,94.09a25,25,0,0,0,35.3-35.3ZM97.92,222.72a124.8,124.8,0,1,1,124.8,124.8A124.95,124.95,0,0,1,97.92,222.72Z" fill="currentColor"/>
+            </svg>
+            <!--搜索-->
+        </button>
+        <!--<button onclick="location.href=('index.html')" class="home-btn">首页</button>-->
+        <button class="messages-btn">
+            <svg width="25" height="25" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title/>
+                <path d="M12.69,12.06a1,1,0,0,1-1.34,0L2.87,4.35A2,2,0,0,1,4,4H20a2,2,0,0,1,1.13.35Z" fill="currentColor"/>
+                <path d="M22,6.26V17a3,3,0,0,1-3,3H5a3,3,0,0,1-3-3V6.26l8.68,7.92a2,2,0,0,0,1.32.49,2,2,0,0,0,1.33-.51Z"
+                      fill="currentColor"/>
+            </svg>
+            <!--消息-->
+        </button>
+        <button class="publish-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title/>
+                <path d="M22.984.638a.5.5,0,0,0-.718-.559L1.783,10.819a1.461,1.461,0,0,0-.1,2.527h0l4.56,2.882a.25.25,0,0,0,.3-.024L18.7,5.336a.249.249,0,0,1,.361.342L9.346,17.864a.25.25,0,0,0,.062.367L15.84,22.3a1.454,1.454,0,0,0,2.19-.895Z" fill="currentColor"/>
+                <path d="M7.885,19.182a.251.251,0,0,0-.385.211c0,1.056,0,3.585,0,3.585a1,1,0,0,0,1.707.707l2.018-2.017a.251.251,0,0,0-.043-.388Z" fill="currentColor"/>
+            </svg>
+            <!--发布-->
+        </button>
+
+        <!-- 用户已登录的场景 -->
+        <div class="user-logged-in">
+            <img src="static/avatar_march7th.jpg" alt="用户头像"> <!-- 替换成用户头像图片 -->
+            <span>用户名ydtcstyctwudy</span> <!-- 替换成用户的昵称 -->
+            <div class="dropdown-menu">
+                <button class="settings-btn">用户设置</button>
+                <button onclick="location.href=('login.html')" class="logout-btn">退出登录</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- 抽屉菜单 -->
+<div class="drawer">
+    <a href="index.html">首页</a>
+    <hr>
+    <a href="consultation.html">医疗帮助</a>
+    <hr>
+    <a href="LoseSugarOrNot4.html">饮食建议</a>
+    <hr>
+    <a href="community.html">回复走廊</a>
+    <hr>
+    <a href="products.html">推荐产品</a>
+</div>
+
+<!-- 遮罩层 -->
+<div class="overlay"></div>
+
+<script>
+    // 获取元素
+    const menuBtn = document.querySelector('.menu-btn');
+    const drawer = document.querySelector('.drawer');
+    const overlay = document.querySelector('.overlay');
+    const userSpan = document.querySelector('.user-logged-in span');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+    const userLoggedIn = document.querySelector('.user-logged-in');
+
+    // 点击菜单按钮，展开抽屉
+    menuBtn.addEventListener('click', () => {
+        drawer.style.left = '0';  // 展开抽屉
+        overlay.style.display = 'block';  // 显示遮罩层
+    });
+
+    // 点击遮罩层，收起抽屉
+    overlay.addEventListener('click', () => {
+        drawer.style.left = '-180px';  // 隐藏抽屉
+        overlay.style.display = 'none';  // 隐藏遮罩层
+    });
+
+    // 点击用户名时显示下拉菜单
+    userSpan.addEventListener('click', (event) => {
+        event.stopPropagation();  // 阻止事件冒泡，防止点击其他地方时菜单被立即隐藏
+        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // 点击页面其他地方时隐藏下拉菜单
+    document.addEventListener('click', () => {
+        dropdownMenu.style.display = 'none';
+    });
+
+    // 阻止点击用户名时隐藏菜单
+    userLoggedIn.addEventListener('click', (event) => {
+        event.stopPropagation();
+    });
+</script>
+
+<!-- 导航栏（横向铺满屏幕） -->
+<!--<div class="navbar-wrapper">
+    <div class="navbar container">
+        <a href="index.html">首页</a>
+        <a href="consultation.html">医疗帮助</a>
+        &lt;!&ndash;<a href="complications.html">并发症</a>&ndash;&gt;
+        &lt;!&ndash;<a href="prevention.html">预防</a>
+        <a href="cases.html">康复案例</a>&ndash;&gt;
+        <a href="LoseSugarOrNot4.html">饮食建议</a>
+        <a href="community.html">交流社区</a>
+        <a href="products.html">推荐产品</a>
+        &lt;!&ndash;<a href="contact.html">联系我们</a>&ndash;&gt;
+    </div>
+</div>-->
+<main>
+    <div class="card0">
+        <div class="post">
+            <div class="post-header">用户A 的分享</div>
+            <div class="post-content">最近血糖控制不错，调整了饮食，请问有没有好的运动建议？</div>
+        </div>
+        <div class="comment">
+            <img src="https://via.placeholder.com/40" alt="头像">
+            <div class="comment-body">
+                <div class="comment-header">用户B</div>
+                <div class="comment-text">我建议可以尝试瑜伽，非常有帮助。</div>
+                <div class="comment-actions">
+                    <button onclick="toggleLike(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                        点赞 (<span class="like-count">0</span>)
+                    </button>
+                    <button onclick="toggleReplies(this)">展开评论</button>
+                    <button onclick="toggleReplyBox(this)">回复</button>
+                </div>
+                <div class="replies" style="display: none;">
+                    <div class="comment">
+                        <img src="https://via.placeholder.com/40" alt="头像">
+                        <div class="comment-body">
+                            <div class="comment-header">用户C 回复 用户B</div>
+                            <div class="comment-text">我觉得瑜伽确实很有帮助！</div>
+                            <div class="comment-actions">
+                                <button onclick="toggleLike(this)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                    </svg>
+                                    点赞 (<span class="like-count">0</span>)
+                                </button>
+                                <button onclick="toggleReplies(this)">展开评论</button>
+                                <button onclick="toggleReplyBox(this)">回复</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+    function toggleLike(button) {
+        const likeCount = button.querySelector('.like-count');
+        const isActive = button.classList.contains('active');
+        if (isActive) {
+            likeCount.textContent = parseInt(likeCount.textContent) - 1;
+            button.classList.remove('active');
+        } else {
+            likeCount.textContent = parseInt(likeCount.textContent) + 1;
+            button.classList.add('active');
+        }
+    }
+
+    function toggleReplies(button) {
+        const replies = button.closest('.comment-body').querySelector('.replies');
+        if (replies) {
+            replies.style.display = replies.style.display === 'none' || !replies.style.display ? 'block' : 'none';
+        }
+    }
+
+    function toggleReplyBox(button) {
+        const commentBody = button.closest('.comment-body');
+        let replyBox = commentBody.querySelector('.reply-box');
+
+        if (!replyBox) {
+            replyBox = document.createElement('div');
+            replyBox.className = 'reply-box';
+            replyBox.innerHTML = `
+                <textarea placeholder="写下您的回复..."></textarea>
+                <button onclick="submitReply(this)">提交</button>
+            `;
+            commentBody.appendChild(replyBox);
+        }
+
+        replyBox.style.display = replyBox.style.display === 'none' || !replyBox.style.display ? 'block' : 'none';
+    }
+
+    function submitReply(button) {
+        const replyBox = button.closest('.reply-box');
+        const textArea = replyBox.querySelector('textarea');
+        const commentBody = button.closest('.comment-body');
+        let replies = commentBody.querySelector('.replies');
+
+        if (!replies) {
+            replies = document.createElement('div');
+            replies.className = 'replies';
+            commentBody.appendChild(replies);
+        }
+
+        if (textArea.value.trim()) {
+            const parentHeader = commentBody.querySelector('.comment-header').innerText;
+            const parentUser = parentHeader.split(' 回复 ')[0]; // 只获取被回复者的用户名
+            const newUser = '新用户';
+
+            const newReply = document.createElement('div');
+            newReply.className = 'comment';
+            newReply.innerHTML = `
+                <img src="https://via.placeholder.com/40" alt="头像">
+                <div class="comment-body">
+                    <div class="comment-header">${newUser} 回复 ${parentUser}</div>
+                    <div class="comment-text">${textArea.value.trim()}</div>
+                    <div class="comment-actions">
+                        <button onclick="toggleLike(this)">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            </svg>
+                            点赞 (<span class="like-count">0</span>)
+                        </button>
+                        <button onclick="toggleReplies(this)">展开评论</button>
+                        <button onclick="toggleReplyBox(this)">回复</button>
+                    </div>
+                </div>
+            `;
+            replies.appendChild(newReply);
+            textArea.value = '';
+            replies.style.display = 'block';
+            replyBox.style.display = 'none';
+        }
+    }
+</script>
+<!-- 页脚 -->
+<footer class="footer">
+    <p>&copy; 2024 高血糖科普指南. All rights reserved.</p>
+</footer>
+
+<!-- 悬浮导航栏 -->
+<div class="sidebar">
+    <a href="javascript:void(0);" data-tooltip="微信">
+        <img src="static/svg/wechat.svg" alt="微信">
+        <span class="tooltip-wechat"></span>
+    </a>
+
+    <a href=" " data-tooltip="手机">
+        <img src="static/svg/phone.svg" alt="手机">
+        <span class="tooltip">在线体验手机版</span>
+    </a >
+
+    <!--<a href="tel:13191698965" data-tooltip="电话">
+        <img src="static/svg/telephone.svg" alt="电话">
+        <span class="tooltip">13191698965</span>
+    </a>-->
+    <a href="javascript:void(0);" onmouseover="toggleSearchBox(true)" onmouseout="toggleSearchBox(false)" data-tooltip="搜索">
+        <img src="static/svg/search.svg" alt="搜索">
+    </a>
+    <a href="#top" data-tooltip="回到顶部">
+        <img src="static/svg/up.svg" alt="回到顶部">
+    </a>
+    <a href="javascript:void(0);" onclick="toggleSidebar()" data-tooltip="收起">
+        <img src="static/svg/shouqi.svg" alt="收起">
+    </a>
+</div>
+
+<!-- 展开按钮 -->
+<div class="toggle-btn" onclick="toggleSidebar()">
+    <img src="static/svg/zhankai.svg" alt="展开"> <!-- 展开图标路径 -->
+</div>
+
+<!-- 搜索框 -->
+<div id="search-box-container" class="search-box-container" onmouseover="toggleSearchBox(true)" onmouseout="toggleSearchBox(false)">
+    <input type="text" placeholder="请输入搜索内容">
+    <img src="static/svg/sousuo2.svg" alt="执行搜索"> <!-- 执行搜索图标 -->
+</div>
+<script>
+    /*以下为右侧工具栏JS*/
+    // Show/hide search box on hover
+    function toggleSearchBox(show) {
+        const searchBoxContainer = document.getElementById("search-box-container");
+        searchBoxContainer.style.display = show ? "flex" : "none";
+    }
+
+    // Toggle sidebar visibility
+    function toggleSidebar() {
+        const sidebar = document.querySelector(".sidebar");
+        const toggleBtn = document.querySelector(".toggle-btn");
+        if (sidebar.style.display === "none") {
+            sidebar.style.display = "flex";
+            toggleBtn.style.display = "none";
+        } else {
+            sidebar.style.display = "none";
+            toggleBtn.style.display = "block";
+        }
+    }
+</script>
+</body>
+</html>

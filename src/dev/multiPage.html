@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>单页应用示例</title>
+    <style>
+        .page {
+            display: none; /* 默认隐藏所有页面 */
+        }
+        .active {
+            display: block; /* 显示当前页面 */
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <button onclick="showPage('home')">首页</button>
+    <button onclick="showPage('about')">关于</button>
+    <button onclick="showPage('contact')">联系</button>
+</nav>
+
+<div id="home" class="page active">
+    <h1>欢迎来到首页</h1>
+    <p>这是首页的内容。</p>
+</div>
+
+<div id="about" class="page">
+    <h1>关于我们</h1>
+    <p>这是关于我们的内容。</p>
+</div>
+
+<div id="contact" class="page">
+    <h1>联系我们</h1>
+    <p>这是联系信息。</p>
+</div>
+
+<script>
+    function showPage(pageId) {
+        // 隐藏所有页面
+        const pages = document.querySelectorAll('.page');
+        pages.forEach(page => {
+            page.classList.remove('active');
+        });
+        // 显示选中的页面
+        document.getElementById(pageId).classList.add('active');
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+
+
+.button_1 {
+    background-color:#7986cb;
+    border: none;
+    color: rgb(255, 255, 255);
+    padding: 9px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1px;
+    margin-left: 42%;
+    height: 50px;
+    margin-top: 80px;
+    cursor: pointer;
+    /*按钮圆角*/
+    border-radius:12px;
+    text-align: center;
+}

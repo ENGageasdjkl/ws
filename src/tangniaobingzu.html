@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<link href="https://cdn.bootcss.com/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<html>
+<head>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,  minimum-scale=1, maximum-scale=1,user-scalable=no"/>
+    <title>疾病</title>
+    <meta name="viewport" content="width=1250"/>
+    <script src="jquery-1.10.2.min.js"></script>
+    <script src="echarts.min.js"></script>
+    <script src="https://cdn.staticfile.net/echarts/4.3.0/echarts.min.js"></script>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="navigation.css"/>
+    <link rel="stylesheet" href="static/echarts-tooltip.css">
+    <link rel="stylesheet" href="static/style.css">
+    <!--
+        <style type="text/css">
+            html, body, #main { height: 100%; width: 100%; margin: 0; padding: 0 }
+            .nav{margin-left: auto; margin-right: auto; width:50px  }
+        </style>
+    -->
+
+</head>
+<body>
+
+<!--<div class="1">
+
+    <div class="header" style=" width: 1190px;background-color: #7986cb; color: #fffffb;float: left;height: 50px;">
+        <h1 style="margin:0;font-size: 23px; padding: 10px 150px;">糖尿病足</h1>
+    </div>
+
+    <div class="anniu" style="width: 200px;margin-left: 1200px;height: 50px;">
+        <div class="button_1" onclick="window.location.href='navigation.html'"
+             style="margin-left:25px;margin-top: 0px;height: 50px;">
+            <h3>医院导航</h3>
+        </div>
+    </div>
+
+</div>-->
+<!-- 主容器 -->
+<div class="container">
+
+    <!-- 顶部栏 -->
+    <div class="top-bar">
+        <div class="logo">
+            <img src="static/logo.png" alt="LOGO"> <!-- 替换为实际的LOGO图片路径 -->
+            <div class="title">
+                <div class="cn-name">高血糖科普指南</div>
+                <div class="en-name">Hyperglycemia Knowledge Guide</div>
+            </div>
+        </div>
+        <div class="motto">珍爱生命</div>
+    </div>
+
+</div>
+
+<!-- 导航栏（横向铺满屏幕） -->
+<div class="navbar-wrapper">
+    <div class="navbar container">
+        <a href="index.html">首页</a>
+        <a href="consultation.html">医疗帮助</a>
+        <!--<a href="complications.html">并发症</a>-->
+        <!--<a href="prevention.html">预防</a>
+        <a href="cases.html">康复案例</a>-->
+        <a href="LoseSugarOrNot4.html">饮食建议</a>
+        <a href="community.html">交流社区</a>
+        <a href="products.html">推荐产品</a>
+        <!--<a href="contact.html">联系我们</a>-->
+    </div>
+</div>
+
+<div id="custom-tooltip"></div>
+
+<!--  border-radius:圆角  -->
+<div id="main"
+     style="margin-top: 10px;  margin: 13px auto; width: 1380px; height: calc( 120vh - 230px ); overflow: hidden; background-color: #fffffb;border: 1px solid #130c0e; border-radius: 10px;"></div>
+
+
+<script type="text/javascript">
+    var myChart = echarts.init(document.getElementById('main'));
+    /*图例标签（可配置颜色）*/
+    var categories = [
+        {name: "疾病简介", itemStyle: {color: '#F6E1D3'}},
+        {name: "疾病治疗", itemStyle: {color: '#D1C5B2'}},
+        {name: "疾病诊断", itemStyle: {color: '#E2D4E2'}},
+        {name: "生活方式", itemStyle: {color: '#B7D8D5'}},
+        {name: "疾病预防", itemStyle: {color: '#F4C7C6'}},
+        {name: "疾病症状", itemStyle: {color: '#D6E0F0'}},
+        {name: "患病原因", itemStyle: {color: '#F1D3B3'}},
+        {name: "关联疾病", itemStyle: {color: '#F9E8B0'}},
+        {name: "医院医生推荐", itemStyle: {color: '#E9C7D8'}}
+    ];
+
+    option = {
+        //配置内容提示框
+        tooltip: {
+            trigger: 'item',
+            formatter: function (x) {
+                // 获取自定义tooltip的div
+                var tooltipDiv = document.getElementById('custom-tooltip');
+
+                // 设置tooltip的HTML内容
+                tooltipDiv.innerHTML = `
+                    <div class="info-box">
+                        <div class="title-container">
+                            <h3>${x.data.category}</h3>
+                        </div>
+                        <div class="inner-border">
+                            <p>${x.data.des}</p>
+                        </div>
+                    </div>
+                `;
+
+                // 显示tooltip
+                tooltipDiv.style.display = 'block';
+
+                // 返回空字符串，以禁用ECharts默认tooltip
+                return '';
+            },
+            position: [5, 8], // 可以调整位置
+        },
+
+        toolbox: {
+            show: true,
+            feature: {
+                mark: {
+                    show: true
+                },
+                restore: {
+                    show: true
+                },
+                saveAsImage: {
+                    show: true
+                }
+            },
+        },
+
+        legend: [{
+            show: true,
+            data: categories.map(function (a) {
+                return a.name;
+            }),
+            selected: {
+                疾病简介: true,
+                疾病治疗: true,
+                疾病诊断: true,
+                生活方式: true,
+                疾病预防: true,
+                疾病症状: true,
+                患病原因: true,
+                关联疾病: true,
+                医院医生推荐: true,
+
+            }
+        }],
+
+        series: [
+            {
+                type: 'graph',
+                layout: 'force',
+                //图标大小
+                symbolSize: 55,
+                //图形可以拖拽，缩放
+                roam: true,
+                //设置箭头
+                edgeSymbol: ['circle', 'arrow'],
+                //箭头的大小
+                edgeSymbolSize: [4, 10],
+
+                //                  edgeLabel: {
+                //                    normal: {
+                //                      textStyle: {
+                //                        fontSize: 0
+                //                  }
+                //            }
+                //      },
+
+                force: {
+                    repulsion: 1000,
+                    gravity: 0.60,
+                    edgeLength: [1, 100]
+                },
+                //每个节点的拖拉
+                draggable: true,
+                //显示与之相邻的所有节点
+                focusNodeAdjacency: true,
+
+                itemStyle: {
+                    normal: {
+                        //          color: '#4b435b',
+                        //边框颜色
+                        //   borderColor : 'rgba(255,251,0,0.5)',
+                        borderWidth: 2,
+                        opacity: 0.99
+                    }
+                },
+                lineStyle: {
+                    normal: {
+                        width: 2
+                    }
+                },
+
+                edgeLabel: {
+                    normal: {
+                        //边上关系注解，“疾病部位”，“所属科室”
+                        show: true,
+                        //显示边上关系
+                        formatter: function (x) {
+                            return x.data.name;
+                        }
+                    }
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'inside',
+                        textStyle: {
+                            //文字颜色
+                            color: '#130c0e',
+                            fontSize: 13
+                        }
+                    }
+                },
+                data: [
+
+                    {
+                        "id": "13012", "name": "内分泌科",
+                        itemStyle: {
+                            normal: {
+                                color: '#66A9C9'
+                            }
+                        }
+                    }
+                    , {
+                        "id": "36", "name": "糖尿病足",
+                        itemStyle: {
+                            normal: {
+                                color: '#abc88b'
+                            }
+                        }
+                    }
+                    , {
+                        category: '疾病简介', itemStyle:
+                            {
+                                normal:
+                                    {
+                                        color: '#F6E1D3'
+                                    }
+                            }, "id": "10036", "name": "糖尿病足简介",
+                        des: "糖尿病足是糖尿病患者因长期高血糖引起足部神经和血管病变，导致供血不足、感觉减退，容易发生溃烂和感染。早期治疗可保住病足，若不及时处理，可能需要截肢。控制血糖是预防糖尿病足的关键。近年来调查显示，我国三甲医院约三分之一的非创伤性截肢患者为糖尿病足患者。"
+                    }
+                    , {
+                        category: '疾病治疗', itemStyle:
+                            {
+                                normal:
+                                    {
+                                        color: '#D1C5B2'
+                                    }
+                            }, "id": "20036", "name": "糖尿病足治疗",
+                        des: "糖尿病足患者应首先就诊于内分泌科，但因病情复杂，可能需要骨科、烧伤科、整形科、血管外科等科室协作治疗。部分医院设有专门的糖尿病足诊疗中心。住院治疗适用于严重感染者、中度感染合并下肢血管病变或无法在家治疗的患者、无法完成门诊治疗的患者以及门诊治疗无效者。\n" +
+                            "\n\<br>" +
+                            "治疗包括内科综合治疗（控制血糖、血压、血脂，抗感染，改善血管微循环，营养神经）、局部创面处理（清除坏死组织，创面减压，使用合适敷料，减轻足底压力）、高压氧治疗（通过高氧环境促进创面愈合）和外科治疗（如血栓清除、血管重建、干细胞移植、截肢等）。\n" +
+                            "\n\<br>" +
+                            "糖尿病足患者的血糖控制目标为空腹血糖＜7.0 mmol/L，餐后2小时血糖＜10 mmol/L，糖化血红蛋白＜7.0%。若病情无法通过其他治疗控制，患者可能需要截肢。截肢手术分为小截肢（踝关节以下）和大截肢（踝关节以上），后者包括低位截肢（膝下10厘米）和高位截肢（大腿根部），高位截肢后的死亡率较高。"
+                    }
+                    , {
+                        category: '疾病诊断', itemStyle:
+                            {
+                                normal:
+                                    {
+                                        color: '#E2D4E2'
+                                    }
+                            }, "id": "30036", "name": "糖尿病足诊断",
+                        des: "糖尿病足的早期诊断可以通过自我检查足部血管状况。按压足背动脉，若脉搏明显，则血流正常；若跳动不明显或无法摸到脉搏，可能存在血管狭窄或阻塞，应提高警惕。如出现间歇性跛行，也提示可能有下肢血管病变，需及时就医。常见的检查项目包括：  \n\<br>" +
+                            "- 双足多普勒血流图，测定踝肱指数（ABI），低值提示糖尿病周围血管病变风险。  \n\<br>" +
+                            "- 肌电图，检测神经传导速度，诊断糖尿病周围神经病变。  \n\<br>" +
+                            "- 双下肢经皮氧分压（TcPO2），评估缺血情况。  \n\<br>" +
+                            "- 血培养和药物敏感试验，明确糖尿病足感染情况并指导治疗。  \n\<br>" +
+                            "- 双足核磁共振（MRI）评估病变范围和程度。  \n\<br>" +
+                            "- 动脉CT或MRI血管成像，评估下肢血管情况。\n\<br>" +
+                            "\n" +
+                            "糖尿病足的感染严重程度可分为：无感染、轻度感染（局限于表皮）、中度感染（累及皮下组织或形成脓肿）、严重感染（出现坏疽、全身中毒症状等）。"
+                    }
+                    , {
+                        "id": "40036",
+                        "name": "糖尿病足生活方式",
+                        "category": "生活方式",
+                        "itemStyle": {normal: {color: '#B7D8D5'}},
+                        "des": "购买糖尿病足患者的鞋子时，最好选择在下午2～4时，这时脚部已经有些肿胀，能够确保鞋子最舒适。同时，两只脚的大小通常不一样，因此试鞋时应两只脚一起试，以较大的脚为准。\n" +
+                            "\n\<br>" +
+                            "糖尿病足合并溃疡的患者应注重合理饮食，选择富含维生素、蛋白质、粗纤维、低糖、低脂的食物，少食多餐，增加绿色蔬菜、豆类的摄入，适量食用低糖水果，在血糖控制好的前提下，促进溃疡愈合。\n" +
+                            "\n\<br>" +
+                            "糖尿病足高危人群应进行适度的有氧运动，如散步、慢跑、瑜伽、游泳等，每次运动时间从10分钟开始，逐渐延长至30～40分钟，每周至少运动5次，运动前后监测血糖，避免低血糖。\n" +
+                            "\n\<br>" +
+                            "年迈体弱者可通过毕格尔运动法促进下肢血液循环，减少糖尿病足复发。该方法包括腿部抬高、脚部活动和温热治疗，每日两次，每次10分钟。"
+                    }
+                    , {
+                        "id": "50036",
+                        "name": "糖尿病足预防",
+                        "category": "疾病预防",
+                        "itemStyle": {normal: {color: '#F4C7C6'}},
+                        "des": "预防糖尿病足的关键措施包括戒烟、控制血糖、定期检查足部、正确洗脚、修剪趾甲、选择合适的鞋袜，并及时向医生报告足部问题。每天检查足背、足底、脚趾等部位，注意皮肤破损、水疱、红肿等症状，尤其是足趾间的变化。检查可使用镜子或让家属帮助。\n" +
+                            "\n\<br>" +
+                            "洗脚时水温不超过40℃，避免过热或过冷，洗后用柔软毛巾擦干，并涂抹润肤乳保持皮肤湿润。修剪趾甲时要平直修剪，避免修得太短或有尖角，可用趾甲锉修平。如果视力不好，建议请他人帮助。\n" +
+                            "\n\<br>" +
+                            "选鞋时选择鞋头宽大、透气性好的平底鞋，试鞋时要穿袜子，两只脚一起试，确保舒适无夹脚感。穿新鞋时要逐步适应。袜子最好选择吸水性好、无接缝的棉质袜子，保持干燥清洁，及时更换破损袜子。"
+                    }
+                    , {
+                        "id": "60036",
+                        "name": "糖尿病足症状",
+                        "category": "疾病症状",
+                        "itemStyle": {normal: {color: '#D6E0F0'}},
+                        "des": "糖尿病足的症状包括足部感觉异常、畸形、缺血导致的疼痛和行走困难，常伴有感染、溃疡和坏疽，甚至可能需要截肢。早期症状包括皮肤温度低、疼痛、麻木和迟钝等。晚期则出现肌肉、骨组织坏死，如骨髓炎和坏疽。\n" +
+                            "\n\<br>" +
+                            "典型的糖尿病足类型包括混合型、缺血型和神经型。混合型表现为麻木、间歇性跛行、足部动脉减弱、皮肤温度降低等；缺血型由血管狭窄或闭塞引起，导致皮肤干燥、肌肉萎缩、肤色变黑，伴有跛行；神经型则表现为足部感觉减退、麻木和皮肤干燥。\n" +
+                            "\n\<br>" +
+                            "此外，糖尿病足患者还可能出现心血管和消化系统的病变，如心动过速、低血压、食管蠕动障碍等。未及时治疗可能引发深部脓肿、骨髓炎、坏疽、脓毒血症等严重并发症，甚至危及生命。糖尿病足的前兆包括足部麻木、刺痛、蚁咬感、步态改变等。"
+                    }
+                    , {
+                        "id": "70036",
+                        "name": "糖尿病足原因",
+                        "category": "患病原因",
+                        "itemStyle": {normal: {color: '#F1D3B3'}},
+                        "des": "糖尿病足是糖尿病的严重并发症，主要由长期血糖控制不佳引起，导致神经和血管病变，合并感染使情况更加复杂。糖尿病导致足部血管狭窄、血供不足，伤口愈合困难；神经病变使患者常无法察觉足部伤口，导致感染和坏死。\n" +
+                            "\n\<br>" +
+                            "糖尿病足常见于有糖尿病并发症（如神经病变、血管病变、肾病等）、足部畸形（如弓形足）、老花眼、视力严重下降、肾脏病变、老年人及感觉缺失者。长期吸烟、糖尿病知识缺乏也增加患病风险。\n" +
+                            "\n\<br>" +
+                            "诱发因素包括穿鞋过紧、足部外伤、足癣、皮肤水泡、鸡眼和老茧等。老茧由于长期受压，可能导致局部供血不足，甚至溃疡，糖尿病患者易出现老茧干裂并引发糖尿病足。预防和处理包括选择宽松鞋子、加软垫，并及时就医治疗。"
+                    }
+
+                    , {
+                        category: '关联疾病', "id": "90036", "name": "糖尿病神经病变", itemStyle:
+                            {
+                                normal:
+                                    {
+                                        color: '#F9E8B0'
+                                    }
+                            }
+                    }
+                    , {
+                        category: '关联疾病', "id": "100036", "name": "骨髓炎", itemStyle:
+                            {
+                                normal:
+                                    {
+                                        color: '#F9E8B0'
+                                    }
+                            }
+                    }
+                    ,
+                    {
+                        category: '医院医生推荐', "id": "110036", "name": "北京朝阳医院 骨科赵会副主任医师", itemStyle:
+                            {
+                                normal:
+                                    {
+                                        color: '#E9C7D8'
+                                    }
+                            }
+                    }
+                    , {
+                        category: '医院医生推荐',
+                        "id": "120036",
+                        "name": "北京大学人民医院 创伤骨科徐海林主任医师",
+                        itemStyle:
+                            {
+                                normal:
+                                    {
+                                        color: '#E9C7D8'
+                                    }
+                            }
+                    }
+                    ,
+                    {
+                        "id": "58", "name": "糖尿病",
+                        itemStyle: {
+                            normal: {
+                                color: '#afb4db'
+                            }
+                        }
+                    }
+                    , {
+                        category: '疾病简介', itemStyle:
+                            {
+                                normal:
+                                    {
+                                        color: '#F6E1D3'
+                                    }
+                            }, "id": "10058", "name": "疾病简介",
+                        des: "糖尿病是一种因体内糖的调节和利用问题导致血糖异常升高的疾病，常见症状包括多饮、多尿、多食、体重减少。多数患者早期无明显症状，常在检查时发现。糖尿病可引发多种并发症，影响眼睛、肾脏、神经等。治疗方法包括合理饮食、运动、口服降糖药、胰岛素等，但大多数糖尿病无法治愈，需要终身管理。部分患者通过生活方式改变可逆转，但需保持警惕。糖尿病在我国普遍存在，且逐年增多。"
+                    }
+                    , {
+                        category: '疾病治疗', itemStyle:
+                            {
+                                normal:
+                                    {
+                                        color: '#D1C5B2'
+                                    }
+                            }, "id": "20058", "name": "疾病治疗",
+                        des: "糖尿病是一种慢性疾病，虽然部分患者无明显症状，但未治疗可能引发严重并发症，影响生活质量。治疗糖尿病需要综合措施，包括饮食控制、运动锻炼、药物治疗、血糖监测及自我学习。患者应根据医生建议，合理选择口服药物或胰岛素。口服药物种类繁多，如二甲双胍、格列美脲等，不同药物的服用时间和方式各有不同。胰岛素治疗并不代表糖尿病晚期，而是根据病情需要进行的调整。\n" +
+                            "\n<br><br>" +
+                            "运动有助于改善心肺功能、增强肌肉力量，控制血糖。糖尿病患者应避免盲目节食，合理安排饮食以维持稳定血糖。控制血糖是关键，必要时应使用胰岛素，且需根据医生建议调整剂量。为避免低血糖，患者应按时进餐并避免自行调整药物。若出现空腹血糖偏高，需及时就医，医生会根据具体情况调整治疗方案。"
+                    }
+                    , {
+                        category: '疾病诊断', "id": "30058", "name": "疾病诊断", itemStyle:
+                            {
+                                normal:
+                                    {
+                                        color: '#E2D4E2'
+                                    }
+                            },
+                        des: "诊断糖尿病不能仅凭尿糖阳性，因其他因素如大量进食高糖食物或肾病也可导致尿糖阳性。糖尿病的确诊需通过血糖和糖化血红蛋白检测。诊断标准包括：随机血糖≥11.1 mmol/L、空腹血糖≥7.0 mmol/L、OGTT 2小时血糖≥11.1 mmol/L、糖化血红蛋白＞6.5%。无症状的患者需复查以确诊。OGTT是口服葡萄糖耐量试验，用于诊断糖尿病。糖尿病前期（糖调节受损）血糖异常但未达糖尿病标准，通过改善生活方式可防止病情进展。常见的血糖检测方法包括静脉血糖、指尖血糖、糖化血红蛋白及动态血糖监测。糖化血红蛋白反映近2-3个月的平均血糖水平，常用于评估治疗效果。糖尿病患者还需定期检查胰岛素功能，确保疾病得到有效管理。"
+                    }
+                    , {
+                        "id": "40058",
+                        "name": "生活方式",
+                        "category": "生活方式",
+                        "itemStyle": {normal: {color: '#B7D8D5'}},
+                        "des": "糖尿病患者的饮食不只是避免甜食，因为许多食物（如蛋白质和脂肪）也会转化为葡萄糖。饮食重点应选择营养价值高、能缓慢升高血糖的食物，并合理分配餐次和总热量。虽然没有“降糖食品”，但少量使用代糖（如木糖醇）是可以的。主食可选择杂粮饭和粗粮，避免高升糖指数的食物如面条和粥。水果中含糖量较高，糖尿病患者可适量食用低升糖水果，如苹果、柚子等。茶和黑咖啡并未证实能降血糖，患者需避免误信。运动前应咨询医生，避免空腹运动，并在运动时准备应急食物以防低血糖。日常需监测血糖，记录数据，并定期复查，至少每3个月一次。糖尿病患者需了解疾病知识，以便更好地控制血糖和生活质量。男性患者若有勃起功能障碍，应控制血糖、戒烟、减肥，并在医生指导下用药。糖尿病患者可以在血糖控制好的情况下怀孕，但孕期要严格控制血糖，并在医生指导下使用胰岛素。"
+                    }
+                    , {
+                        "id": "50058",
+                        "name": "疾病预防",
+                        "category": "疾病预防",
+                        "itemStyle": {normal: {color: '#F4C7C6'}},
+                        "des": "预防糖尿病如何预防？\</Br>糖尿病的发病与遗传和生活方式密切相关。\</Br>对于遗传造成的不利因素，通过自身努力很难消除。但我们可以通过尽量改善生活方式，来降低糖尿病的发病风险：\</Br>控制饮食：避免暴饮暴食、大鱼大肉；主食不要只吃精米白面，用杂粮、杂豆、薯类、南瓜等替代部分主食；烹饪时注意少放盐、少用含盐高的调料；少吃动物油，用植物油代替动物油，少吃油炸食品。\</Br>适量运动：避免久坐的生活方式。每天进行 30 分钟左右的运动，以有氧运动和力量运动相结合，强度适中不过量，对于预防糖尿病也有帮助。\</Br>控制体重：通过控制饮食、适量运动，维持苗条的身材，避免肥胖。\</Br>戒烟，尽量不喝酒。\</Br>定期体检，监测血糖，发现糖调节受损时及时干预，避免发展为糖尿病。\</Br>"
+                    }
+                    , {
+                        "id": "60058",
+                        "name": "疾病症状",
+                        "category": "疾病症状",
+                        "itemStyle": {normal: {color: '#D6E0F0'}},
+                        "des": "糖尿病的典型症状包括“三多一少”：多尿、多饮、多食和体重下降。高血糖导致尿糖增多，引起多尿和口渴，身体缺水感使饮水增多。因营养利用障碍，身体能量不足，导致多食和体重下降。其他常见症状有疲乏和视力模糊。疲乏源于无法有效利用食物中的能量；视力模糊由血糖波动引起晶状体屈光度变化，长期可能导致视网膜病变。糖尿病并发症分为急性和慢性。急性并发症包括酮症酸中毒和高血糖高渗状态。慢性并发症包括糖尿病视网膜病变、糖尿病肾病、动脉粥样硬化、糖尿病神经病变等。糖尿病患者易感染，特别是皮肤黏膜感染和糖尿病大疱病，严重者可引发糖尿病足，甚至导致截肢。"
+                    }
+                    , {
+                        "id": "70058",
+                        "name": "患病原因",
+                        "category": "患病原因",
+                        "itemStyle": {normal: {color: '#F1D3B3'}},
+                        "des": "糖尿病的形成与胰岛素的分泌不足或胰岛素作用减弱（胰岛素抵抗）有关。正常情况下，进食后，血糖升高刺激胰岛素分泌，胰岛素帮助降低血糖并维持正常水平。当胰岛素不足或其作用受阻时，血糖升高，导致糖尿病。1 型糖尿病通常由胰岛素分泌不足引起，而2型糖尿病则既涉及胰岛素分泌不足，也涉及胰岛素抵抗。糖尿病的发生与生活习惯密切相关，酗酒、肥胖、暴饮暴食等不良习惯会加重血糖调节的负担。尽管如此，不是所有爱吃的人都会得糖尿病，但不良饮食习惯确实增加患病风险。2型糖尿病多见于40岁以上人群，尤其是肥胖、久坐不动、有家族史或患有高血压、高血脂等疾病的人。未成年人中，超重或肥胖的孩子，尤其是有家族糖尿病史或胰岛素抵抗相关问题的人群，也容易患病。糖尿病有一定的遗传倾向，但并非必然发生。"
+                    }
+                    , {
+                        category: '关联疾病', "id": "80058", "name": "血糖", itemStyle:
+                            {
+                                normal:
+                                    {
+                                        color: '#F9E8B0'
+                                    }
+                            }
+                    }
+                    , {
+                        category: '关联疾病', "id": "90058", "name": "末梢神经炎", itemStyle:
+                            {
+                                normal:
+                                    {
+                                        color: '#F9E8B0'
+                                    }
+                            }
+                    }
+                    , {
+                        category: '关联疾病', "id": "100058", "name": "特纳综合征", itemStyle:
+                            {
+                                normal:
+                                    {
+                                        color: '#F9E8B0'
+                                    }
+                            }
+                    }
+                    , {
+                        category: '医院医生推荐',
+                        "id": "110058",
+                        "name": "北京大学第一医院 内分泌内科杨建梅主任医师",
+                        itemStyle:
+                            {
+                                normal:
+                                    {
+                                        color: '#E9C7D8'
+                                    }
+                            }
+                    }
+                    , {
+                        category: '医院医生推荐',
+                        "id": "120058",
+                        "name": "中国中医科学院西苑医院 内分泌科夏城东主任医师",
+                        itemStyle:
+                            {
+                                normal:
+                                    {
+                                        color: '#E9C7D8'
+                                    }
+                            }
+                    }
+                    ,
+
+                ],
+
+
+                links: [
+
+                    {
+                        source: "36", target: "10036", name: '简介'
+                    },
+                    {
+                        source: "36", target: "20036", name: '治疗方式'
+                    },
+                    {
+                        source: "36", target: "30036", name: '诊断'
+                    }, {
+                        source: "36", target: "40036", name: '生活方式'
+                    }, {
+                        source: "36", target: "50036", name: '疾病预防'
+                    }, {
+                        source: "36", target: "60036", name: '疾病症状'
+                    }, {
+                        source: "36", target: "70036", name: '患病原因'
+                    }, {
+                        source: "36", target: "80036", name: '关联疾病'
+                    }, {
+                        source: "36", target: "90036", name: '关联疾病'
+                    }, {
+                        source: "36", target: "100036", name: '关联疾病'
+                    }, {
+                        source: "36", target: "110036", name: '医院医生'
+                    }, {
+                        source: "36", target: "120036", name: '医院医生'
+                    },
+                    {
+                        source: "13012", target: "36", name: '所属科室'
+                    },
+
+                    {
+                        source: "58", target: "10058", name: '简介'
+                    },
+                    {
+                        source: "58", target: "20058", name: '治疗方式'
+                    },
+                    {
+                        source: "58", target: "30058", name: '诊断'
+                    }, {
+                        source: "58", target: "40058", name: '生活方式'
+                    }, {
+                        source: "58", target: "50058", name: '疾病预防'
+                    }, {
+                        source: "58", target: "60058", name: '疾病症状'
+                    }, {
+                        source: "58", target: "70058", name: '患病原因'
+                    }, {
+                        source: "58", target: "80058", name: '关联疾病'
+                    }, {
+                        source: "58", target: "90058", name: '关联疾病'
+                    }, {
+                        source: "58", target: "100058", name: '关联疾病'
+                    }, {
+                        source: "58", target: "110058", name: '医院医生'
+                    }, {
+                        source: "58", target: "120058", name: '医院医生'
+                    },
+                    {
+                        source: "36", target: "58", name: '所属科室'
+                    },
+
+
+                ],
+                categories: categories,
+            }
+        ]
+    };
+    myChart.setOption(option);
+    // 监听mousemove事件来动态显示和定位自定义tooltip
+    myChart.on('mousemove', function (event) {
+        var tooltipDiv = document.getElementById('custom-tooltip');
+        var point = event.offsetX; // 获取鼠标相对位置
+        var tooltipWidth = tooltipDiv.offsetWidth; // 获取tooltip宽度
+        var tooltipHeight = tooltipDiv.offsetHeight; // 获取tooltip高度
+
+        // 设置tooltip的相对位置
+        tooltipDiv.style.left = point - tooltipWidth / 2 + 'px'; // 在x轴上居中
+        tooltipDiv.style.top = event.offsetY - tooltipHeight - 10 + 'px'; // 在y轴上方
+
+        // 显示tooltip
+        tooltipDiv.style.display = 'block';
+    });
+
+    // 监听mouseout事件来隐藏自定义tooltip
+    myChart.on('mouseout', function () {
+        document.getElementById('custom-tooltip').style.display = 'none';
+    });
+</script>
+
+<!-- 页脚 -->
+<footer class="footer">
+    <p>&copy; 2024 高血糖科普指南. All rights reserved.</p>
+</footer>
+
+<!-- 悬浮导航栏 -->
+<div class="sidebar">
+    <a href="javascript:void(0);" data-tooltip="微信">
+        <img src="static/svg/wechat.svg" alt="微信">
+        <span class="tooltip-wechat"></span>
+    </a>
+
+    <a href=" " data-tooltip="手机">
+        <img src="static/svg/phone.svg" alt="手机">
+        <span class="tooltip">在线体验手机版</span>
+    </a >
+
+    <!--<a href="tel:13191698965" data-tooltip="电话">
+        <img src="static/svg/telephone.svg" alt="电话">
+        <span class="tooltip">13191698965</span>
+    </a>-->
+    <a href="javascript:void(0);" onmouseover="toggleSearchBox(true)" onmouseout="toggleSearchBox(false)" data-tooltip="搜索">
+        <img src="static/svg/search.svg" alt="搜索">
+    </a>
+    <a href="#top" data-tooltip="回到顶部">
+        <img src="static/svg/up.svg" alt="回到顶部">
+    </a>
+    <a href="javascript:void(0);" onclick="toggleSidebar()" data-tooltip="收起">
+        <img src="static/svg/shouqi.svg" alt="收起">
+    </a>
+</div>
+
+<!-- 展开按钮 -->
+<div class="toggle-btn" onclick="toggleSidebar()">
+    <img src="static/svg/zhankai.svg" alt="展开"> <!-- 展开图标路径 -->
+</div>
+
+<!-- 搜索框 -->
+<div id="search-box-container" class="search-box-container" onmouseover="toggleSearchBox(true)" onmouseout="toggleSearchBox(false)">
+    <input type="text" placeholder="请输入搜索内容">
+    <img src="static/svg/sousuo2.svg" alt="执行搜索"> <!-- 执行搜索图标 -->
+</div>
+
+<script>
+    /*以下为右侧工具栏JS*/
+    // Show/hide search box on hover
+    function toggleSearchBox(show) {
+        const searchBoxContainer = document.getElementById("search-box-container");
+        searchBoxContainer.style.display = show ? "flex" : "none";
+    }
+
+    // Toggle sidebar visibility
+    function toggleSidebar() {
+        const sidebar = document.querySelector(".sidebar");
+        const toggleBtn = document.querySelector(".toggle-btn");
+        if (sidebar.style.display === "none") {
+            sidebar.style.display = "flex";
+            toggleBtn.style.display = "none";
+        } else {
+            sidebar.style.display = "none";
+            toggleBtn.style.display = "block";
+        }
+    }
+</script>
+</body>
+</html>
+

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人物卡片</title>
+    <style>
+        .card {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 16px;
+            width: 300px;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .avatar {
+            flex: 1;
+            margin-right: 16px;
+        }
+        .avatar img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+        .info {
+            flex: 2;
+        }
+        .rating {
+            flex: 1;
+            text-align: right;
+        }
+        .rating span {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="avatar">
+        <img src="avatar.jpg" alt="人物头像">
+    </div>
+    <div class="info">
+        <h3>姓名</h3>
+        <p>这是人物的简介，简要描述其背景和特点。</p>
+    </div>
+    <div class="rating">
+        <span>4.5</span> / 5
+    </div>
+</div>
+
+</body>
+</html>
