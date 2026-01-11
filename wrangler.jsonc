@@ -1,7 +1,7 @@
 {
-  "name": "ws",        // Worker 的名字（自定义）
-  "compatibility_date": "2026-01-11", // 兼容日期（通常是当前日期）
-  "assets": {
-    "directory": "./dist"            // 指定托管的静态资源目录
+  "name":"ws",        
+  "compatibility_date":"2026-01-11",
+  "assets":{
+    "directory":"./dist"
   }
 }
